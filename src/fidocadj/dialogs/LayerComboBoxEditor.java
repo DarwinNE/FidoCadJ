@@ -70,7 +70,7 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxE
      */
     public LayerComboBoxEditor(JComboBox comboBox, FidoFrame fidoFrame) {
         this.fidoFrame = fidoFrame;
-        this.circuitPanel = this.fidoFrame.cc;
+        this.circuitPanel = this.fidoFrame.circuitPanel;
         panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 4));
         colorLabel = new JLabel();
         visibilityLabel = new JLabel();

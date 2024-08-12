@@ -80,9 +80,9 @@ public final class FidoFrame extends JFrame implements
     // Interface elements parts of FidoFrame
 
     // The circuit panel...
-    public CircuitPanel cc;
+    public CircuitPanel circuitPanel;
     // ... which is contained in a scroll pane.
-    private JScrollPane sc;
+    private JScrollPane scrollPane;
     // ... which at its turn is in a split pane.
     private JSplitPane splitPane;
     // Macro picker component
@@ -93,15 +93,15 @@ public final class FidoFrame extends JFrame implements
 
     // Objects which regroup a certain number of actions somewhat related
     // to the FidoFrame object in different domains.
-    final private ExportTools et;
-    final private PrintTools pt;
-    final private MenuTools mt;
+    final private ExportTools exportTools;
+    final private PrintTools printTools;
+    final private MenuTools menuTools;
     //final private DragDropTools dt;
-    final private FileTools ft;
+    final private FileTools fileTools;
 
     // Libraries properties
     public String libDirectory;
-    public Preferences prefs;
+    public Preferences preferences;
 
     // Toolbar properties
     // The toolbar dedicated to the available tools (the first one under
@@ -161,20 +161,20 @@ public final class FidoFrame extends JFrame implements
 
         if (runsAsApplication) {
             // Prepare the preferences associated to the FidoFrame class
-            prefs = Preferences.userNodeForPackage(this.getClass());
+            preferences = Preferences.userNodeForPackage(this.getClass());
         } else {
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
             libDirectory = System.getProperty("user.home");
             smallIconsToolbar = false;
             textToolbar = true;
-            prefs=null;
+            preferences=null;
         }
-        et = new ExportTools(prefs);
-        pt = new PrintTools();
-        mt = new MenuTools();
+        exportTools = new ExportTools(preferences);
+        printTools = new PrintTools();
+        menuTools = new MenuTools();
         new DragDropTools(this);
-        ft = new FileTools(this, prefs);
+        fileTools = new FileTools(this, preferences);
 
         readPreferences();
         // In practice, we need to restore the size of the open current window
@@ -221,11 +221,11 @@ public final class FidoFrame extends JFrame implements
         int w = (int)r.getWidth();
         int h = (int)r.getHeight();
 
-        prefs.put("FRAME_POSITION_X", "" + x);
-        prefs.put("FRAME_POSITION_Y", "" + y);
-        prefs.put("FRAME_WIDTH", "" + w);
-        prefs.put("FRAME_HEIGHT", "" + h);
-        prefs.put("FRAME_STATE", ""+state);
+        preferences.put("FRAME_POSITION_X", "" + x);
+        preferences.put("FRAME_POSITION_Y", "" + y);
+        preferences.put("FRAME_WIDTH", "" + w);
+        preferences.put("FRAME_HEIGHT", "" + h);
+        preferences.put("FRAME_STATE", ""+state);
     }
 
     /** Restore location & size of UI
@@ -237,11 +237,11 @@ public final class FidoFrame extends JFrame implements
         }
 
         try{
-            int x = Integer.parseInt(prefs.get("FRAME_POSITION_X","no"));
-            int y = Integer.parseInt(prefs.get("FRAME_POSITION_Y","no"));
-            int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
-            int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
-            int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
+            int x = Integer.parseInt(preferences.get("FRAME_POSITION_X","no"));
+            int y = Integer.parseInt(preferences.get("FRAME_POSITION_Y","no"));
+            int w = Integer.parseInt(preferences.get("FRAME_WIDTH","no"));
+            int h = Integer.parseInt(preferences.get("FRAME_HEIGHT","no"));
+            int state=Integer.parseInt(preferences.get("FRAME_STATE","no"));
             if((state & MAXIMIZED_HORIZ)!=0 ||
                 (state & MAXIMIZED_VERT)!=0)
             {
@@ -338,7 +338,7 @@ public final class FidoFrame extends JFrame implements
     */
     public ExportTools getExportTools()
     {
-        return et;
+        return exportTools;
     }
 
     /** Get the PrintTools object (containing the code related to interface
@@ -347,7 +347,7 @@ public final class FidoFrame extends JFrame implements
     */
     public PrintTools getPrintTools()
     {
-        return pt;
+        return printTools;
     }
 
     /** Get the FileTools object (containing the code related to interface
@@ -356,7 +356,7 @@ public final class FidoFrame extends JFrame implements
     */
     public FileTools getFileTools()
     {
-        return ft;
+        return fileTools;
     }
 
     /** Read the preferences settings (mainly at startup or when a new
@@ -365,12 +365,12 @@ public final class FidoFrame extends JFrame implements
     */
     public void readPreferences()
     {
-        if(prefs==null) {
+        if(preferences==null) {
             return;
         }
 
         // The library directory
-        libDirectory = prefs.get("DIR_LIBS", "");
+        libDirectory = preferences.get("DIR_LIBS", "");
 
         // The icon size
         String defaultSize="";
@@ -387,23 +387,20 @@ public final class FidoFrame extends JFrame implements
         // 2020 I suspect the best result is now obtained with "false".
         defaultSize="false";
 
-        smallIconsToolbar = "true".equals(prefs.get("SMALL_ICON_TOOLBAR",
+        smallIconsToolbar = "true".equals(preferences.get("SMALL_ICON_TOOLBAR",
                 defaultSize));
         // Presence of the text description in the toolbar
-        textToolbar = "true".equals(prefs.get("TEXT_TOOLBAR", "true"));
+        textToolbar = "true".equals(preferences.get("TEXT_TOOLBAR", "true"));
 
         // Read export preferences
-        et.readPrefs();
+        exportTools.readPrefs();
         // Read file preferences
-        ft.readPrefs();
+        fileTools.readPrefs();
 
         // Element sizes
-        Globals.lineWidth=Double.parseDouble(
-                prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
-        Globals.lineWidthCircles=Double.parseDouble(
-                prefs.get("STROKE_SIZE_OVAL", "0.35"));
-        Globals.diameterConnection=Double.parseDouble(
-                prefs.get("CONNECTION_SIZE", "2.0"));
+        Globals.lineWidth=Double.parseDouble(preferences.get("STROKE_SIZE_STRAIGHT", "0.5"));
+        Globals.lineWidthCircles=Double.parseDouble(preferences.get("STROKE_SIZE_OVAL", "0.35"));
+        Globals.diameterConnection=Double.parseDouble(preferences.get("CONNECTION_SIZE", "2.0"));
 
     }
 
@@ -411,31 +408,29 @@ public final class FidoFrame extends JFrame implements
     */
     public void readGridSettings()
     {
-        cc.getMapCoordinates().setXGridStep(Integer.parseInt(
-            prefs.get("GRID_SIZE", "5")));
-        cc.getMapCoordinates().setYGridStep(Integer.parseInt(
-            prefs.get("GRID_SIZE", "5")));
+        circuitPanel.getMapCoordinates().setXGridStep(Integer.parseInt(preferences.get("GRID_SIZE", "5")));
+        circuitPanel.getMapCoordinates().setYGridStep(Integer.parseInt(preferences.get("GRID_SIZE", "5")));
     }
 
     /** Load the saved configuration for the drawing primitives and zoom.
     */
     public void readDrawingSettings()
     {
-        CopyPasteActions cpa = cc.getCopyPasteActions();
+        CopyPasteActions cpa = circuitPanel.getCopyPasteActions();
 
         // Shift elements when copy/pasting them.
-        cpa.setShiftCopyPaste("true".equals(prefs.get("SHIFT_CP","true")));
-        AddElements ae = cc.getContinuosMoveActions().getAddElements();
+        cpa.setShiftCopyPaste("true".equals(preferences.get("SHIFT_CP","true")));
+        AddElements ae = circuitPanel.getContinuosMoveActions().getAddElements();
 
         // Default PCB sizes (pad/line)
-        ae.pcbPadSizeX = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
-        ae.pcbPadSizeY = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
-        ae.pcbPadStyle = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
-        ae.pcbPadDrill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
-        ae.pcbThickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
+        ae.pcbPadSizeX = Integer.parseInt(preferences.get("PCB_pad_sizex", "10"));
+        ae.pcbPadSizeY = Integer.parseInt(preferences.get("PCB_pad_sizey", "10"));
+        ae.pcbPadStyle = Integer.parseInt(preferences.get("PCB_pad_style", "0"));
+        ae.pcbPadDrill = Integer.parseInt(preferences.get("PCB_pad_drill", "5"));
+        ae.pcbThickness = Integer.parseInt(preferences.get("PCB_thickness", "5"));
 
-        MapCoordinates mc=cc.getMapCoordinates();
-        double z=Double.parseDouble(prefs.get("CURRENT_ZOOM","4.0"));
+        MapCoordinates mc=circuitPanel.getMapCoordinates();
+        double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
     }
 
@@ -453,11 +448,11 @@ public final class FidoFrame extends JFrame implements
 
         // This is useful if this is not the first time that libraries are
         // being loaded.
-        cc.getDrawingModel().resetLibrary();
-        ParserActions pa=cc.getParserActions();
+        circuitPanel.getDrawingModel().resetLibrary();
+        ParserActions pa=circuitPanel.getParserActions();
 
         if(runsAsApplication) {
-            FidoMain.readLibrariesProbeDirectory(cc.getDrawingModel(),
+            FidoMain.readLibrariesProbeDirectory(circuitPanel.getDrawingModel(),
                 englishLibraries, libDirectory);
         } else {
             // This code is useful when FidoCadJ is used whithout having access
@@ -499,8 +494,8 @@ public final class FidoFrame extends JFrame implements
     public void init()
     {
         Container contentPane=getContentPane();
-        cc=new CircuitPanel(true);
-        cc.getParserActions().openFileName = "";
+        circuitPanel=new CircuitPanel(true);
+        circuitPanel.getParserActions().openFileName = "";
         // Useful for automatic scrolling in panning mode.
         ScrollGestureRecognizer sgr;
 
@@ -509,38 +504,38 @@ public final class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-            cc.getDrawingModel().setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont),
-                Integer.parseInt(prefs.get("MACRO_SIZE", "3")),
-                cc.getUndoActions());
+            circuitPanel.getDrawingModel().setTextFont(preferences.get("MACRO_FONT", Globals.defaultTextFont),
+                Integer.parseInt(preferences.get("MACRO_SIZE", "3")),
+                circuitPanel.getUndoActions());
             readGridSettings();
             readDrawingSettings();
         }
-        cc.setStrictCompatibility(false);
+        circuitPanel.setStrictCompatibility(false);
 
         // Here we set the approximate size of the control at startup. This is
         // useful, since the scroll panel (created just below) use those
         // settings for specifying the behaviour of scroll bars.
 
-        cc.setPreferredSize(new Dimension(1000,1000));
-        sc= new JScrollPane((Component)cc);
-        cc.father=sc;
+        circuitPanel.setPreferredSize(new Dimension(1000,1000));
+        scrollPane= new JScrollPane((Component)circuitPanel);
+        circuitPanel.father=scrollPane;
 
-        sc.setHorizontalScrollBarPolicy(
+        scrollPane.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sc.setVerticalScrollBarPolicy(
+        scrollPane.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         if (runsAsApplication) {
             sgr = new ScrollGestureRecognizer();
-            cc.addScrollGestureSelectionListener(sgr);
+            circuitPanel.addScrollGestureSelectionListener(sgr);
             sgr.getInstance();
         }
 
-        sc.getVerticalScrollBar().setUnitIncrement(20);
-        sc.getHorizontalScrollBar().setUnitIncrement(20);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
 
-        cc.profileTime=false;
-        cc.antiAlias=true;
+        circuitPanel.profileTime=false;
+        circuitPanel.antiAlias=true;
 
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
@@ -548,22 +543,22 @@ public final class FidoFrame extends JFrame implements
         // I followed the FidoCAD tradition on this.
         java.util.List<LayerDesc> layerDesc=
             StandardLayers.createStandardLayers();
-        cc.getDrawingModel().setLayers(layerDesc);
+        circuitPanel.getDrawingModel().setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
         toolZoom = new ToolbarZoom(layerDesc, this);
 
-        toolBar.addSelectionListener(cc);
-        toolZoom.addLayerListener(cc);
+        toolBar.addSelectionListener(circuitPanel);
+        toolZoom.addLayerListener(circuitPanel);
 
-        toolZoom.addGridStateListener(cc);
+        toolZoom.addGridStateListener(circuitPanel);
         toolZoom.addZoomToFitListener(this);
 
-        cc.addChangeZoomListener(toolZoom);
-        cc.addChangeSelectionListener(toolBar);
+        circuitPanel.addChangeZoomListener(toolZoom);
+        circuitPanel.addChangeSelectionListener(toolBar);
 
-        cc.getContinuosMoveActions().addChangeCoordinatesListener(toolZoom);
-        toolZoom.addChangeZoomListener(cc);
+        circuitPanel.getContinuosMoveActions().addChangeCoordinatesListener(toolZoom);
+        toolZoom.addChangeZoomListener(circuitPanel);
 
         Box b=Box.createVerticalBox();
 
@@ -573,26 +568,26 @@ public final class FidoFrame extends JFrame implements
         toolZoom.setFloatable(false);
         toolZoom.setRollover(false);
 
-        JMenuBar menuBar=mt.defineMenuBar(this);
+        JMenuBar menuBar=menuTools.defineMenuBar(this);
         setJMenuBar(menuBar);
 
         // The initial state is the selection one.
-        cc.setSelectionState(ElementsEdtActions.SELECTION, "");
+        circuitPanel.setSelectionState(ElementsEdtActions.SELECTION, "");
 
         contentPane.add(b,"North");
 
-        libraryModel = new LibraryModel(cc.getDrawingModel());
-        LayerModel layerModel = new LayerModel(cc.getDrawingModel());
+        libraryModel = new LibraryModel(circuitPanel.getDrawingModel());
+        LayerModel layerModel = new LayerModel(circuitPanel.getDrawingModel());
         macroLib = new MacroTree(libraryModel,layerModel);
-        macroLib.setSelectionListener(cc);
+        macroLib.setSelectionListener(circuitPanel);
 
-        libraryModel.setUndoActorListener(cc.getUndoActions());
+        libraryModel.setUndoActorListener(circuitPanel.getUndoActions());
         libraryModel.addLibraryListener(new CircuitPanelUpdater(this));
-        cc.getUndoActions().setLibraryUndoListener(
+        circuitPanel.getUndoActions().setLibraryUndoListener(
                                    new LibraryUndoExecutor(this,libraryModel));
 
         try {
-            LibUtils.saveLibraryState(cc.getUndoActions());
+            LibUtils.saveLibraryState(circuitPanel.getUndoActions());
         } catch (IOException e) {
             System.out.println("Exception: "+e);
         }
@@ -604,19 +599,19 @@ public final class FidoFrame extends JFrame implements
         splitPane.putClientProperty("JSplitPane.style","thick");
 
         Dimension windowSize = getSize();
-        cc.setPreferredSize(new Dimension(windowSize.width*85/100,100));
+        circuitPanel.setPreferredSize(new Dimension(windowSize.width*85/100,100));
 
-        splitPane.setTopComponent(sc);
+        splitPane.setTopComponent(scrollPane);
         macroLib.setPreferredSize(new Dimension(450,200));
         splitPane.setBottomComponent(macroLib);
         splitPane.setResizeWeight(.8);
 
         contentPane.add(splitPane,"Center");
 
-        cc.getUndoActions().setHasChangedListener(this);
+        circuitPanel.getUndoActions().setHasChangedListener(this);
 
-        cc.setFocusable(true);
-        sc.setFocusable(true);
+        circuitPanel.setFocusable(true);
+        scrollPane.setFocusable(true);
 
         /*  Add a window listener to close the application when the frame is
             closed. This behavior is platform dependent, for example a
@@ -630,7 +625,7 @@ public final class FidoFrame extends JFrame implements
         {
             @Override public void windowClosing(WindowEvent e)
             {
-                if(!ft.checkIfToBeSaved()) {
+                if(!fileTools.checkIfToBeSaved()) {
                     return;
                 }
                 closeThisFrame();
@@ -641,16 +636,16 @@ public final class FidoFrame extends JFrame implements
         Globals.activeWindow=this;
 
         // This is WAY too invasive!!!
-        cc.getUndoActions().setModified(false);
+        circuitPanel.getUndoActions().setModified(false);
         if(runsAsApplication) {
             // Show the library tab or not.
-            boolean s="true".equals(prefs.get("SHOW_LIBS","true"));
+            boolean s="true".equals(preferences.get("SHOW_LIBS","true"));
             showLibs(s);
-            s="true".equals(prefs.get("SHOW_GRID","true"));
-            cc.setGridVisibility(s);
+            s="true".equals(preferences.get("SHOW_GRID","true"));
+            circuitPanel.setGridVisibility(s);
             toolZoom.setShowGrid(s);
-            s="true".equals(prefs.get("SNAP_GRID","true"));
-            cc.setSnapState(s);
+            s="true".equals(preferences.get("SNAP_GRID","true"));
+            circuitPanel.setSnapState(s);
             toolZoom.setSnapGrid(s);
         }
     }
@@ -662,28 +657,28 @@ public final class FidoFrame extends JFrame implements
     public void closeThisFrame()
     {
         setVisible(false);
-        cc.getUndoActions().doTheDishes();
+        circuitPanel.getUndoActions().doTheDishes();
         savePosition();
         // Save the zoom factor. There is no reason to save the other
         // coordinate mapping data as this will be used for an empty drawing.
-        MapCoordinates mc=cc.getMapCoordinates();
-        prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
+        MapCoordinates mc=circuitPanel.getMapCoordinates();
+        preferences.put("CURRENT_ZOOM",""+mc.getXMagnitude());
         if(areLibsVisible()) {
-            prefs.put("SHOW_LIBS","true");
+            preferences.put("SHOW_LIBS","true");
         } else {
-            prefs.put("SHOW_LIBS","false");
+            preferences.put("SHOW_LIBS","false");
         }
 
-        if(cc.getGridVisibility()) {
-            prefs.put("SHOW_GRID","true");
+        if(circuitPanel.getGridVisibility()) {
+            preferences.put("SHOW_GRID","true");
         } else {
-            prefs.put("SHOW_GRID","false");
+            preferences.put("SHOW_GRID","false");
         }
 
-        if(cc.getSnapState()) {
-            prefs.put("SNAP_GRID","true");
+        if(circuitPanel.getSnapState()) {
+            preferences.put("SNAP_GRID","true");
         } else {
-            prefs.put("SNAP_GRID","false");
+            preferences.put("SNAP_GRID","false");
         }
 
         dispose();
@@ -701,7 +696,7 @@ public final class FidoFrame extends JFrame implements
     {
         // Recognize and handle menu events
         if(evt.getSource() instanceof JMenuItem) {
-            mt.processMenuActions(evt, this, toolZoom);
+            menuTools.processMenuActions(evt, this, toolZoom);
         }
     }
 
@@ -729,8 +724,8 @@ public final class FidoFrame extends JFrame implements
     public void showPrefs()
     {
         String oldDirectory = libDirectory;
-        CopyPasteActions cpa = cc.getCopyPasteActions();
-        ElementsEdtActions eea = cc.getContinuosMoveActions();
+        CopyPasteActions cpa = circuitPanel.getCopyPasteActions();
+        ElementsEdtActions eea = circuitPanel.getContinuosMoveActions();
         AddElements ae =eea.getAddElements();
 
         // At first, we create the preference panel. This kind of code is
@@ -739,9 +734,9 @@ public final class FidoFrame extends JFrame implements
         // to the particular program to which it is referred, i.e. in this
         // case FidoCadJ...
         DialogOptions options=new DialogOptions(this,
-            cc.getMapCoordinates().getXMagnitude(),
-            cc.profileTime,cc.antiAlias,
-            cc.getMapCoordinates().getXGridStep(),
+            circuitPanel.getMapCoordinates().getXMagnitude(),
+            circuitPanel.profileTime,circuitPanel.antiAlias,
+            circuitPanel.getMapCoordinates().getXGridStep(),
             libDirectory,
             textToolbar,
             smallIconsToolbar,
@@ -749,11 +744,11 @@ public final class FidoFrame extends JFrame implements
             ae.getPcbPadSizeX(),
             ae.getPcbPadSizeY(),
             ae.getPcbPadDrill(),
-            cc.getStrictCompatibility(),
-            cc.getDrawingModel().getTextFont(),
+            circuitPanel.getStrictCompatibility(),
+            circuitPanel.getDrawingModel().getTextFont(),
             Globals.lineWidth,
             Globals.diameterConnection,
-            cc.getDrawingModel().getTextFontSize(),
+            circuitPanel.getDrawingModel().getTextFontSize(),
             cpa.getShiftCopyPaste());
 
         // The panel is now made visible. Its properties will be updated only
@@ -762,26 +757,26 @@ public final class FidoFrame extends JFrame implements
 
 
         // Now, we can update the properties.
-        cc.profileTime=options.profileTime;
-        cc.antiAlias=options.antiAlias;
+        circuitPanel.profileTime=options.profileTime;
+        circuitPanel.antiAlias=options.antiAlias;
         textToolbar=options.textToolbar;
         smallIconsToolbar=options.smallIconsToolbar;
 
-        cc.getMapCoordinates().setMagnitudes(options.zoomValue,
+        circuitPanel.getMapCoordinates().setMagnitudes(options.zoomValue,
                                                        options.zoomValue);
-        cc.getMapCoordinates().setXGridStep(options.gridSize);
-        cc.getMapCoordinates().setYGridStep(options.gridSize);
+        circuitPanel.getMapCoordinates().setXGridStep(options.gridSize);
+        circuitPanel.getMapCoordinates().setYGridStep(options.gridSize);
 
         ae.setPcbThickness(options.pcblinewidth_i);
         ae.setPcbPadSizeX(options.pcbpadwidth_i);
         ae.setPcbPadSizeY(options.pcbpadheight_i);
         ae.setPcbPadDrill(options.pcbpadintw_i);
 
-        cc.getDrawingModel().setTextFont(options.macroFont,
+        circuitPanel.getDrawingModel().setTextFont(options.macroFont,
             options.macroSize_i,
-            cc.getUndoActions());
+            circuitPanel.getUndoActions());
 
-        cc.setStrictCompatibility(options.extStrict);
+        circuitPanel.setStrictCompatibility(options.extStrict);
         toolBar.setStrictCompatibility(options.extStrict);
         cpa.setShiftCopyPaste(options.shiftCP);
 
@@ -798,23 +793,23 @@ public final class FidoFrame extends JFrame implements
         // very restrictive security model applied by default to applets.
 
         if (runsAsApplication) {
-            prefs.put("DIR_LIBS", libDirectory);
-            prefs.put("MACRO_FONT", cc.getDrawingModel().getTextFont());
-            prefs.put("MACRO_SIZE", ""+cc.getDrawingModel().getTextFontSize());
-            prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
-            prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
-            prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
-            prefs.put("SMALL_ICON_TOOLBAR", smallIconsToolbar?"true":"false");
-            prefs.put("TEXT_TOOLBAR", textToolbar?"true":"false");
-            prefs.put("GRID_SIZE", ""+cc.getMapCoordinates().getXGridStep());
+            preferences.put("DIR_LIBS", libDirectory);
+            preferences.put("MACRO_FONT", circuitPanel.getDrawingModel().getTextFont());
+            preferences.put("MACRO_SIZE", ""+circuitPanel.getDrawingModel().getTextFontSize());
+            preferences.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
+            preferences.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
+            preferences.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
+            preferences.put("SMALL_ICON_TOOLBAR", smallIconsToolbar?"true":"false");
+            preferences.put("TEXT_TOOLBAR", textToolbar?"true":"false");
+            preferences.put("GRID_SIZE", ""+circuitPanel.getMapCoordinates().getXGridStep());
 
             // Save default PCB characteristics
-            prefs.put("pcbPadSizeX", ""+ae.pcbPadSizeX);
-            prefs.put("pcbPadSizeY", ""+ae.pcbPadSizeY);
-            prefs.put("pcbPadStyle", ""+ae.pcbPadStyle);
-            prefs.put("pcbPadDrill", ""+ae.pcbPadDrill);
-            prefs.put("pcbThickness", ""+ae.pcbThickness);
-            prefs.put("SHIFT_CP", cpa.getShiftCopyPaste()?"true":"false");
+            preferences.put("pcbPadSizeX", ""+ae.pcbPadSizeX);
+            preferences.put("pcbPadSizeY", ""+ae.pcbPadSizeY);
+            preferences.put("pcbPadStyle", ""+ae.pcbPadStyle);
+            preferences.put("pcbPadDrill", ""+ae.pcbPadDrill);
+            preferences.put("pcbThickness", ""+ae.pcbThickness);
+            preferences.put("SHIFT_CP", cpa.getShiftCopyPaste()?"true":"false");
 
         }
         if(!libDirectory.equals(oldDirectory)) {
@@ -828,29 +823,29 @@ public final class FidoFrame extends JFrame implements
     */
     public void zoomToFit()
     {
-        // If the drawing is empty, there's no need to go further.
-        if(cc.getDrawingModel().isEmpty())
-            return;
+		// If the drawing is empty, there's no need to go further.
+    	if(circuitPanel.getDrawingModel().isEmpty())
+    	    return;
         //double oldz=cc.getMapCoordinates().getXMagnitude();
 
         // We calculate the zoom to fit factor here.
-        MapCoordinates m=DrawingSize.calculateZoomToFit(cc.getDrawingModel(),
-            sc.getViewport().getExtentSize().width-35,
-            sc.getViewport().getExtentSize().height-35,
+        MapCoordinates m=DrawingSize.calculateZoomToFit(circuitPanel.getDrawingModel(),
+            scrollPane.getViewport().getExtentSize().width-35,
+            scrollPane.getViewport().getExtentSize().height-35,
             true);
 
         double z=m.getXMagnitude();
 
         // We apply the zoom factor to the coordinate transform
-        cc.getMapCoordinates().setMagnitudes(z, z);
+        circuitPanel.getMapCoordinates().setMagnitudes(z, z);
 
         // We make the scroll pane show the interesting part of
         // the drawing.
         Rectangle r= new Rectangle((int)m.getXCenter(), (int)m.getYCenter(),
-            sc.getViewport().getExtentSize().width,
-            sc.getViewport().getExtentSize().height);
+            scrollPane.getViewport().getExtentSize().width,
+            scrollPane.getViewport().getExtentSize().height);
 
-        cc.updateSizeOfScrollBars(r);
+        circuitPanel.updateSizeOfScrollBars(r);
     }
 
     /** We notify the user that something has changed by putting an asterisk
@@ -868,14 +863,13 @@ public final class FidoFrame extends JFrame implements
             // the file has been modified.
 
             getRootPane().putClientProperty("Window.documentModified",
-                Boolean.valueOf(cc.getUndoActions().getModified()));
+                Boolean.valueOf(circuitPanel.getUndoActions().getModified()));
 
-            toolBar.setTitle(
-                Globals.prettifyPath(cc.getParserActions().openFileName,45));
+            toolBar.setTitle(Globals.prettifyPath(circuitPanel.getParserActions().openFileName,45));
         } else {
             setTitle("FidoCadJ "+Globals.version+" "+
-                Globals.prettifyPath(cc.getParserActions().openFileName,45)+
-                (cc.getUndoActions().getModified()?" *":""));
+                Globals.prettifyPath(circuitPanel.getParserActions().openFileName,45)+
+                (circuitPanel.getUndoActions().getModified()?" *":""));
 
         }
     }
@@ -887,7 +881,7 @@ public final class FidoFrame extends JFrame implements
     {
         Globals.activeWindow = this;
         // This should fix #182
-        cc.requestFocusInWindow();
+        circuitPanel.requestFocusInWindow();
     }
 
     /** The current window has lost focus.
@@ -906,7 +900,7 @@ public final class FidoFrame extends JFrame implements
     {
         splitPane.setBottomComponent(s?macroLib:null);
         toolZoom.setShowLibsState(areLibsVisible());
-        mt.setShowLibsState(areLibsVisible());
+        menuTools.setShowLibsState(areLibsVisible());
         if(s) {
             splitPane.setDividerLocation(0.75);
         }

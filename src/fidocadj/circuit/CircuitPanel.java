@@ -74,7 +74,7 @@ public class CircuitPanel extends JPanel implements
     Graphics2DSwing graphicSwing;
 
     // Coordinate system to be used.
-    private transient MapCoordinates cs;
+    private transient MapCoordinates mapCoordinates;
 
     // Use anti alias in drawings
     public boolean antiAlias;
@@ -96,7 +96,7 @@ public class CircuitPanel extends JPanel implements
     
     private Color selectionColor = editingColor.getColorSwing();
 
-    private transient DrawingModel dmp;
+    private transient DrawingModel drawingModel;
 
     // Scrolling pane data
     public JScrollPane father;
@@ -108,12 +108,12 @@ public class CircuitPanel extends JPanel implements
     public Drawing drawingAgent;
 
     // Controllers:
-    private EditorActions edt;
-    private CopyPasteActions cpa;
-    private ParserActions pa;
-    private UndoActions ua;
-    private ContinuosMoveActions eea;
-    private SelectionActions sa;
+    private EditorActions editorActions;
+    private CopyPasteActions copyPasteActions;
+    private ParserActions parserActions;
+    private UndoActions undoActions;
+    private ContinuosMoveActions continuosMoveActions;
+    private SelectionActions selectionActions;
 
     // ********** PROFILING **********
 
@@ -178,12 +178,12 @@ public class CircuitPanel extends JPanel implements
 
         // Set up the standard view settings:
         // top left corner, 400% zoom.
-        cs = new MapCoordinates();
-        cs.setXCenter(0.0);
-        cs.setYCenter(0.0);
-        cs.setXMagnitude(4.0);
-        cs.setYMagnitude(4.0);
-        cs.setOrientation(0);
+        mapCoordinates = new MapCoordinates();
+        mapCoordinates.setXCenter(0.0);
+        mapCoordinates.setYCenter(0.0);
+        mapCoordinates.setXMagnitude(4.0);
+        mapCoordinates.setYMagnitude(4.0);
+        mapCoordinates.setOrientation(0);
         setOpaque(true);
         runs = 0;
         average = 0;
@@ -207,7 +207,7 @@ public class CircuitPanel extends JPanel implements
             addMouseMotionListener(new MouseMotionAdapter() {
                 @Override public void mouseMoved(MouseEvent e)
                 {
-                    if(eea.isEnteringMacro() && !isFocusOwner()){
+                    if(continuosMoveActions.isEnteringMacro() && !isFocusOwner()){
                         requestFocus();
                     }
                 }
@@ -256,7 +256,7 @@ public class CircuitPanel extends JPanel implements
     */
     public void setSelectionState(int s, String macro)
     {
-        if (selectionListener!=null && s!=eea.actionSelected) {
+        if (selectionListener!=null && s!=continuosMoveActions.actionSelected) {
             selectionListener.setSelectionState(s, macro);
             selectionListener.setStrictCompatibility(extStrict);
         }
@@ -265,7 +265,7 @@ public class CircuitPanel extends JPanel implements
             scrollGestureSelectionListener.setSelectionState(s,
                 macro);
         }
-        eea.setState(s, macro);
+        continuosMoveActions.setState(s, macro);
         mmcHandler.selectCursor();
     }
 
@@ -291,7 +291,7 @@ public class CircuitPanel extends JPanel implements
     public void addChangeSelectionListener(ChangeSelectionListener c)
     {
         selectionListener=c;
-        eea.setChangeSelectionListener(c);
+        continuosMoveActions.setChangeSelectionListener(c);
     }
 
     /** Define the listener to be called when the selected action is changed
@@ -308,7 +308,7 @@ public class CircuitPanel extends JPanel implements
     */
     public int getCurrentLayer()
     {
-        return eea.currentLayer;
+        return continuosMoveActions.currentLayer;
     }
 
     /** Set the current editing layer.
@@ -321,11 +321,11 @@ public class CircuitPanel extends JPanel implements
         if (l<0) {
             l=0;
         }
-        if (l>=dmp.getLayers().size()) {
-            l=dmp.getLayers().size()-1;
+        if (l>=drawingModel.getLayers().size()) {
+            l=drawingModel.getLayers().size()-1;
         }
 
-        eea.currentLayer=l;
+        continuosMoveActions.currentLayer=l;
     }
 
     /** Change the current layer state. Change the layer of all selected
@@ -335,9 +335,9 @@ public class CircuitPanel extends JPanel implements
     public void changeSelectedLayer(int s)
     {
         // Change the current layer
-        eea.currentLayer=s;
+        continuosMoveActions.currentLayer=s;
         // Change also the layer of all selected primitives
-        if(edt.setLayerForSelectedPrimitives(s)) {
+        if(editorActions.setLayerForSelectedPrimitives(s)) {
             repaint();
         }
     }
@@ -366,7 +366,7 @@ public class CircuitPanel extends JPanel implements
     */
     public void setSnapState(boolean v)
     {
-        cs.setSnap(v);
+        mapCoordinates.setSnap(v);
     }
 
     /** Determines if the grid is visible or not.
@@ -374,7 +374,7 @@ public class CircuitPanel extends JPanel implements
     */
     public boolean getSnapState()
     {
-        return cs.getSnap();
+        return mapCoordinates.getSnap();
     }
 
     /** Increase or decrease the zoom by a step of 33%.
@@ -386,9 +386,9 @@ public class CircuitPanel extends JPanel implements
     */
     public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
-        int xpos = cs.unmapXnosnap(x);
-        int ypos = cs.unmapYnosnap(y);
-        double z=cs.getXMagnitude();
+        int xpos = mapCoordinates.unmapXnosnap(x);
+        int ypos = mapCoordinates.unmapYnosnap(y);
+        double z=mapCoordinates.getXMagnitude();
 
         // Click+Meta reduces the zoom
         // Click raises the zoom
@@ -409,7 +409,7 @@ public class CircuitPanel extends JPanel implements
             return;
         }
 
-        cs.setMagnitudes(z,z);
+        mapCoordinates.setMagnitudes(z,z);
 
         // A little strong...
 
@@ -421,8 +421,8 @@ public class CircuitPanel extends JPanel implements
         int corrx=x-rr.x;
         int corry=y-rr.y;
 
-        Rectangle r=new Rectangle(cs.mapXi(xpos,ypos,false)-corrx,
-                cs.mapYi(xpos,ypos,false)-corry,
+        Rectangle r=new Rectangle(mapCoordinates.mapXi(xpos,ypos,false)-corrx,
+                mapCoordinates.mapYi(xpos,ypos,false)-corry,
                 width, height);
 
         updateSizeOfScrollBars(r);
@@ -436,11 +436,11 @@ public class CircuitPanel extends JPanel implements
     public void updateSizeOfScrollBars(Rectangle r)
     {
         PointG origin=new PointG();
-        DimensionG d=DrawingSize.getImageSize(dmp, cs.getXMagnitude(),
+        DimensionG d=DrawingSize.getImageSize(drawingModel, mapCoordinates.getXMagnitude(),
                 false, origin);
 
-        int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
-        int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+        int minx=mapCoordinates.mapXi(MINSIZEX,MINSIZEY,false);
+        int miny=mapCoordinates.mapYi(MINSIZEX,MINSIZEY,false);
 
         Dimension dd=new Dimension(Math.max(d.width
                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
@@ -459,7 +459,7 @@ public class CircuitPanel extends JPanel implements
     */
     public int getSelectionState()
     {
-        return eea.getSelectionState();
+        return continuosMoveActions.getSelectionState();
     }
 
     /** The zoom listener.
@@ -468,8 +468,8 @@ public class CircuitPanel extends JPanel implements
     public void changeZoom(double tz)
     {
         double z=Math.round(tz*100.0)/100.0;
-        cs.setMagnitudes(z,z);
-        eea.successiveMove=false;
+        mapCoordinates.setMagnitudes(z,z);
+        continuosMoveActions.successiveMove=false;
         requestFocusInWindow(); // #
         repaint();
     }
@@ -524,27 +524,27 @@ public class CircuitPanel extends JPanel implements
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        dmp.imgCanvas.drawCanvasImage(g2, cs);
+        drawingModel.imgCanvas.drawCanvasImage(g2, mapCoordinates);
         // Draw the grid if necessary.
         if(isGridVisible) {
-            graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
+            graphicSwing.drawGrid(mapCoordinates,0,0,getWidth(), getHeight());
         }
 
         // The standard color is black.
         g.setColor(Color.black);
         // This is important for taking into account the dashing size
-        graphicSwing.setZoom(cs.getXMagnitude());
+        graphicSwing.setZoom(mapCoordinates.getXMagnitude());
 
         // Draw all the elements of the drawing.
-        drawingAgent.draw(graphicSwing, cs);
-        dmp.imgCanvas.trackExtremePoints(cs);
+        drawingAgent.draw(graphicSwing, mapCoordinates);
+        drawingModel.imgCanvas.trackExtremePoints(mapCoordinates);
 
         if (zoomListener!=null) {
-            zoomListener.changeZoom(cs.getXMagnitude());
+            zoomListener.changeZoom(mapCoordinates.getXMagnitude());
         }
 
         // Draw the handles of all selected primitives.
-        drawingAgent.drawSelectedHandles(graphicSwing, cs);
+        drawingAgent.drawSelectedHandles(graphicSwing, mapCoordinates);
 
         // If an evidence rectangle is active, draw it.
         g.setColor(editingColor.getColorSwing());
@@ -568,7 +568,7 @@ public class CircuitPanel extends JPanel implements
         }
         */
         if (evidenceRect != null && 
-                eea.actionSelected == ElementsEdtActions.SELECTION) {
+                continuosMoveActions.actionSelected == ElementsEdtActions.SELECTION) {
             g.setColor(selectionColor);
             g.drawRect(evidenceRect.x, evidenceRect.y, 
                     evidenceRect.width, evidenceRect.height);
@@ -579,10 +579,10 @@ public class CircuitPanel extends JPanel implements
         g2.setStroke(new BasicStroke(1));
 
         // If there is a primitive or a macro being edited, draws it.
-        eea.drawPrimEdit(graphicSwing, cs);
+        continuosMoveActions.drawPrimEdit(graphicSwing, mapCoordinates);
 
         // If a ruler.isActive() is active, draw it.
-        ruler.drawRuler(g, cs);
+        ruler.drawRuler(g, mapCoordinates);
 
         setSizeIfNeeded();
 
@@ -649,11 +649,11 @@ public class CircuitPanel extends JPanel implements
     */
     private void setSizeIfNeeded()
     {
-        Dimension d=new Dimension(cs.getXMax(), cs.getYMax());
+        Dimension d=new Dimension(mapCoordinates.getXMax(), mapCoordinates.getYMax());
 
         if (d.width>0 && d.height>0) {
-            int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
-            int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+            int minx=mapCoordinates.mapXi(MINSIZEX,MINSIZEY,false);
+            int miny=mapCoordinates.mapYi(MINSIZEX,MINSIZEY,false);
 
             Dimension dd=new Dimension(Math.max(d.width
                 +MARGIN, minx),Math.max(d.height+MARGIN, miny));
@@ -671,11 +671,11 @@ public class CircuitPanel extends JPanel implements
     */
     @Override public void validate()
     {
-        int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
-        int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+        int minx=mapCoordinates.mapXi(MINSIZEX,MINSIZEY,false);
+        int miny=mapCoordinates.mapYi(MINSIZEX,MINSIZEY,false);
 
-        Dimension dd=new Dimension(Math.max(cs.getXMax()
-            +MARGIN, minx),Math.max(cs.getYMax()+MARGIN, miny));
+        Dimension dd=new Dimension(Math.max(mapCoordinates.getXMax()
+            +MARGIN, minx),Math.max(mapCoordinates.getYMax()+MARGIN, miny));
         Dimension nn=getPreferredSize();
 
         if(dd.width!=nn.width || dd.height!=nn.height) {
@@ -690,7 +690,7 @@ public class CircuitPanel extends JPanel implements
     */
     public final DrawingModel getDrawingModel()
     {
-        return dmp;
+        return drawingModel;
     }
 
     /** Set the current drawing model. Changing it mean that all the
@@ -699,15 +699,15 @@ public class CircuitPanel extends JPanel implements
     */
     public final void setDrawingModel(DrawingModel dm)
     {
-        dmp=dm;
-        sa = new SelectionActions(dmp);
-        pa =new ParserActions(dmp);
-        ua = new UndoActions(pa);
-        edt = new EditorActions(dmp, sa, ua);
-        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
-        drawingAgent=new Drawing(dmp);
-        eea.setPrimitivesParListener(this);
-        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
+        drawingModel=dm;
+        selectionActions = new SelectionActions(drawingModel);
+        parserActions =new ParserActions(drawingModel);
+        undoActions = new UndoActions(parserActions);
+        editorActions = new EditorActions(drawingModel, selectionActions, undoActions);
+        continuosMoveActions = new ContinuosMoveActions(drawingModel, selectionActions, undoActions, editorActions);
+        drawingAgent=new Drawing(drawingModel);
+        continuosMoveActions.setPrimitivesParListener(this);
+        copyPasteActions=new CopyPasteActions(drawingModel, editorActions, selectionActions, parserActions, undoActions, new TextTransfer());
     }
 
     /** Get the current instance of SelectionActions controller class
@@ -715,7 +715,7 @@ public class CircuitPanel extends JPanel implements
     */
     public SelectionActions getSelectionActions()
     {
-        return sa;
+        return selectionActions;
     }
 
     /** Get the current instance of EditorActions controller class
@@ -723,7 +723,7 @@ public class CircuitPanel extends JPanel implements
     */
     public EditorActions getEditorActions()
     {
-        return edt;
+        return editorActions;
     }
 
     /** Get the current instance of CopyPasteActions controller class
@@ -731,7 +731,7 @@ public class CircuitPanel extends JPanel implements
     */
     public CopyPasteActions getCopyPasteActions()
     {
-        return cpa;
+        return copyPasteActions;
     }
 
     /** Get the current instance of ParserActions controller class
@@ -739,7 +739,7 @@ public class CircuitPanel extends JPanel implements
     */
     public ParserActions getParserActions()
     {
-        return pa;
+        return parserActions;
     }
 
     /** Get the current instance of UndoActions controller class
@@ -747,14 +747,14 @@ public class CircuitPanel extends JPanel implements
     */
     public UndoActions getUndoActions()
     {
-        return ua;
+        return undoActions;
     }
     /** Get the current instance of ElementsEdtActions controller class
         @return the class
     */
     public ContinuosMoveActions getContinuosMoveActions()
     {
-        return eea;
+        return continuosMoveActions;
     }
 
     /** Shows a dialog which allows the user modify the parameters of a given
@@ -763,12 +763,12 @@ public class CircuitPanel extends JPanel implements
     */
     public void setPropertiesForPrimitive()
     {
-        GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
+        GraphicPrimitive gp=selectionActions.getFirstSelectedPrimitive();
         if (gp==null) {
             return;
         }
         java.util.List<ParameterDescription> v;
-        if (sa.isUniquePrimitiveSelected()) {
+        if (selectionActions.isUniquePrimitiveSelected()) {
             v=gp.getControls();
         } else {
             // If more than a primitive is selected,
@@ -781,30 +781,30 @@ public class CircuitPanel extends JPanel implements
         DialogParameters dp = new DialogParameters(
             (JFrame)Globals.activeWindow,
             v, extStrict,
-            dmp.getLayers());
+            drawingModel.getLayers());
         dp.setVisible(true);
         if(dp.active) {
-            if (sa.isUniquePrimitiveSelected()) {
+            if (selectionActions.isUniquePrimitiveSelected()) {
                 gp.setControls(dp.getCharacteristics());
             } else {
                 ParameterDescription pd=(ParameterDescription)v.get(0);
                 dp.getCharacteristics();
                 if (pd.parameter instanceof LayerInfo) {
                     int l=((LayerInfo)pd.parameter).getLayer();
-                    edt.setLayerForSelectedPrimitives(l);
+                    editorActions.setLayerForSelectedPrimitives(l);
                 } else {
                     System.out.println(
                         "Warning: unexpected parameter! (layer)");
                 }
             }
-            dmp.setChanged(true);
+            drawingModel.setChanged(true);
 
             // We need to check and sort the layers, since the user can
             // change the layer associated to a given primitive thanks to
             // the dialog window which has been shown.
 
-            dmp.sortPrimitiveLayers();
-            ua.saveUndoState();
+            drawingModel.sortPrimitiveLayers();
+            undoActions.saveUndoState();
             repaint();
         }
     }
@@ -816,8 +816,8 @@ public class CircuitPanel extends JPanel implements
     */
     public void selectAndSetProperties(int x, int y)
     {
-        sa.setSelectionAll(false);
-        edt.handleSelection(cs, x, y, false);
+        selectionActions.setSelectionAll(false);
+        editorActions.handleSelection(mapCoordinates, x, y, false);
         repaint();
         setPropertiesForPrimitive();
     }
@@ -845,9 +845,9 @@ public class CircuitPanel extends JPanel implements
     */
     public void setMapCoordinates(MapCoordinates m)
     {
-        cs=m;
+        mapCoordinates=m;
         // Force an in-depth redraw.
-        dmp.setChanged(true);
+        drawingModel.setChanged(true);
     }
 
     /** Get the current coordinate mapping.
@@ -855,7 +855,7 @@ public class CircuitPanel extends JPanel implements
     */
     public MapCoordinates getMapCoordinates()
     {
-        return cs;
+        return mapCoordinates;
     }
 
     /** Force a repaint.
@@ -897,7 +897,7 @@ public class CircuitPanel extends JPanel implements
     */
     public ImageAsCanvas getAttachedImage()
     {
-        return dmp.imgCanvas;
+        return drawingModel.imgCanvas;
     }
     
     public void setSelectionColor(Color color) 

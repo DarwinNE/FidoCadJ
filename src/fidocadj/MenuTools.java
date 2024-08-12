@@ -382,7 +382,7 @@ public class MenuTools implements MenuListener
         ExportTools et = fff.getExportTools();
         et.setCoordinateListener(coordL);
         PrintTools pt = fff.getPrintTools();
-        CircuitPanel cc = fff.cc;
+        CircuitPanel cc = fff.circuitPanel;
         String arg=evt.getActionCommand();
         EditorActions edt=cc.getEditorActions();
         CopyPasteActions cpa=cc.getCopyPasteActions();
@@ -528,7 +528,7 @@ public class MenuTools implements MenuListener
             fff.closeThisFrame();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.
-            ImageAsCanvas ii=fff.cc.getAttachedImage();
+            ImageAsCanvas ii=fff.circuitPanel.getAttachedImage();
             DialogAttachImage di = new DialogAttachImage(fff);
             di.setFilename(ii.getFilename());
             di.setCorner(ii.getCornerX(),ii.getCornerY());
