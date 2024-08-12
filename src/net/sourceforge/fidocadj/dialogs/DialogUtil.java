@@ -168,7 +168,7 @@ public final class DialogUtil
         @return the constraints object created.
     */
     public static GridBagConstraints createConst(int gridx, int gridy,
-        int width, int height, int weightx, int weighty,
+        int width, int height, double weightx, double weighty,
         int anch, int fill, Insets insets)
     {
         GridBagConstraints constraints=new GridBagConstraints();

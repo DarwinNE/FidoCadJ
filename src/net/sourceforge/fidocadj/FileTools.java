@@ -72,6 +72,11 @@ public class FileTools
     */
     public boolean checkIfToBeSaved()
     {
+        // If the drawing is empty, there's no need to ask if it should be saved..
+        // before closing the program.
+        if(fff.cc.getDrawingModel().isEmpty())
+            return true;
+        
         boolean shouldExit = true;
         if (fff.cc.getUndoActions().getModified()) {
             Object[] options = {
