@@ -408,7 +408,8 @@ public class MenuTools implements MenuListener
             fff.showPrefs();
         } else if (arg.equals(Globals.messages.getString("Layer_opt"))) {
             // Options for the layers
-            DialogLayer layerDialog=new DialogLayer(fff,cc.getDrawingModel().getLayers());
+            DialogLayer layerDialog=new DialogLayer(fff,
+                                            cc.getDrawingModel().getLayers());
             layerDialog.setVisible(true);
 
             // It is important that we force a complete recalculation of

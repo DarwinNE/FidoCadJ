@@ -145,7 +145,7 @@ public final class DialogParameters extends JDialog
             constraints.gridy = ycount;
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
-            
+
             // The first element needs a little bit more space at the top.
             if (ycount == 0) {
                 top = 10;
