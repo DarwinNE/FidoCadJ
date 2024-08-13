@@ -546,14 +546,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
      * @param rect the selection rectangle.
      * @param bezierPath the Bézier curve as a Path2D.
      *
-     * @return true if the rectangle intersects the drawn part of the Bézier curve, false otherwise.
+     * @return true if the rectangle intersects the drawn part of ..
+     *         the Bézier curve, false otherwise.
      */
     private boolean checkBezierIntersectionWithRectangle(Rectangle rect,
             Path2D.Double bezierPath)
     {
         // Number of segments to approximate the Bézier curve
         final int segments = 100;
-        double[] previousPoint = new double[]{virtualPoint[0].x, virtualPoint[0].y};
+        double[] previousPoint = new double[]{virtualPoint[0].x, 
+                                              virtualPoint[0].y};
 
         // Subdivide the Bézier curve into small segments
         for (int i = 1; i <= segments; i++) {
@@ -570,7 +572,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
             // Check if the segment intersects the rectangle
             if (segment.intersects(rect)) {
-                return true; // Intersection detected with the Bézier curve's segment
+                // Intersection detected with the Bézier curve's segment
+                return true; 
             }
 
             previousPoint = currentPoint;
