@@ -103,7 +103,8 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements
             }
         });
         
-        visibilityLabel.addMouseListener(new MouseAdapter() {
+        visibilityLabel.addMouseListener(new MouseAdapter() 
+        {
             @Override
             public void mouseClicked(MouseEvent e) {
                 currentLayer.setVisible(!currentLayer.getVisible());
