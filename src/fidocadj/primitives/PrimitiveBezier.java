@@ -14,6 +14,9 @@ import fidocadj.graphic.PointG;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.RectangleG;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
 /** Class to handle the Bézier primitive.
 
@@ -505,59 +508,112 @@ public final class PrimitiveBezier extends GraphicPrimitive
     {
         return 5;
     }
-    
-    /**
-     * Determines whether the Bézier curve defined by the control points in
-     * virtualPoint intersects with the specified rectangle.
+   
+     /**
+     * Checks if the Bézier curve intersects with the given selection rectangle.
+     * This method determines if the rectangle intersects with the actual drawn
+     * part of the Bézier curve, ignoring the area enclosed by the curve.
      *
-     * This method first checks if the bounding box of the Bézier curve
-     * intersects with the rectangle. If the bounding box intersects, it then
-     * checks each segment of the Bézier curve to determine if it intersects
-     * with the rectangle.
-     *
-     * Note: The precision of this method is marked as questionable and may
-     * require review and refinement.
-     *
-     * @param rect the Rectangle object to check for intersection.
-     * 
-     * @param isLeftToRightSelection Determine the direction of the selection
-     *
-     * @return true if any part of the Bézier curve intersects the rectangle,
-     *         false otherwise.
+     * @param rect the selection rectangle.
+     * @param isLeftToRightSelection if true, checks if the rectangle fully..
+     *                 contains the Bézier curve (for left-to-right selections).
+     *                 If so, it returns true.
+     * @return true if the rectangle intersects the drawn part of..
+     *         the Bézier curve, false otherwise.
      */
     @Override
     public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
-        if (isLeftToRightSelection)
-            return isFullyContained(rect);  
-        
-        // TODO: Review needed, this method is not very precise
-
-        // Check if the bounding box of the Bézier curve intersects the rectangle
-        if (!rect.intersects(xmin, ymin, width, height)) {
-            return false;
+        if (isLeftToRightSelection) {
+            return isFullyContained(rect);
         }
 
-        // Check if the Bézier curve itself intersects the selection rectangle
-        if (shape1 != null) {
-            // Get the control points of the Bézier curve
-            int[] xpoints = {
-                virtualPoint[0].x, virtualPoint[1].x,
-                virtualPoint[2].x, virtualPoint[3].x
-            };
-            int[] ypoints = {
-                virtualPoint[0].y, virtualPoint[1].y,
-                virtualPoint[2].y, virtualPoint[3].y
-            };
+        // Create a Path2D to represent the Bézier curve
+        Path2D.Double bezierPath = new Path2D.Double();
+        bezierPath.moveTo(virtualPoint[0].x, virtualPoint[0].y);
+        bezierPath.curveTo(virtualPoint[1].x, virtualPoint[1].y,
+                virtualPoint[2].x, virtualPoint[2].y,
+                virtualPoint[3].x, virtualPoint[3].y);
 
-            // Check for intersection between the rectangle and the Bézier segments
-            for (int i = 0; i < xpoints.length - 1; i++) {
-                if (rect.intersectsLine(xpoints[i], ypoints[i], xpoints[i + 1], ypoints[i + 1])) {
-                    return true;
-                }
+        // Check the actual intersection with the Bézier curve
+        return checkBezierIntersectionWithRectangle(rect, bezierPath);
+    }
+
+    /**
+     * Checks if the rectangle actually intersects the drawn segment
+     * of the Bézier curve represented by the Path2D.
+     *
+     * @param rect the selection rectangle.
+     * @param bezierPath the Bézier curve as a Path2D.
+     *
+     * @return true if the rectangle intersects the drawn part of the Bézier curve, false otherwise.
+     */
+    private boolean checkBezierIntersectionWithRectangle(Rectangle rect,
+            Path2D.Double bezierPath)
+    {
+        // Number of segments to approximate the Bézier curve
+        final int segments = 100;
+        double[] previousPoint = new double[]{virtualPoint[0].x, virtualPoint[0].y};
+
+        // Subdivide the Bézier curve into small segments
+        for (int i = 1; i <= segments; i++) {
+            double t = (double) i / segments;
+            double[] currentPoint = calculateBezierPoint(t, virtualPoint[0].x,
+                    virtualPoint[0].y,
+                    virtualPoint[1].x, virtualPoint[1].y,
+                    virtualPoint[2].x, virtualPoint[2].y,
+                    virtualPoint[3].x, virtualPoint[3].y);
+
+            // Create a line segment between consecutive points
+            Line2D segment = new Line2D.Double(previousPoint[0],
+                    previousPoint[1], currentPoint[0], currentPoint[1]);
+
+            // Check if the segment intersects the rectangle
+            if (segment.intersects(rect)) {
+                return true; // Intersection detected with the Bézier curve's segment
             }
+
+            previousPoint = currentPoint;
         }
-        
-        return false;
+
+        return false; // No intersection detected
+    }
+
+    /**
+     * Calculates a point on a cubic Bézier curve for a given parameter t.
+     *
+     * @param t parameter t ranging from 0 to 1.
+     * @param x0 the x-coordinate of the first control point.
+     * @param y0 the y-coordinate of the first control point.
+     * @param x1 the x-coordinate of the second control point.
+     * @param y1 the y-coordinate of the second control point.
+     * @param x2 the x-coordinate of the third control point.
+     * @param y2 the y-coordinate of the third control point.
+     * @param x3 the x-coordinate of the fourth control point.
+     * @param y3 the y-coordinate of the fourth control point.
+     *
+     * @return the x, y coordinates of the point on the Bézier curve.
+     */
+    private double[] calculateBezierPoint(double t, double x0, double y0,
+            double x1, double y1, double x2, double y2,
+            double x3, double y3)
+    {
+        double u = 1 - t;
+        double tt = t * t;
+        double uu = u * u;
+        double uuu = uu * u;
+        double ttt = tt * t;
+
+        double x = uuu * x0; // (1-t)^3 * P0
+        x += 3 * uu * t * x1; // 3(1-t)^2 * t * P1
+        x += 3 * u * tt * x2; // 3(1-t) * t^2 * P2
+        x += ttt * x3; // t^3 * P3
+
+        double y = uuu * y0; // (1-t)^3 * P0
+        y += 3 * uu * t * y1; // 3(1-t)^2 * t * P1
+        y += 3 * u * tt * y2; // 3(1-t) * t^2 * P2
+        y += ttt * y3; // t^3 * P3
+
+        return new double[]{x, y};
     }
 }

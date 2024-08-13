@@ -15,6 +15,8 @@ import fidocadj.graphic.PolygonInterface;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.PointDouble;
 import java.awt.Rectangle;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
 /** Class to handle the ComplexCurve primitive.
 
@@ -1171,33 +1173,22 @@ public final class PrimitiveComplexCurve
     
     /**
      * Determines whether the shape defined by the points in q intersects with
-     * the specified rectangle.
-     *
-     * This method first checks if the bounding box of the shape intersects with
-     * the rectangle. If there is an intersection, it then checks each line
-     * segment of the shape to see if it intersects with the rectangle. If the
-     * shape is closed, it also checks the closing segment.
-     *
-     * Note: The precision of this method is marked as questionable and may
-     * require review and refinement.
+     * the specified rectangle. This method checks if any part of the actual
+     * drawn segments of the curve intersects the rectangle, ignoring the area
+     * enclosed by the curve.
      *
      * @param rect the Rectangle object to check for intersection.
-     * 
-     * @param isLeftToRightSelection Determine the direction of the selection
+     * @param isLeftToRightSelection true if the selection is from left to right
+     * and should consider the entire curve contained within the rectangle.
      *
-     * @return true if any part of the shape intersects the rectangle, false
-     *         otherwise.
+     * @return true if any part of the shape intersects the rectangle, 
+     *         false otherwise.
      */
     @Override
     public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
-        if (isLeftToRightSelection)
-            return isFullyContained(rect);      
-        
-        // TODO: Review needed, this method is not very precise
-
-        if (!rect.intersects(xmin, ymin, width, height)) {
-            return false;
+        if (isLeftToRightSelection) {
+            return isFullyContained(rect);
         }
 
         // Check if any line segment of the shape intersects the rectangle
@@ -1205,22 +1196,22 @@ public final class PrimitiveComplexCurve
             int[] xpoints = q.getXpoints();
             int[] ypoints = q.getYpoints();
             for (int i = 0; i < q.getNpoints() - 1; i++) {
-                if (rect.intersectsLine(xpoints[i], ypoints[i], xpoints[i + 1], ypoints[i + 1])) {
+                if (rect.intersectsLine(xpoints[i], ypoints[i], xpoints[i + 1],
+                        ypoints[i + 1])) {
                     return true;
                 }
             }
 
             // If the shape is closed, check the closing segment
             if (isClosed && q.getNpoints() > 1) {
-                if (rect.intersectsLine(xpoints[q.getNpoints() - 1], ypoints[q.getNpoints() - 1], xpoints[0], ypoints[0])) {
+                if (rect.intersectsLine(xpoints[q.getNpoints() - 1],
+                        ypoints[q.getNpoints() - 1], xpoints[0], ypoints[0])) {
                     return true;
                 }
             }
         }
-
         return false;
     }
-
 }
 
 /** this class represents a cubic polynomial, by Tim Lambert */
