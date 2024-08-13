@@ -125,7 +125,7 @@ public final class FidoMain
     private static void applyOptimizationSettings(CommandLineParser clp)
     {
         if (!clp.getStripOptimization()
-                && System.getProperty("os.name").startsWith("Mac")) {
+                && Globals.isMacOS()) {
             // CAREFUL**************************************************
             // In all MacOSX systems I tried, this greatly increases the
             // redrawing speed. *HOWEVER* the default value for Java 1.6
@@ -390,7 +390,7 @@ class CreateSwingInterface implements Runnable
         /** *****************************************************************
          * PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
          ****************************************************************** */
-        if (System.getProperty("os.name").startsWith("Mac")) {
+        if (Globals.isMacOS()) {
             AccessResources g = new AccessResources();
 
             Preferences.userNodeForPackage(g.getClass());
