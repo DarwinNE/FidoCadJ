@@ -158,7 +158,7 @@ public final class Globals
         useNativeFileDialogs=false;
         useMetaForMultipleSelection=false;
 
-        if (Globals.isMacOS()) {
+        if (OSValidator.isMac()) {
             // From what I know, only Mac users expect to use the Command (meta)
             // key for shortcuts, while others will use Control.
             shortcutKey=metaCode;
@@ -366,20 +366,5 @@ public final class Globals
     public static String roundTo(double n)
     {
         return ""+ Math.round(n*100.0)/100.0;
-    }
-    
-    /**
-     * Determines if the current operating system is macOS.
-     *
-     * This method checks the "os.name" system property to see if it starts..
-     * with "Mac", which is the standard identifier for macOS. 
-     * If the operating system name starts with "Mac",
-     * the method returns {@code true}; otherwise, it returns {@code false}.
-     *
-     * @return {@code true} if the current operating system is macOS; {@code false} otherwise.
-     */
-    public static boolean isMacOS()
-    {
-        return System.getProperty("os.name").startsWith("Mac");
     }
 }

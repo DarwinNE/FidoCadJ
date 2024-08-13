@@ -13,6 +13,7 @@ import fidocadj.geom.DrawingSize;
 import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.FileUtils;
+import fidocadj.globals.OSValidator;
 import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
@@ -125,7 +126,7 @@ public final class FidoMain
     private static void applyOptimizationSettings(CommandLineParser clp)
     {
         if (!clp.getStripOptimization()
-                && Globals.isMacOS()) {
+                && OSValidator.isMac()) {
             // CAREFUL**************************************************
             // In all MacOSX systems I tried, this greatly increases the
             // redrawing speed. *HOWEVER* the default value for Java 1.6
@@ -390,7 +391,7 @@ class CreateSwingInterface implements Runnable
         /** *****************************************************************
          * PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
          ****************************************************************** */
-        if (Globals.isMacOS()) {
+        if (OSValidator.isMac()) {
             AccessResources g = new AccessResources();
 
             Preferences.userNodeForPackage(g.getClass());

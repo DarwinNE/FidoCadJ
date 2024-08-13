@@ -3,6 +3,7 @@ package fidocadj.circuit;
 import java.awt.event.*;
 
 import fidocadj.globals.Globals;
+import fidocadj.globals.OSValidator;
 
 /** MouseWheelHandler: handle wheel events for the zoom in/out.
 
@@ -40,7 +41,7 @@ public class MouseWheelHandler implements KeyListener,
     {
         cc=c;
 
-        if (Globals.isMacOS() == false) {
+        if (OSValidator.isMac() == false) {
             cc.addMouseWheelListener(this);
         }
     }
@@ -64,7 +65,7 @@ public class MouseWheelHandler implements KeyListener,
     @Override
     public void keyPressed(KeyEvent e)
     {
-        if (Globals.isMacOS()) {
+        if (OSValidator.isMac()) {
             if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener()){
                 cc.addMouseWheelListener(this);
             }
@@ -77,7 +78,7 @@ public class MouseWheelHandler implements KeyListener,
     @Override
     public void keyReleased(KeyEvent e)
     {
-        if (Globals.isMacOS()) {
+        if (OSValidator.isMac()) {
             if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener()) {
                 cc.removeMouseWheelListener(this);
             }
