@@ -290,7 +290,7 @@ public final class FidoFrame extends JFrame implements
     private void setIconForApplication()
     {
         URL url=DialogAbout.class.getResource(
-            "icona_fidocadj_128x128.png");
+            "/icons/icona_fidocadj_128x128.png");
 
         if (url == null) {
             System.err.println("Could not retrieve the FidoCadJ icon!");
