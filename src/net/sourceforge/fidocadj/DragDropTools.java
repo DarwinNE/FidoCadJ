@@ -155,7 +155,7 @@ public class DragDropTools implements DropTargetListener
                     // Everything seems to be ok here, so we proceed handling
                     // the file
                     InputStreamReader reader=null;
-                    BufferedReader in=null; 
+                    BufferedReader in=null;
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
                     try {
                         reader=new InputStreamReader(
@@ -191,7 +191,7 @@ public class DragDropTools implements DropTargetListener
                                     popFrame.cc.getParserActions().
                                     openFileName);
 
-                                // After we set the current file name, we just 
+                                // After we set the current file name, we just
                                 // open it.
                                 popFrame.getFileTools().openFile();
                                 popFrame.cc.getUndoActions().saveUndoState();

@@ -72,11 +72,12 @@ public class FileTools
     */
     public boolean checkIfToBeSaved()
     {
-        // If the drawing is empty, there's no need to ask if it should be saved..
+        // If the drawing is empty, there's no need to ask if it should be
+        // saved..
         // before closing the program.
         if(fff.cc.getDrawingModel().isEmpty())
             return true;
-        
+
         boolean shouldExit = true;
         if (fff.cc.getUndoActions().getModified()) {
             Object[] options = {
@@ -199,8 +200,8 @@ public class FileTools
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
                 @Override public boolean accept(File f)
                 {
-                    return f.getName().toLowerCase(Locale.US).endsWith(".fcd") ||
-                        f.isDirectory();
+                    return f.getName().toLowerCase(Locale.US)
+                        .endsWith(".fcd") || f.isDirectory();
                 }
                 @Override public String getDescription()
                 {
@@ -267,7 +268,7 @@ public class FileTools
                 // Create file
                 BufferedWriter output = null;
                 try {
-                     output= new BufferedWriter(new
+                    output= new BufferedWriter(new
                         OutputStreamWriter(new FileOutputStream(
                         cc.getParserActions().openFileName),
                         Globals.encoding));

@@ -144,8 +144,7 @@ public class Drawing
                     // as well as macros containing pads).
 
                     gg=(GraphicPrimitive)dmp.getPrimitiveVector().get(i_index);
-                    if (gg.needsHoles())
-                    {
+                    if (gg.needsHoles()) {
                         gg.setDrawOnlyPads(true);
                         gg.draw(gG, cs, dmp.layerV);
                         gg.setDrawOnlyPads(false);

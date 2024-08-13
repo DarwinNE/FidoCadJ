@@ -201,7 +201,7 @@ public final class SearchField extends JTextField implements FocusListener
             @param width the width of the button.
             @param height the height of the button.
         */
-        @Override public void paintBorder(Component c, Graphics gc, int x, 
+        @Override public void paintBorder(Component c, Graphics gc, int x,
                                 int y, int width, int height)
         {
             SearchField field = (SearchField) c;

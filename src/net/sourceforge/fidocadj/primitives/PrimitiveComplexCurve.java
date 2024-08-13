@@ -340,7 +340,7 @@ public final class PrimitiveComplexCurve
         int xmax = -Integer.MAX_VALUE;
         int ymax = -Integer.MAX_VALUE;
 
-        CurveStorage c=createComplexCurve(coordSys);
+        CurveStorage c = createComplexCurve(coordSys);
 
         if (c==null) { return null; }
         List<PointDouble> pp = c.pp;
@@ -739,11 +739,11 @@ public final class PrimitiveComplexCurve
             // And we check finally for extensions (FCJ)
             if(nn>j) {
                 parseLayer(tokens[j++]);
-                if(nn>j) { 
+                if(nn>j) {
                     if ("FCJ".equals(tokens[j])) {
                         ++j;
                         j=arrowData.parseTokens(tokens, j);
-                        dashStyle = 
+                        dashStyle =
                             checkDashStyle(Integer.parseInt(tokens[j++]));
                     } else {
                         ++j;

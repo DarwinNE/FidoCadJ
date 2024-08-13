@@ -307,7 +307,7 @@ public final class Arrow
         }
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean) {
-             setArrowEnd(((Boolean)pd.parameter).booleanValue());
+            setArrowEnd(((Boolean)pd.parameter).booleanValue());
         } else {
             System.out.println("Warning: 2-unexpected parameter!"+pd);
         }

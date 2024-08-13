@@ -179,22 +179,22 @@ public final class DialogEditLayer extends MinimumSizeDialog
         DialogUtil.center(this);
     }
 
-    /** By implementing writeObject method, 
-    // we can prevent 
-    // subclass from serialization 
+    /** By implementing writeObject method,
+    // we can prevent
+    // subclass from serialization
     */
-    private void writeObject(ObjectOutputStream out) throws IOException 
-    { 
-        throw new NotSerializableException(); 
-    } 
-      
-    /* By implementing readObject method, 
-    // we can prevent 
-    // subclass from de-serialization 
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        throw new NotSerializableException();
+    }
+
+    /* By implementing readObject method,
+    // we can prevent
+    // subclass from de-serialization
     */
-    private void readObject(ObjectInputStream in) throws IOException 
-    { 
-        throw new NotSerializableException(); 
+    private void readObject(ObjectInputStream in) throws IOException
+    {
+        throw new NotSerializableException();
     }
 
     /** Get the layer description as specified in the layer edit dialog

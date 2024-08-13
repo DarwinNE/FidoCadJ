@@ -228,7 +228,7 @@ public final class ExportEPS implements ExportInterface, TextInterface
         checkColorAndWidth(c, -1);
         currentFontSize = (int)(sizex*12/(double)7+.5);
         fontname = fontnameT;
-    
+
         if(isBold) {
             bold="-Bold";
         } else {

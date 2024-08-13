@@ -36,7 +36,7 @@ import java.util.*;
     </pre>
     @author Davide Bucci
 */
-public final class DialogLayer extends MinimumSizeDialog 
+public final class DialogLayer extends MinimumSizeDialog
     implements ComponentListener
 {
     private final java.util.List<LayerDesc> layers;
@@ -141,22 +141,22 @@ public final class DialogLayer extends MinimumSizeDialog
         getRootPane().setDefaultButton(ok);
     }
 
-    /** By implementing writeObject method, 
-    // we can prevent 
-    // subclass from serialization 
+    /** By implementing writeObject method,
+    // we can prevent
+    // subclass from serialization
     */
-    private void writeObject(ObjectOutputStream out) throws IOException 
-    { 
-        throw new NotSerializableException(); 
-    } 
-      
-    /* By implementing readObject method, 
-    // we can prevent 
-    // subclass from de-serialization 
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        throw new NotSerializableException();
+    }
+
+    /* By implementing readObject method,
+    // we can prevent
+    // subclass from de-serialization
     */
-    private void readObject(ObjectInputStream in) throws IOException 
-    { 
-        throw new NotSerializableException(); 
+    private void readObject(ObjectInputStream in) throws IOException
+    {
+        throw new NotSerializableException();
     }
 
     /** Check if the layer index is non negative and then show the dialog for

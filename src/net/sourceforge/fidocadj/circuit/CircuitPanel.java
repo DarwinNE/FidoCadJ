@@ -215,22 +215,22 @@ public class CircuitPanel extends JPanel implements
         }
     }
 
-    /** By implementing writeObject method, 
-    // we can prevent 
-    // subclass from serialization 
+    /** By implementing writeObject method,
+    // we can prevent
+    // subclass from serialization
     */
-    private void writeObject(ObjectOutputStream out) throws IOException 
-    { 
-        throw new NotSerializableException(); 
-    } 
-      
-    /* By implementing readObject method, 
-    // we can prevent 
-    // subclass from de-serialization 
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        throw new NotSerializableException();
+    }
+
+    /* By implementing readObject method,
+    // we can prevent
+    // subclass from de-serialization
     */
-    private void readObject(ObjectInputStream in) throws IOException 
-    { 
-        throw new NotSerializableException(); 
+    private void readObject(ObjectInputStream in) throws IOException
+    {
+        throw new NotSerializableException();
     }
 
     /** Show a popup menu representing the actions that can be done on the
@@ -551,7 +551,8 @@ public class CircuitPanel extends JPanel implements
         g2.setStroke(new BasicStroke(1));
 
         if(evidenceRect!=null && eea.actionSelected ==
-            ElementsEdtActions.SELECTION) {
+            ElementsEdtActions.SELECTION)
+        {
             g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,
                 evidenceRect.height);
         } else {

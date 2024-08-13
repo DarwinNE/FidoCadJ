@@ -672,7 +672,7 @@ public final class ExportPCBRND implements ExportInterface
         String line;
         String [] tokens;
         String footprintElements = "";
-        
+
         try {
             buffer = new BufferedReader(new StringReader(macroDesc));
             while ((line = buffer.readLine()) != null) {

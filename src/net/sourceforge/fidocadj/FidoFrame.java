@@ -184,22 +184,22 @@ public final class FidoFrame extends JFrame implements
         }
     }
 
-    /** By implementing writeObject method, 
-    // we can prevent 
-    // subclass from serialization 
+    /** By implementing writeObject method,
+    // we can prevent
+    // subclass from serialization
     */
-    private void writeObject(ObjectOutputStream out) throws IOException 
-    { 
-        throw new NotSerializableException(); 
-    } 
-      
-    /* By implementing readObject method, 
-    // we can prevent 
-    // subclass from de-serialization 
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        throw new NotSerializableException();
+    }
+
+    /* By implementing readObject method,
+    // we can prevent
+    // subclass from de-serialization
     */
-    private void readObject(ObjectInputStream in) throws IOException 
-    { 
-        throw new NotSerializableException(); 
+    private void readObject(ObjectInputStream in) throws IOException
+    {
+        throw new NotSerializableException();
     }
 
     /** Store location & size of UI.
@@ -368,7 +368,7 @@ public final class FidoFrame extends JFrame implements
         if(prefs==null) {
             return;
         }
-        
+
         // The library directory
         libDirectory = prefs.get("DIR_LIBS", "");
 
@@ -828,9 +828,9 @@ public final class FidoFrame extends JFrame implements
     */
     public void zoomToFit()
     {
-		// If the drawing is empty, there's no need to go further.
-    	if(cc.getDrawingModel().isEmpty())
-    	    return;
+        // If the drawing is empty, there's no need to go further.
+        if(cc.getDrawingModel().isEmpty())
+            return;
         //double oldz=cc.getMapCoordinates().getXMagnitude();
 
         // We calculate the zoom to fit factor here.

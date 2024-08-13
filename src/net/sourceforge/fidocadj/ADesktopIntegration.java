@@ -113,7 +113,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         @param e event referring for application.
         @param response the type of the response (quit or abort).
     */
-    @Override public void handleQuitRequestWith(QuitEvent e, 
+    @Override public void handleQuitRequestWith(QuitEvent e,
         QuitResponse response)
     {
         boolean ca = true;
@@ -126,7 +126,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
 /*
         for(int i=0; i<windowArray.length;++i) { */
         for(Object ff : windowArray) {
-            fff=(FidoFrame)ff; 
+            fff=(FidoFrame)ff;
             if(fff.getFileTools().checkIfToBeSaved()) {
                 fff.closeThisFrame();
             } else {

@@ -234,14 +234,14 @@ public final class DialogOptions extends MinimumSizeDialog
                             "",
                             JOptionPane.INFORMATION_MESSAGE);
                         return;
-                    } 
+                    }
                     setVisible(false);
                 } catch (NumberFormatException eE) {
                     JOptionPane.showMessageDialog(parent,
                                 Globals.messages.getString("Format_invalid")+
                                 " "+eE.getMessage(), "",
                                 JOptionPane.INFORMATION_MESSAGE);
-                } 
+                }
             }
         });
         cancel.addActionListener(new ActionListener()

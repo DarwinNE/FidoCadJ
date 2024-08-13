@@ -820,7 +820,7 @@ public class ParserActions
         This is particularly useful to read librairies shipped in a jar
         file.
         @param s the URL containing the libraries.
-        @param prefix_s the prefix to be adopted for the keys of all elements
+        @param prefixS the prefix to be adopted for the keys of all elements
             in the library. Most of the times it is the filename, except for
             standard or internal libraries.
     */

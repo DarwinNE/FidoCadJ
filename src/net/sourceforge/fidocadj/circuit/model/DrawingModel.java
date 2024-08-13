@@ -290,7 +290,7 @@ public final class DrawingModel
                 // We keep track of the maximum layer number used in the
                 // drawing.
                 if (g.layer>maxLayer) {
-                        maxLayer = g.layer;
+                    maxLayer = g.layer;
                 }
 
                 if (g.containsLayer(l)) {

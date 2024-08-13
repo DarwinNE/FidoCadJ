@@ -114,6 +114,8 @@ public final class ExportSVG implements ExportInterface, TextInterface
     }
     /** Constructor.
         @param f the File object in which the export should be done.
+        @param g the GraphicsInterface needed for things such as font size
+            calculations, etc.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */

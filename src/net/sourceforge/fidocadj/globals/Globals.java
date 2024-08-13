@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.ADesktopIntegration;
 */
 public final class Globals
 {
- 
+
     // message bundle
     public static AccessResources messages;
 
@@ -119,7 +119,7 @@ public final class Globals
     // Maximum zoom factor in %
     public static final double minZoomFactor = 10;
 
-   // Make sort that this is an utility class (private constructor). 
+   // Make sort that this is an utility class (private constructor).
     private Globals()
     {
     }
