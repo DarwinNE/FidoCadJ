@@ -162,7 +162,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
         graphicSwing = new Graphics2DSwing();
 
-        ruler = new Ruler(editingColor.getColorSwing(),
+        ruler = new Ruler(Color.GREEN,
                 editingColor.getColorSwing().darker().darker());
 
         isGridVisible = true;
