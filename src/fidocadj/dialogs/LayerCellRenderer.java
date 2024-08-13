@@ -34,7 +34,9 @@ import fidocadj.graphic.swing.ColorSwing;
  *
  * @author Manuel Finessi
  */
-public class LayerCellRenderer extends JPanel implements ListCellRenderer<LayerDesc> {
+public class LayerCellRenderer extends JPanel implements 
+                                                ListCellRenderer<LayerDesc> 
+{
     private JLabel colorLabel;
     private JLabel visibilityLabel;
     private JLabel nameLabel;
@@ -45,7 +47,8 @@ public class LayerCellRenderer extends JPanel implements ListCellRenderer<LayerD
     /**
      * Constructs a LayerRenderer with control over the visibility of layers.
      *
-     * @param visibilityCtrl a boolean indicating whether visibility control is enabled.
+     * @param visibilityCtrl a boolean indicating whether visibility..
+     *                       control is enabled.
      */
     public LayerCellRenderer() {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -53,8 +56,11 @@ public class LayerCellRenderer extends JPanel implements ListCellRenderer<LayerD
         visibilityLabel = new JLabel();
         nameLabel = new JLabel();
         
-        visibleIcon = new ImageIcon(getClass().getResource("/icons/layer-on.png"));
-        invisibleIcon = new ImageIcon(getClass().getResource("/icons/layer-off.png"));
+        visibleIcon = new ImageIcon(
+                getClass().getResource("/icons/layer-on.png"));
+        
+        invisibleIcon = new ImageIcon(
+                getClass().getResource("/icons/layer-off.png"));
 
         add(colorLabel);
         add(visibilityLabel);
@@ -72,7 +78,10 @@ public class LayerCellRenderer extends JPanel implements ListCellRenderer<LayerD
      * @return the component used to render the value.
      */
     @Override
-    public Component getListCellRendererComponent(JList<? extends LayerDesc> list, LayerDesc layer, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(
+            JList<? extends LayerDesc> list, LayerDesc layer, 
+            int index, boolean isSelected, boolean cellHasFocus) 
+    {
         colorLabel.setOpaque(true);
         
         ColorSwing color=(ColorSwing) layer.getColor();
@@ -80,7 +89,9 @@ public class LayerCellRenderer extends JPanel implements ListCellRenderer<LayerD
         colorLabel.setBackground(color.getColorSwing());
         colorLabel.setPreferredSize(new Dimension(25, ICON_SIZE));
 
-        visibilityLabel.setIcon(layer.getVisible() ? visibleIcon : invisibleIcon);
+        visibilityLabel.setIcon(
+                layer.getVisible() ? visibleIcon : invisibleIcon);
+        
         visibilityLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
         nameLabel.setText(layer.getDescription());

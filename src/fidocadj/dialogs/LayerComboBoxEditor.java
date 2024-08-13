@@ -20,6 +20,7 @@ import fidocadj.FidoFrame;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.layers.LayerDesc;
+import java.awt.Color;
 /** 
  * LayerEditor.java
  * 
@@ -48,7 +49,9 @@ import fidocadj.layers.LayerDesc;
  *
  * @author Manuel Finessi
  */
-public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxEditor {
+public class LayerComboBoxEditor extends AbstractCellEditor implements 
+                                                            ComboBoxEditor 
+{
     private JPanel panel;
     private JLabel colorLabel;
     private JLabel visibilityLabel;
@@ -63,7 +66,8 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxE
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
     /**
-     * Constructs a LayerEditor associated with the provided JComboBox and FidoFrame.
+     * Constructs a LayerEditor associated with the provided ..
+     * JComboBox and FidoFrame.
      *
      * @param comboBox the JComboBox that this editor is associated with.
      * @param fidoFrame the FidoFrame instance to which this editor is linked.
@@ -76,10 +80,17 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxE
         visibilityLabel = new JLabel();
         nameLabel = new JLabel();
         
-        visibleIcon = new ImageIcon(getClass().getResource("/icons/layer-on.png"));
-        invisibleIcon = new ImageIcon(getClass().getResource("/icons/layer-off.png"));
+        visibleIcon = new ImageIcon(
+                getClass().getResource("/icons/layer-on.png"));
+        
+        invisibleIcon = new ImageIcon(
+                getClass().getResource("/icons/layer-off.png"));
 
-        visibilityLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+        colorLabel.setCursor(
+                Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+        
+        visibilityLabel.setCursor(
+                Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
         
         panel.add(colorLabel);
         panel.add(visibilityLabel);
@@ -96,9 +107,28 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxE
             @Override
             public void mouseClicked(MouseEvent e) {
                 currentLayer.setVisible(!currentLayer.getVisible());
-                visibilityLabel.setIcon(currentLayer.getVisible() ? visibleIcon : invisibleIcon);
+                visibilityLabel.setIcon(
+                        currentLayer.getVisible() ? visibleIcon:invisibleIcon);
+                
                 circuitPanel.getDrawingModel().setChanged(true);
                 fidoFrame.repaint();
+            }
+        });
+        
+        colorLabel.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                DialogEditLayer del = new DialogEditLayer(null, currentLayer);
+                del.setVisible(true);
+                if (del.getActive()) {
+                    del.acceptLayer();
+                    ColorSwing c = (ColorSwing) currentLayer.getColor();
+                    colorLabel.setBackground(c.getColorSwing());
+                    circuitPanel.getDrawingModel().setChanged(true);
+                    fidoFrame.repaint();
+                }
             }
         });
     }
@@ -137,7 +167,8 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxE
         colorLabel.setBackground(color.getColorSwing());
         colorLabel.setPreferredSize(new Dimension(25, ICON_SIZE));
 
-        visibilityLabel.setIcon(currentLayer.getVisible() ? visibleIcon : invisibleIcon);
+        visibilityLabel.setIcon(
+                currentLayer.getVisible() ? visibleIcon : invisibleIcon);
         visibilityLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
         nameLabel.setText(currentLayer.getDescription());
