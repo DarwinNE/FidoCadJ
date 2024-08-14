@@ -61,10 +61,24 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         permission = macroTree.getOperationPermission();
 
         copyMenu = new JMenuItem(Globals.messages.getString("Copy"));
+        copyMenu.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/copy.png")));
+        
         pasteMenu = new JMenuItem(Globals.messages.getString("Paste"));
+        pasteMenu.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/paste.png")));
+        
         removeMenu = new JMenuItem(Globals.messages.getString("Delete"));
+        removeMenu.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/delete.png")));
+        
         renameMenu = new JMenuItem(Globals.messages.getString("Rename"));
+        renameMenu.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/rename.png")));
+        
         renkeyMenu = new JMenuItem(Globals.messages.getString("RenKey"));
+        renkeyMenu.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/change_key.png")));
 
         this.add(copyMenu);
         this.add(pasteMenu);
