@@ -1,5 +1,6 @@
 package fidocadj.circuit.controllers;
 
+import fidocadj.graphic.ColorInterface;
 import java.awt.Color;
 
 /** PrimitivesParInterface specifies some actions useful to modify
@@ -80,6 +81,10 @@ public interface PrimitivesParInterface
         @param h    the height of the rectangle
     */
     void setEvidenceRect(int lx, int ly, int w, int h);
-    
+
+    /** Set the current color for selection box
+     
+        @param color the color
+     */
     void setSelectionColor(Color color);
 }
