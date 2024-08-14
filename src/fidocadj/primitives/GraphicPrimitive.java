@@ -1171,8 +1171,6 @@ public abstract class GraphicPrimitive
      * rectangle based on the selection direction.
      *
      * @param rect                   the selection rectangle.
-     * @param isLeftToRightSelection true if the selection is from left to
-     *                               right.
      *
      * @return true if all points are within the rectangle for left-to-right
      *         selection, or if any point is within the rectangle for
