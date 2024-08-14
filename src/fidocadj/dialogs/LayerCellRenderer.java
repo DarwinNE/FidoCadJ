@@ -45,10 +45,7 @@ public class LayerCellRenderer extends JPanel implements
     private final int ICON_SIZE = 20;
 
     /**
-     * Constructs a LayerRenderer with control over the visibility of layers.
-     *
-     * @param visibilityCtrl a boolean indicating whether visibility..
-     *                       control is enabled.
+     * Constructs a LayerRenderer.
      */
     public LayerCellRenderer() {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));

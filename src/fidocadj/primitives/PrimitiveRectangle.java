@@ -10,7 +10,6 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
-import fidocadj.graphic.PointG;
 import java.awt.Rectangle;
 
 /** Class to handle the rectangle primitive.

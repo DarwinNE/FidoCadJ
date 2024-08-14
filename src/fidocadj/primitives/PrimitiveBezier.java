@@ -16,7 +16,6 @@ import fidocadj.graphic.RectangleG;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 /** Class to handle the Bézier primitive.
 

@@ -12,7 +12,6 @@ import fidocadj.dialogs.ArrowInfo;
 import fidocadj.globals.Globals;
 import fidocadj.export.PointPr;
 
-
 /**
     Arrow class: draws an arrow of the given size, style and direction.
 

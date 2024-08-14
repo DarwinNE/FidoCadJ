@@ -1,7 +1,5 @@
 package fidocadj.geom;
 
-import java.awt.Rectangle;
-
 /**
     Calculate geometric distances between a given point and a few
     geometric objects.

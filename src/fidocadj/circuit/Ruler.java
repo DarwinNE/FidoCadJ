@@ -4,7 +4,6 @@ import java.awt.*;
 
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
-import java.util.Set;
 
 /** Draw a ruler.
 

@@ -20,7 +20,7 @@ import fidocadj.FidoFrame;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.layers.LayerDesc;
-import java.awt.Color;
+
 /** 
  * LayerEditor.java
  * 

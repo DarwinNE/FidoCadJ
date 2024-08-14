@@ -15,8 +15,6 @@ import fidocadj.graphic.PolygonInterface;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.PointDouble;
 import java.awt.Rectangle;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 /** Class to handle the ComplexCurve primitive.
 
