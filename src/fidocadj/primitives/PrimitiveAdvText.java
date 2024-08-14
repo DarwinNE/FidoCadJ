@@ -12,8 +12,8 @@ import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.FontG;
+import fidocadj.graphic.SelectionRectangle;
 import fidocadj.graphic.nil.GraphicsNull;
-import java.awt.Rectangle;
 
 /** Class to handle the advanced text primitive.
 
@@ -739,18 +739,22 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      *         false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
+    public boolean intersects(SelectionRectangle rect, 
+            boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
             return isFullyContained(rect);  
         
         GraphicsNull g = new GraphicsNull();
-        g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5), (sty & TEXT_ITALIC) != 0, (sty & TEXT_BOLD) != 0);
+        g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5), 
+                (sty & TEXT_ITALIC) != 0, (sty & TEXT_BOLD) != 0);
 
         int textWidth = g.getStringWidth(txt);
         int textHeight = g.getFontAscent() + g.getFontDescent();
 
-        Rectangle textBounds = new Rectangle(virtualPoint[0].x, virtualPoint[0].y - textHeight, textWidth, textHeight);
+        SelectionRectangle textBounds = new SelectionRectangle(
+                virtualPoint[0].x, 
+                virtualPoint[0].y - textHeight, textWidth, textHeight);
 
         return rect.intersects(textBounds);
     }

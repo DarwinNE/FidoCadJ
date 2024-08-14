@@ -4,12 +4,13 @@ import java.util.*;
 
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.geom.MapCoordinates;
+import fidocadj.graphic.SelectionRectangle;
 import fidocadj.layers.LayerDesc;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.PrimitiveRectangle;
 import fidocadj.primitives.PrimitiveMacro;
 import fidocadj.primitives.PrimitiveOval;
-import java.awt.Color;
+
 import java.awt.Rectangle;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
@@ -250,7 +251,7 @@ public class HandleActions
                 int xb = Math.max(oldpx, cs.unmapXnosnap(px));
                 int yb = Math.max(oldpy, cs.unmapYnosnap(py));
 
-                Rectangle selectionRect = new Rectangle(xa, ya, xb - xa, yb - ya);
+                SelectionRectangle selectionRect = new SelectionRectangle(xa, ya, xb - xa, yb - ya);
 
                 if (!multiple) {
                     sa.setSelectionAll(false);
@@ -303,13 +304,9 @@ public class HandleActions
                 int xb = opx;
                 int yb = opy;
                 
-                if (xb < xa) {
-                    isLeftToRightSelection = false;
-                    cC.setSelectionColor(Color.GREEN); 
-                } else {
-                    cC.setSelectionColor(Color.BLUE); 
-                    isLeftToRightSelection = true;
-                }
+                isLeftToRightSelection = xb >= xa;
+                
+                cC.isLeftToRightSelection(isLeftToRightSelection);
 
                 if(opx>xa && px<xa) {
                     flip=true;

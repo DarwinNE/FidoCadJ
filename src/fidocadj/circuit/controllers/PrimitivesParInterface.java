@@ -1,7 +1,5 @@
 package fidocadj.circuit.controllers;
 
-import fidocadj.graphic.ColorInterface;
-import java.awt.Color;
 
 /** PrimitivesParInterface specifies some actions useful to modify
     characteristics of primitives.
@@ -82,9 +80,10 @@ public interface PrimitivesParInterface
     */
     void setEvidenceRect(int lx, int ly, int w, int h);
 
-    /** Set the current color for selection box
+    /** Determine the direction of the selection.
      
-        @param color the color
+        @param isLeftToRight True if the direction is from left to right..
+                             False if it is from right to left.
      */
-    void setSelectionColor(Color color);
+    void isLeftToRightSelection(boolean isLeftToRight);
 }

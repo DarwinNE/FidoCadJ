@@ -33,7 +33,6 @@ import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.geom.DrawingSize;
 import fidocadj.globals.Globals;
-import fidocadj.graphic.ColorInterface;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most
  * important components, as it is responsible of all editing actions.
@@ -952,12 +951,17 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         return drawingModel.imgCanvas;
     }
 
-    /** Set the current color for selection box
+    /** Determine the direction of the selection.
      
-        @param color the color
+        @param isLeftToRight True if the direction is from left to right..
+                             False if it is from right to left.
      */
-    public void setSelectionColor(Color color)
+    public void isLeftToRightSelection(boolean isLeftToRight)
     {
-        this.selectionColor = color;
+        if(isLeftToRight) {
+            this.selectionColor = Color.BLUE;
+        } else {
+            this.selectionColor = Color.GREEN;
+        }
     }
 }

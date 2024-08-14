@@ -10,7 +10,8 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
-import java.awt.Rectangle;
+import fidocadj.graphic.SelectionRectangle;
+
 
 /** Class to handle the Oval primitive.
 
@@ -401,7 +402,8 @@ public final class PrimitiveOval extends GraphicPrimitive
      *         rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
+    public boolean intersects(SelectionRectangle rect, 
+                              boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
             return isFullyContained(rect);  
@@ -411,18 +413,21 @@ public final class PrimitiveOval extends GraphicPrimitive
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
         int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
         
-        Rectangle ovalBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        SelectionRectangle ovalBounds = new SelectionRectangle(
+                                                x1, y1, x2 - x1, y2 - y1);
         if (rect.intersects(ovalBounds)) {
             int centerX = (x1 + x2) / 2;
             int centerY = (y1 + y2) / 2;
             int a = (x2 - x1) / 2;
             int b = (y2 - y1) / 2;
 
-            for (int i = rect.x; i <= rect.x + rect.width; i++) {
-                for (int j = rect.y; j <= rect.y + rect.height; j++) {
+            for (int i = rect.getX(); i <= rect.getX() + rect.getWidth(); i++) {
+                for (int j = rect.getY(); j <= 
+                        rect.getY() + rect.getHeight(); j++) {
                     double normalizedX = (double) (i - centerX) / a;
                     double normalizedY = (double) (j - centerY) / b;
-                    if (Math.abs(normalizedX * normalizedX + normalizedY * normalizedY - 1) < 0.05) {
+                    if (Math.abs(normalizedX * normalizedX + 
+                                 normalizedY * normalizedY - 1) < 0.05) {
                         return true;
                     }
                 }

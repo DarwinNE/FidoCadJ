@@ -13,6 +13,7 @@ import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointDouble;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.PolygonInterface;
+import fidocadj.graphic.SelectionRectangle;
 
 /** Class to handle the Polygon primitive.
 
@@ -590,5 +591,75 @@ public final class PrimitivePolygon extends GraphicPrimitive
     {
         return nPoints+1;
     }
+    
+    /**
+     * Checks if the polygon intersects with the given selection rectangle.
+     * This method determines if any part of the polygon intersects with the
+     * rectangle, including edges and vertices.
+     *
+     * @param rect the selection rectangle to check for intersection.
+     * @param isLeftToRightSelection if true, checks if the rectangle fully
+     * contains the polygon (for left-to-right selections).
+     *
+     * @return true if the rectangle intersects with any part of the polygon, 
+     *         false otherwise.
+     */
+    @Override
+    public boolean intersects(SelectionRectangle rect,
+                              boolean isLeftToRightSelection)
+    {
+        // Convert the polygon's points to arrays for easy processing
+        int[] xp = new int[nPoints];
+        int[] yp = new int[nPoints];
 
+        for (int i = 0; i < nPoints; i++) {
+            xp[i] = virtualPoint[i].x;
+            yp[i] = virtualPoint[i].y;
+        }
+
+        if (isLeftToRightSelection) {
+            /* Check if all vertices of the polygon are..
+               inside the selection rectangle.
+            */
+            for (int i = 0; i < nPoints; i++) {
+                if (!rect.contains(xp[i], yp[i])) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            /* Check if any vertex of the polygon is inside
+               the selection rectangle
+             */
+            for (int i = 0; i < nPoints; i++) {
+                if (rect.contains(xp[i], yp[i])) {
+                    return true;
+                }
+            }
+
+            /* Check if any edge of the polygon 
+               intersects with the rectangle's edges
+             */
+            for (int i = 0; i < nPoints; i++) {
+                int next = (i + 1) % nPoints;
+                if (rect.intersectsLine(xp[i], yp[i], xp[next], yp[next])) {
+                    return true;
+                }
+            }
+
+            // Check if the rectangle is fully contained within the polygon
+            if (isFilled && GeometricDistances.pointInPolygon(xp, yp, nPoints,
+                    rect.getX(), rect.getY())
+                    && GeometricDistances.pointInPolygon(xp, yp, nPoints,
+                            rect.getX() + rect.getWidth(), rect.getY())
+                    && GeometricDistances.pointInPolygon(xp, yp, nPoints,
+                            rect.getX(), rect.getY() + rect.getHeight())
+                    && GeometricDistances.pointInPolygon(xp, yp, nPoints,
+                            rect.getX() + rect.getWidth(),
+                            rect.getY() + rect.getHeight())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

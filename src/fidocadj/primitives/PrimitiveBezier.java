@@ -10,12 +10,11 @@ import fidocadj.geom.MapCoordinates;
 import fidocadj.geom.GeometricDistances;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
+import fidocadj.graphic.LineSegment;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.RectangleG;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
+import fidocadj.graphic.SelectionRectangle;
 
 /** Class to handle the Bézier primitive.
 
@@ -521,40 +520,14 @@ public final class PrimitiveBezier extends GraphicPrimitive
      *         the Bézier curve, false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
-    {
+    public boolean intersects(SelectionRectangle rect, boolean isLeftToRightSelection) {
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
         }
 
-        // Create a Path2D to represent the Bézier curve
-        Path2D.Double bezierPath = new Path2D.Double();
-        bezierPath.moveTo(virtualPoint[0].x, virtualPoint[0].y);
-        bezierPath.curveTo(virtualPoint[1].x, virtualPoint[1].y,
-                virtualPoint[2].x, virtualPoint[2].y,
-                virtualPoint[3].x, virtualPoint[3].y);
-
-        // Check the actual intersection with the Bézier curve
-        return checkBezierIntersectionWithRectangle(rect, bezierPath);
-    }
-
-    /**
-     * Checks if the rectangle actually intersects the drawn segment
-     * of the Bézier curve represented by the Path2D.
-     *
-     * @param rect the selection rectangle.
-     * @param bezierPath the Bézier curve as a Path2D.
-     *
-     * @return true if the rectangle intersects the drawn part of ..
-     *         the Bézier curve, false otherwise.
-     */
-    private boolean checkBezierIntersectionWithRectangle(Rectangle rect,
-            Path2D.Double bezierPath)
-    {
         // Number of segments to approximate the Bézier curve
         final int segments = 100;
-        double[] previousPoint = new double[]{virtualPoint[0].x, 
-                                              virtualPoint[0].y};
+        double[] previousPoint = new double[]{virtualPoint[0].x, virtualPoint[0].y};
 
         // Subdivide the Bézier curve into small segments
         for (int i = 1; i <= segments; i++) {
@@ -566,13 +539,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
                     virtualPoint[3].x, virtualPoint[3].y);
 
             // Create a line segment between consecutive points
-            Line2D segment = new Line2D.Double(previousPoint[0],
+            LineSegment segment = new LineSegment(previousPoint[0],
                     previousPoint[1], currentPoint[0], currentPoint[1]);
 
             // Check if the segment intersects the rectangle
             if (segment.intersects(rect)) {
-                // Intersection detected with the Bézier curve's segment
-                return true; 
+                return true; // Intersection detected
             }
 
             previousPoint = currentPoint;
@@ -580,6 +552,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         return false; // No intersection detected
     }
+
 
     /**
      * Calculates a point on a cubic Bézier curve for a given parameter t.
