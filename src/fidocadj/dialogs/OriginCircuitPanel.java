@@ -68,7 +68,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
 
     /** Get the x coordinate of the origin in pixels.
-        @return the x coordinate of the origin in pixel.
+     * @return the x coordinate of the origin in pixel.
     */
     public int getDx()
     {
@@ -76,7 +76,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
 
     /** Get the y coordinate of the origin in pixels.
-        @return the y coordinate of the origin in pixel.
+     * @return the y coordinate of the origin in pixel.
     */
     public int getDy()
     {
@@ -84,7 +84,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
     
     /** Get the x coordinates of the origin in logical units.
-    @return the x coordinate of the origin in logical units.
+     * @return the x coordinate of the origin in logical units.
     */
     public int getLx()
     {
@@ -92,7 +92,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
 
     /** Get the y coordinates of the origin in logical units.
-    @return the y coordinate of the origin in logical units.
+     * @return the y coordinate of the origin in logical units.
     */
     public int getLy()
     {
@@ -100,6 +100,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
     
     /** Set the x coordinates of the origin in logical units.
+     * @param xl coordinates of the origin in logical units.
     */
     public void setLx(int xl)
     {
@@ -107,6 +108,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     }
 
     /** Set the y coordinates of the origin in logical units.
+     * @param yl coordinates of the origin in logical units.
     */
     public void setLy(int yl)
     {
