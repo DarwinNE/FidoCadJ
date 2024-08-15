@@ -506,22 +506,41 @@ public final class PrimitiveBezier extends GraphicPrimitive
         return 5;
     }
    
-     /**
+    /**
      * Checks if the Bézier curve intersects with the given selection rectangle.
      * This method determines if the rectangle intersects with the actual drawn
      * part of the Bézier curve, ignoring the area enclosed by the curve.
      *
+     * If "isLeftToRightSelection" is true, the method checks if the entire..
+     * Bézier curve is fully contained within the rectangle.
+     *
+     * If "isLeftToRightSelection" is false, the method additionally checks ..
+     * if any vertex of the Bézier curve is contained within the rectangle.
+     *
      * @param rect the selection rectangle.
-     * @param isLeftToRightSelection if true, checks if the rectangle fully..
-     *                 contains the Bézier curve (for left-to-right selections).
-     *                 If so, it returns true.
-     * @return true if the rectangle intersects the drawn part of..
-     *         the Bézier curve, false otherwise.
+     * @param isLeftToRightSelection if true, checks if the rectangle fully ..
+     *                               contains the Bézier curve ..
+     *                               (for left-to-right selections). 
+     *                               If so, it returns true.
+     *
+     * @return true if the rectangle intersects the drawn part of the Bézier..
+     *              curve, or if any vertex is contained within the rectangle..
+     *              when "isLeftToRightSelection" is false. 
+     *              Otherwise, returns false.
      */
     @Override
-    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) {
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
+    {
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
+        }
+
+        // Check if any vertex of the Bézier curve is within ..
+        // the selection rectangle
+        for (int i = 0; i < 4; i++) {
+            if (rect.contains(virtualPoint[i].x, virtualPoint[i].y)) {
+                return true;
+            }
         }
 
         // Number of segments to approximate the Bézier curve
@@ -551,7 +570,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         return false; // No intersection detected
     }
-
 
     /**
      * Calculates a point on a cubic Bézier curve for a given parameter t.

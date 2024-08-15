@@ -405,34 +405,44 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     
     /**
      * Determines whether the rectangle defined by the points in virtualPoint
-     * intersects any of the edges of the specified rectangle.
+     * intersects any of the edges of the specified selection rectangle.
      *
-     * This method computes the bounding box of the primitive, defined by the
-     * two points in virtualPoint, and checks if any edge of this bounding box
-     * intersects with any edge of the given rectangle.
+     * If "isLeftToRightSelection" is true, the method checks whether the entire
+     * primitive rectangle is fully contained within the selection rectangle.
+     * If isLeftToRightSelection is false, the method checks whether any edge
+     * of the primitive rectangle intersects with the selection rectangle or
+     * if any vertex of the primitive rectangle is contained within the
+     * selection rectangle.
      *
-     * @param rect the Rectangle object to check for intersection.
-     * 
-     * @param isLeftToRightSelection Determine the direction of the selection
+     * @param rect the RectangleG object representing the selection rectangle.
+     * @param isLeftToRightSelection true if the selection is from left to right
+     *                               and should consider the entire rectangle..
+     *                               contained within the selection rectangle.
      *
-     * @return true if any edge of the bounding box of the primitive
-     *         intersects the rectangle, false otherwise.
+     * @return true if any part of the rectangle intersects the selection..
+     *              rectangle, or if any vertex is contained within the ..
+     *              selection rectangle when isLeftToRightSelection is false. 
+     *              Otherwise, returns false.
      */
     @Override
-    public boolean intersects(RectangleG rect, 
-                              boolean isLeftToRightSelection) 
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
-        if (isLeftToRightSelection)
+        if (isLeftToRightSelection) {
             return isFullyContained(rect);
-        
+        }
+
         int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
         int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
         int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
-        RectangleG primitiveBounds = new RectangleG(x1, y1, 
-                                                            x2 - x1, y2 - y1);
+        // Check if any vertex of the rectangle is within the selection rectangle
+        if (rect.contains(x1, y1) || rect.contains(x2, y1)
+                || rect.contains(x1, y2) || rect.contains(x2, y2)) {
+            return true;
+        }
 
+        // Check if any edge of the rectangle intersects with the selection rectangle
         boolean topEdge = rect.intersectsLine(x1, y1, x2, y1);
         boolean bottomEdge = rect.intersectsLine(x1, y2, x2, y2);
         boolean leftEdge = rect.intersectsLine(x1, y1, x1, y2);

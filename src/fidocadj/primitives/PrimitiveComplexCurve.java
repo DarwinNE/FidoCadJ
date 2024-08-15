@@ -1170,41 +1170,77 @@ public final class PrimitiveComplexCurve
     }
     
     /**
-     * Determines whether the shape defined by the points in q intersects with
-     * the specified rectangle. This method checks if any part of the actual
-     * drawn segments of the curve intersects the rectangle, ignoring the area
-     * enclosed by the curve.
+     * Determines whether the shape defined by the points in the polygon "q"
+     * intersects with the specified selection rectangle. This method checks
+     * for intersections in two different ways depending on the selection
+     * direction.
      *
-     * @param rect the Rectangle object to check for intersection.
+     * If "isLeftToRightSelection" is true, the method checks if the entire
+     * curve (defined by its points) is fully contained within the selection
+     * rectangle. If all points of the curve are contained,
+     * the method returns true.
+     *
+     * If "isLeftToRightSelection" is false, the method checks for any..
+     * intersections between the rectangle and the segments of the curve. 
+     * It also returns true if any vertex of the curve lies inside the rectangle.
+     *
+     * @param rect the RectangleG object representing the selection rectangle.
      * @param isLeftToRightSelection true if the selection is from left to right
-     * and should consider the entire curve contained within the rectangle.
+     *                               and requires the entire curve to be ..
+     *                               contained within the rectangle for a match.
      *
-     * @return true if any part of the shape intersects the rectangle, 
-     *         false otherwise.
+     * @return true if any part of the curve intersects the rectangle, or if any
+     *              vertex is contained within the rectangle when..
+     *              "isLeftToRightSelection" is false. Otherwise, returns false.
      */
     @Override
     public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection) {
-            return isFullyContained(rect);
-        }
-
-        // Check if any line segment of the shape intersects the rectangle
-        if (q != null) {
-            int[] xpoints = q.getXpoints();
-            int[] ypoints = q.getYpoints();
-            for (int i = 0; i < q.getNpoints() - 1; i++) {
-                if (rect.intersectsLine(xpoints[i], ypoints[i], xpoints[i + 1],
-                        ypoints[i + 1])) {
-                    return true;
+            // Check if all points of the curve are contained..
+            // within the selection rectangle.
+            if (q != null) {
+                int[] xpoints = q.getXpoints();
+                int[] ypoints = q.getYpoints();
+                for (int i = 0; i < q.getNpoints(); i++) {
+                    if (!rect.contains(xpoints[i], ypoints[i])) {
+                        // If even a single point is not contained, return false
+                        return false;
+                    }
                 }
+                // If all points are contained, return true
+                return true;
             }
+        } else {
+            // Check if there is an intersection between the rectangle ..
+            // and the curve's lines.
+            if (q != null) {
+                int[] xpoints = q.getXpoints();
+                int[] ypoints = q.getYpoints();
 
-            // If the shape is closed, check the closing segment
-            if (isClosed && q.getNpoints() > 1) {
-                if (rect.intersectsLine(xpoints[q.getNpoints() - 1],
-                        ypoints[q.getNpoints() - 1], xpoints[0], ypoints[0])) {
-                    return true;
+                // Check if any vertex is inside the selection rectangle
+                for (int i = 0; i < q.getNpoints(); i++) {
+                    if (rect.contains(xpoints[i], ypoints[i])) {
+                        return true;
+                    }
+                }
+
+                // Check intersections between the rectangle ..
+                // and the curve's segments.
+                for (int i = 0; i < q.getNpoints() - 1; i++) {
+                    if (rect.intersectsLine(xpoints[i], ypoints[i],
+                            xpoints[i + 1], ypoints[i + 1])) {
+                        return true;
+                    }
+                }
+
+                // If the curve is closed, also check the closing segment
+                if (isClosed && q.getNpoints() > 1) {
+                    if (rect.intersectsLine(xpoints[q.getNpoints() - 1],
+                            ypoints[q.getNpoints() - 1],
+                            xpoints[0], ypoints[0])) {
+                        return true;
+                    }
                 }
             }
         }
