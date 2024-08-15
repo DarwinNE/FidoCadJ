@@ -326,23 +326,38 @@ public final class PrimitivePCBLine extends GraphicPrimitive
      * Determines whether the line defined by the points in virtualPoint
      * intersects the specified rectangle.
      *
-     * @param rect the Rectangle object to check for intersection.
-     * 
-     * @param isLeftToRightSelection Determine the direction of the selection
+     * If "isLeftToRightSelection" is true, the method checks if the entire line
+     * is fully contained within the rectangle.
      *
-     * @return true if the line intersects the rectangle, false otherwise.
+     * If "isLeftToRightSelection" is false, the method additionally checks if
+     * either endpoint of the line is contained within the rectangle.
+     *
+     * @param rect the Rectangle object to check for intersection.
+     * @param isLeftToRightSelection Determine the direction of the selection.
+     *
+     * @return true if the line intersects the rectangle or if any vertex is
+     * contained within the rectangle when "isLeftToRightSelection" is
+     * false. Otherwise, returns false.
      */
     @Override
-    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) 
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
-        if (isLeftToRightSelection)
-            return isFullyContained(rect);  
-        
+        if (isLeftToRightSelection) {
+            return isFullyContained(rect);
+        }
+
         int x1 = virtualPoint[0].x;
         int y1 = virtualPoint[0].y;
         int x2 = virtualPoint[1].x;
         int y2 = virtualPoint[1].y;
 
+        // Check if either endpoint of the line is within the selection rectangle
+        if (rect.contains(x1, y1) || rect.contains(x2, y2)) {
+            return true;
+        }
+
+        // Check if the line intersects the selection rectangle
         return rect.intersectsLine(x1, y1, x2, y2);
     }
+
 }
