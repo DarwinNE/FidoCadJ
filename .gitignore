@@ -222,3 +222,7 @@ bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$7.class
 bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$8.class
 bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$9.class
 bin/net/sourceforge/fidocadj/dialogs/DialogExport$5.class
+*.class
+/build
+/dist
+/nbproject

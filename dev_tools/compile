@@ -58,16 +58,16 @@ done
 
 case $WHAT_COMPILE in
     applets)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     all)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     FidoCadJ)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java
             ;;
 esac
 
