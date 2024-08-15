@@ -256,6 +256,9 @@ public final class ExportPDF implements ExportInterface, TextInterface
                       getClass().getResourceAsStream("glyphlist.txt"),
                       encoding);
             br = new BufferedReader(isr);
+            if(isr==null) {
+                
+            }
 
             String line = br.readLine();
             String glyph;
@@ -279,11 +282,9 @@ public final class ExportPDF implements ExportInterface, TextInterface
                 line = br.readLine();
             }
         } catch(IOException ee) {
-            System.err.println("We could not access glyphlist.txt. A standard"+
-                " matching of glyphs is attempted.");
-            for(int i=32; i<128; ++i) {
-                unicodeToGlyph.put(Integer.valueOf(i), ""+i);
-            }
+            assignStandardGlyph();
+        } catch(NullPointerException ee) {
+            assignStandardGlyph();
         } finally {
             if (br!=null) {
                 br.close();
@@ -291,6 +292,20 @@ public final class ExportPDF implements ExportInterface, TextInterface
             if (isr!=null) {
                 isr.close();
             }
+        }
+    }
+
+
+    /** This is called when it is impossible to access to glyphlist.txt.
+        In this case, UTF-8 is not mapped and all extended characters will be
+        not rendered correctly.
+    */
+    private void assignStandardGlyph()
+    {
+        System.err.println("We could not access glyphlist.txt. A standard"+
+            " matching of glyphs is attempted.");
+        for(int i=32; i<128; ++i) {
+            unicodeToGlyph.put(Integer.valueOf(i), ""+i);
         }
     }
 
