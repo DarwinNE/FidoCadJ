@@ -324,7 +324,7 @@ It must be used with the action to be accomplished, as an argument:
 Alternatively, you can manually compile with the following
 command, in the main directory:
 
-    javac  -g -O -sourcepath src -classpath bin .\src\FidoMain.java -d bin
+    javac  -g -sourcepath src -classpath bin .\src\fidocadj\FidoMain.java -d bin
 
 To launch the compiled program, you should type:
 
