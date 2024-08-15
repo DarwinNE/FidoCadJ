@@ -10,7 +10,7 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 
 /** Class to handle the rectangle primitive.
 
@@ -419,7 +419,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
      *         intersects the rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect, 
+    public boolean intersects(RectangleG rect, 
                               boolean isLeftToRightSelection) 
     {
         if (isLeftToRightSelection)
@@ -430,7 +430,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
         int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
-        SelectionRectangle primitiveBounds = new SelectionRectangle(x1, y1, 
+        RectangleG primitiveBounds = new RectangleG(x1, y1, 
                                                             x2 - x1, y2 - y1);
 
         boolean topEdge = rect.intersectsLine(x1, y1, x2, y1);

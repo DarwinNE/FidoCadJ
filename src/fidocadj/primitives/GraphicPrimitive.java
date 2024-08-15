@@ -14,7 +14,7 @@ import fidocadj.graphic.DecoratedText;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.DimensionG;
 import fidocadj.graphic.GraphicsInterface;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 
 /** GraphicPrimitive is an abstract class implementing the basic behaviour
     of a graphic primitive, which should be derived from it.
@@ -1176,7 +1176,7 @@ public abstract class GraphicPrimitive
      *         selection, or if any point is within the rectangle for
      *         right-to-left selection.
      */
-    public boolean isFullyContained(SelectionRectangle rect)
+    public boolean isFullyContained(RectangleG rect)
     {
         // Check if all points are fully contained within the rectangle
         for (PointG point : virtualPoint) {
@@ -1199,7 +1199,7 @@ public abstract class GraphicPrimitive
      * @return true if the primitive should be selected based on the selection
      *         criteria, false otherwise.
      */
-    public boolean intersects(SelectionRectangle rect, boolean isLeftToRightSelection)
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
             return isFullyContained(rect);          

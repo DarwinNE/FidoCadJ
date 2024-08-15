@@ -9,7 +9,7 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 
 /** Class to handle the PCB line primitive.
 
@@ -333,7 +333,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
      * @return true if the line intersects the rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect, boolean isLeftToRightSelection) 
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) 
     {
         if (isLeftToRightSelection)
             return isFullyContained(rect);  

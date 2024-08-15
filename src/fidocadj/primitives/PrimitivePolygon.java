@@ -13,7 +13,7 @@ import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointDouble;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.PolygonInterface;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 
 /** Class to handle the Polygon primitive.
 
@@ -605,7 +605,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
      *         false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect,
+    public boolean intersects(RectangleG rect,
                               boolean isLeftToRightSelection)
     {
         // Convert the polygon's points to arrays for easy processing

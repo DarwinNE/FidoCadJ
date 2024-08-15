@@ -4,14 +4,13 @@ import java.util.*;
 
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.geom.MapCoordinates;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 import fidocadj.layers.LayerDesc;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.PrimitiveRectangle;
 import fidocadj.primitives.PrimitiveMacro;
 import fidocadj.primitives.PrimitiveOval;
 
-import java.awt.Rectangle;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
     move actions on a primitive database
@@ -251,7 +250,7 @@ public class HandleActions
                 int xb = Math.max(oldpx, cs.unmapXnosnap(px));
                 int yb = Math.max(oldpy, cs.unmapYnosnap(py));
 
-                SelectionRectangle selectionRect = new SelectionRectangle(xa, ya, xb - xa, yb - ya);
+                RectangleG selectionRect = new RectangleG(xa, ya, xb - xa, yb - ya);
 
                 if (!multiple) {
                     sa.setSelectionAll(false);

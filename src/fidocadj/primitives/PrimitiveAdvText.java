@@ -12,7 +12,7 @@ import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.FontG;
-import fidocadj.graphic.SelectionRectangle;
+import fidocadj.graphic.RectangleG;
 import fidocadj.graphic.nil.GraphicsNull;
 
 /** Class to handle the advanced text primitive.
@@ -739,7 +739,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      *         false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect, 
+    public boolean intersects(RectangleG rect, 
             boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
@@ -752,7 +752,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         int textWidth = g.getStringWidth(txt);
         int textHeight = g.getFontAscent() + g.getFontDescent();
 
-        SelectionRectangle textBounds = new SelectionRectangle(
+        RectangleG textBounds = new RectangleG(
                 virtualPoint[0].x, 
                 virtualPoint[0].y - textHeight, textWidth, textHeight);
 

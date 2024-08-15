@@ -14,8 +14,7 @@ import fidocadj.graphic.PointG;
 import fidocadj.graphic.PolygonInterface;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.PointDouble;
-import fidocadj.graphic.SelectionRectangle;
-import java.awt.Rectangle;
+import fidocadj.graphic.RectangleG;
 
 /** Class to handle the ComplexCurve primitive.
 
@@ -1184,7 +1183,7 @@ public final class PrimitiveComplexCurve
      *         false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect, boolean isLeftToRightSelection)
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection) {
             return isFullyContained(rect);

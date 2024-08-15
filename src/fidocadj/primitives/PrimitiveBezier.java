@@ -14,7 +14,6 @@ import fidocadj.graphic.LineSegment;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.RectangleG;
-import fidocadj.graphic.SelectionRectangle;
 
 /** Class to handle the Bézier primitive.
 
@@ -520,7 +519,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
      *         the Bézier curve, false otherwise.
      */
     @Override
-    public boolean intersects(SelectionRectangle rect, boolean isLeftToRightSelection) {
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) {
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
         }
