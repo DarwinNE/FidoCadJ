@@ -3,4 +3,4 @@
 jpackage_command=/Users/davidebucci/Desktop/Perso/jdk-14.0.1.jdk/Contents/Home/bin/jpackage
 
 ./dev_tools/createjar
-$jpackage_command -i jar/ -n FidoCadJ --icon FidoCadJ.icns  --copyright "Davide Bucci and many others"   --description "A multiplatform vector drawing software" --main-class net.sourceforge.fidocadj.FidoMain   --app-version 0.24.8 --main-jar fidocadj.jar
+$jpackage_command -i jar/ -n FidoCadJ --icon FidoCadJ.icns  --copyright "Davide Bucci and many others"   --description "A multiplatform vector drawing software" --main-class fidocadj.FidoMain   --app-version 0.24.8 --main-jar fidocadj.jar
