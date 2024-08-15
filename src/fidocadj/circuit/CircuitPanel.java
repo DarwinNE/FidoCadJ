@@ -81,6 +81,9 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     // Draw the grid
     private boolean isGridVisible;
+    
+    // Selection direction
+    private boolean isLeftToRight;
 
     // Default background color
     private Color backgroundColor;
@@ -170,6 +173,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         antiAlias = true;
         record = 1e100;
         evidenceRect = new Rectangle(0, 0, -1, -1);
+        
+        isLeftToRight = false;
 
         // Set up the standard view settings:
         // top left corner, 400% zoom.
@@ -572,27 +577,19 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
         // Draw the handles of all selected primitives.
         drawingAgent.drawSelectedHandles(graphicSwing, mapCoordinates);
-
+                       
+        if (this.isLeftToRight) {
+            this.selectionColor = Color.BLUE;
+            float dash1[] = {3.0f};
+            BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
+                                                 BasicStroke.JOIN_MITER,
+                                                 10.0f, dash1, 0.0f);
+            g2.setStroke(dashed);
+        } else {
+            this.selectionColor = Color.GREEN;
+            g2.setStroke(new BasicStroke(1));
+        }
         // If an evidence rectangle is active, draw it.
-        g.setColor(editingColor.getColorSwing());
-        g2.setStroke(new BasicStroke(1));
-        /*
-         * float dash1[] = {3.0f};
-         * BasicStroke dashed =
-         * new BasicStroke(2.0f,
-         * BasicStroke.CAP_BUTT,
-         * BasicStroke.JOIN_MITER,
-         * 10.0f, dash1, 0.0f);
-         * g2.setStroke(dashed); */
- /*
-         * if(evidenceRect!=null && eea.actionSelected ==
-         * ElementsEdtActions.SELECTION) {
-         * g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,
-         * evidenceRect.height);
-         * } else {
-         * evidenceRect = null;
-         * }
-         */
         if (evidenceRect != null
                 && continuosMoveActions.actionSelected ==
                 ElementsEdtActions.SELECTION) {
@@ -602,8 +599,6 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         } else {
             evidenceRect = null;
         }
-
-        g2.setStroke(new BasicStroke(1));
 
         // If there is a primitive or a macro being edited, draws it.
         continuosMoveActions.drawPrimEdit(graphicSwing, mapCoordinates);
@@ -958,10 +953,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      */
     public void isLeftToRightSelection(boolean isLeftToRight)
     {
-        if(isLeftToRight) {
-            this.selectionColor = Color.BLUE;
-        } else {
-            this.selectionColor = Color.GREEN;
-        }
+        this.isLeftToRight = isLeftToRight;
+        // Force the redraw when the selection direction changes.
+        this.repaint();
     }
 }
