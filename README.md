@@ -217,7 +217,7 @@ FidoCadJ source files.
 2.2 Important classes
 ----------------------------------------------------------------------
 
-Important classes in `src/net/sourceforge/fidocadj/` are:
+Important classes in `src/fidocadj/` are:
 
 | Path                        | Description                     |
 | --------------------------- | ------------------------------- |

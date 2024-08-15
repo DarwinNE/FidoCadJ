@@ -1,2 +1,2 @@
-Main-Class: net.sourceforge.fidocadj.FidoMain
+Main-Class: fidocadj.FidoMain
 
