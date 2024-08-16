@@ -739,23 +739,46 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      *         false otherwise.
      */
     @Override
-    public boolean intersects(RectangleG rect, 
-            boolean isLeftToRightSelection)
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
-        if (isLeftToRightSelection)
-            return isFullyContained(rect);  
-        
+        if (isLeftToRightSelection) {
+            return isFullyContained(rect);
+        }
+
         GraphicsNull g = new GraphicsNull();
-        g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5), 
+        g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5),
                 (sty & TEXT_ITALIC) != 0, (sty & TEXT_BOLD) != 0);
 
         int textWidth = g.getStringWidth(txt);
         int textHeight = g.getFontAscent() + g.getFontDescent();
 
-        RectangleG textBounds = new RectangleG(
-                virtualPoint[0].x, 
-                virtualPoint[0].y - textHeight, textWidth, textHeight);
+        double angleRad = Math.toRadians(o);
+        double sin = Math.sin(angleRad);
+        double cos = Math.cos(angleRad);
 
-        return rect.intersects(textBounds);
+        int x = virtualPoint[0].x;
+        int y = virtualPoint[0].y;
+
+        int x1 = x;
+        int y1 = y - textHeight;
+
+        int x2 = x + (int) (textWidth * cos);
+        int y2 = y - (int) (textWidth * sin);
+
+        int x3 = x + (int) (textWidth * cos - textHeight * sin);
+        int y3 = y - (int) (textWidth * sin + textHeight * cos);
+
+        int x4 = x - (int) (textHeight * sin);
+        int y4 = y - (int) (textHeight * cos);
+
+        int minX = Math.min(Math.min(x1, x2), Math.min(x3, x4));
+        int minY = Math.min(Math.min(y1, y2), Math.min(y3, y4));
+        int maxX = Math.max(Math.max(x1, x2), Math.max(x3, x4));
+        int maxY = Math.max(Math.max(y1, y2), Math.max(y3, y4));
+
+        RectangleG boundingBox = new RectangleG(minX, minY, maxX - minX,
+                maxY - minY);
+
+        return rect.intersects(boundingBox);
     }
 }
