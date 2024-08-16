@@ -37,7 +37,7 @@ import fidocadj.primitives.PrimitiveMacro;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2023 by Davide Bucci
+    Copyright 2014-2024 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -75,6 +75,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
         coordinatesListener=c;
     }
 
+    /** Get the listener to be called when the coordinates of the mouse
+        cursor are changed
+        @return the coordinates listener
+    */
+    public ChangeCoordinatesListener getChangeCoordinatesListener()
+    {
+        System.out.println("Here we are! "+coordinatesListener);
+        return coordinatesListener;
+    }
+
     /** Handle a continuous move of the pointer device. It can be the result
         of a mouse drag for a rectangular selection, or a component move.
         @param cs the coordinate mapping which should be used
@@ -110,8 +120,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
         }
 
         boolean toRepaint=false;
-        // This is the newer code: if primEdit is different from null,
-        // it will be drawn in the paintComponent event
+        // If primEdit is different from null, it will be drawn in the
+        // paintComponent event.
         // We need to differentiate this case since when we are entering a
         // macro, primEdit contains some useful hints about the orientation
         // and the mirroring

@@ -23,6 +23,7 @@ import fidocadj.circuit.controllers.ContinuosMoveActions;
 import fidocadj.circuit.controllers.SelectionActions;
 import fidocadj.circuit.controllers.PrimitivesParInterface;
 import fidocadj.circuit.controllers.ElementsEdtActions;
+import fidocadj.circuit.controllers.HandleActions;
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.circuit.views.Drawing;
 import fidocadj.clipboard.TextTransfer;
@@ -32,6 +33,7 @@ import fidocadj.graphic.swing.Graphics2DSwing;
 import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.geom.DrawingSize;
+import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most
@@ -115,6 +117,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     private ParserActions parserActions;
     private UndoActions undoActions;
     private ContinuosMoveActions continuosMoveActions;
+    private HandleActions handleActions;
     private SelectionActions selectionActions;
 
     // ********** PROFILING **********
@@ -314,6 +317,16 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         scrollGestureSelectionListener = c;
     }
 
+    /** Define the listener to be called when the coordinates of the mouse
+        cursor are changed
+        @param c the new coordinates listener
+    */
+    public void addChangeCoordinatesListener(ChangeCoordinatesListener c)
+    {
+        continuosMoveActions.addChangeCoordinatesListener(c);
+        handleActions.addChangeCoordinatesListener(c);
+        
+    }
     /** Return the current editing layer.
      *
      * @return the index of the layer.
@@ -734,6 +747,9 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                 undoActions);
         continuosMoveActions = new ContinuosMoveActions(drawingModel,
                 selectionActions, undoActions, editorActions);
+        
+        handleActions = new HandleActions(getDrawingModel(), getEditorActions(),
+            getSelectionActions(), getUndoActions());
         drawingAgent = new Drawing(drawingModel);
         continuosMoveActions.setPrimitivesParListener(this);
         copyPasteActions = new CopyPasteActions(drawingModel, editorActions,
@@ -794,6 +810,17 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         return continuosMoveActions;
     }
+
+
+    /** Get the current instance of HandleActions controller class
+     *
+     * @return the class
+     */
+    public HandleActions getHandleActions()
+    {
+        return handleActions;
+    }
+
 
     /** Shows a dialog which allows the user modify the parameters of a given
      * primitive. If more than one primitive is selected, modify only the

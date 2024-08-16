@@ -58,8 +58,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         cp=p;
         edt=cp.getEditorActions();
         eea=cp.getContinuosMoveActions();
-        haa=new HandleActions(cp.getDrawingModel(), edt,
-            cp.getSelectionActions(), cp.getUndoActions());
+        haa=cp.getHandleActions();
         record_c=record_d=1e100;
     }
 

@@ -565,9 +565,7 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.addChangeZoomListener(toolZoom);
         circuitPanel.addChangeSelectionListener(toolBar);
-
-        circuitPanel.getContinuosMoveActions()
-                .addChangeCoordinatesListener(toolZoom);
+        circuitPanel.addChangeCoordinatesListener(toolZoom);
         
         toolZoom.addChangeZoomListener(circuitPanel);
 
