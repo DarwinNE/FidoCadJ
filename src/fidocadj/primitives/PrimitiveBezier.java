@@ -505,7 +505,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
     {
         return 5;
     }
-   
+
     /**
      * Checks if the Bézier curve intersects with the given selection rectangle.
      * This method determines if the rectangle intersects with the actual drawn
@@ -520,12 +520,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
      * @param rect the selection rectangle.
      * @param isLeftToRightSelection if true, checks if the rectangle fully ..
      *                               contains the Bézier curve ..
-     *                               (for left-to-right selections). 
+     *                               (for left-to-right selections).
      *                               If so, it returns true.
      *
      * @return true if the rectangle intersects the drawn part of the Bézier..
      *              curve, or if any vertex is contained within the rectangle..
-     *              when "isLeftToRightSelection" is false. 
+     *              when "isLeftToRightSelection" is false.
      *              Otherwise, returns false.
      */
     @Override
@@ -545,7 +545,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         // Number of segments to approximate the Bézier curve
         final int segments = 100;
-        double[] previousPoint = new double[]{virtualPoint[0].x, virtualPoint[0].y};
+        double[] previousPoint = new double[]{virtualPoint[0].x,
+            virtualPoint[0].y};
 
         // Subdivide the Bézier curve into small segments
         for (int i = 1; i <= segments; i++) {

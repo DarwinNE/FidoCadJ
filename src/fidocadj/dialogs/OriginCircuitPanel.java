@@ -82,7 +82,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     {
         return dy;
     }
-    
+
     /** Get the x coordinates of the origin in logical units.
      * @return the x coordinate of the origin in logical units.
     */
@@ -98,7 +98,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     {
         return yl;
     }
-    
+
     /** Set the x coordinates of the origin in logical units.
      * @param xl coordinates of the origin in logical units.
     */

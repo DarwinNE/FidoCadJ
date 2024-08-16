@@ -591,7 +591,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
     {
         return nPoints+1;
     }
-    
+
     /**
      * Checks if the polygon intersects with the given selection rectangle.
      * This method determines if any part of the polygon intersects with the
@@ -601,7 +601,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
      * @param isLeftToRightSelection if true, checks if the rectangle fully
      * contains the polygon (for left-to-right selections).
      *
-     * @return true if the rectangle intersects with any part of the polygon, 
+     * @return true if the rectangle intersects with any part of the polygon,
      *         false otherwise.
      */
     @Override
@@ -637,7 +637,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
                 }
             }
 
-            /* Check if any edge of the polygon 
+            /* Check if any edge of the polygon
                intersects with the rectangle's edges
              */
             for (int i = 0; i < nPoints; i++) {
@@ -656,7 +656,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
                             rect.getX(), rect.getY() + rect.getHeight())
                     && GeometricDistances.pointInPolygon(xp, yp, nPoints,
                             rect.getX() + rect.getWidth(),
-                            rect.getY() + rect.getHeight())) {
+                            rect.getY() + rect.getHeight()))
+            {
                 return true;
             }
         }

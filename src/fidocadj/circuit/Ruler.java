@@ -108,9 +108,9 @@ public class Ruler
 
         // Calculates the ruler length.
         length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
-        
+
         g.setColor(Color.GREEN);
-        
+
         g.drawLine(sx, sy, ex, ey);
 
         // A little bit of trigonometry :-)

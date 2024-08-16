@@ -81,7 +81,7 @@ public interface PrimitivesParInterface
     void setEvidenceRect(int lx, int ly, int w, int h);
 
     /** Determine the direction of the selection.
-     
+
         @param isLeftToRight True if the direction is from left to right..
                              False if it is from right to left.
      */

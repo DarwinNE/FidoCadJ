@@ -402,7 +402,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     {
         return 3;
     }
-    
+
     /**
      * Determines whether the rectangle defined by the points in virtualPoint
      * intersects any of the edges of the specified selection rectangle.
@@ -421,7 +421,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
      *
      * @return true if any part of the rectangle intersects the selection..
      *              rectangle, or if any vertex is contained within the ..
-     *              selection rectangle when isLeftToRightSelection is false. 
+     *              selection rectangle when isLeftToRightSelection is false.
      *              Otherwise, returns false.
      */
     @Override
@@ -436,13 +436,16 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
         int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
-        // Check if any vertex of the rectangle is within the selection rectangle
+        // Check if any vertex of the rectangle is within the selection
+        // rectangle
         if (rect.contains(x1, y1) || rect.contains(x2, y1)
-                || rect.contains(x1, y2) || rect.contains(x2, y2)) {
+                || rect.contains(x1, y2) || rect.contains(x2, y2))
+        {
             return true;
         }
 
-        // Check if any edge of the rectangle intersects with the selection rectangle
+        // Check if any edge of the rectangle intersects with the selection
+        // rectangle
         boolean topEdge = rect.intersectsLine(x1, y1, x2, y1);
         boolean bottomEdge = rect.intersectsLine(x1, y2, x2, y2);
         boolean leftEdge = rect.intersectsLine(x1, y1, x1, y2);

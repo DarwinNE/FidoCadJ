@@ -6,11 +6,13 @@ import java.awt.*;
 import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.swing.ColorSwing;
 
-/** 
+/**
  * LayerRenderer.java
- * 
- * This class defines a custom renderer for displaying layers in a JList within FidoCadJ.
- * It handles the visual representation of each layer, including its color, visibility, and name.
+ *
+ * This class defines a custom renderer for displaying layers in a JList
+ * within FidoCadJ.
+ * It handles the visual representation of each layer, including its color,
+ * visibility, and name.
  *
  * <pre>
  * This file is part of FidoCadJ.
@@ -34,8 +36,8 @@ import fidocadj.graphic.swing.ColorSwing;
  *
  * @author Manuel Finessi
  */
-public class LayerCellRenderer extends JPanel implements 
-                                                ListCellRenderer<LayerDesc> 
+public class LayerCellRenderer extends JPanel implements
+                                                ListCellRenderer<LayerDesc>
 {
     private JLabel colorLabel;
     private JLabel visibilityLabel;
@@ -52,10 +54,10 @@ public class LayerCellRenderer extends JPanel implements
         colorLabel = new JLabel();
         visibilityLabel = new JLabel();
         nameLabel = new JLabel();
-        
+
         visibleIcon = new ImageIcon(
                 getClass().getResource("/icons/layer-on.png"));
-        
+
         invisibleIcon = new ImageIcon(
                 getClass().getResource("/icons/layer-off.png"));
 
@@ -76,25 +78,25 @@ public class LayerCellRenderer extends JPanel implements
      */
     @Override
     public Component getListCellRendererComponent(
-            JList<? extends LayerDesc> list, LayerDesc layer, 
-            int index, boolean isSelected, boolean cellHasFocus) 
+            JList<? extends LayerDesc> list, LayerDesc layer,
+            int index, boolean isSelected, boolean cellHasFocus)
     {
         colorLabel.setOpaque(true);
-        
+
         ColorSwing color=(ColorSwing) layer.getColor();
-        
+
         colorLabel.setBackground(color.getColorSwing());
         colorLabel.setPreferredSize(new Dimension(25, ICON_SIZE));
 
         visibilityLabel.setIcon(
                 layer.getVisible() ? visibleIcon : invisibleIcon);
-        
+
         visibilityLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
         nameLabel.setText(layer.getDescription());
         nameLabel.setForeground(Color.BLACK);
-        
-        if (!layer.getVisible()) 
+
+        if (!layer.getVisible())
             nameLabel.setForeground(SystemColor.textInactiveText);
 
         if (isSelected) {

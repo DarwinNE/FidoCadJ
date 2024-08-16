@@ -351,7 +351,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         int x2 = virtualPoint[1].x;
         int y2 = virtualPoint[1].y;
 
-        // Check if either endpoint of the line is within the selection rectangle
+        // Check if either endpoint of the line is within the selection
+        // rectangle
         if (rect.contains(x1, y1) || rect.contains(x2, y2)) {
             return true;
         }

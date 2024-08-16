@@ -1165,7 +1165,7 @@ public abstract class GraphicPrimitive
         }
         return sb;
     }
-    
+
     /**
      * Determines if the virtual points are fully contained within the specified
      * rectangle based on the selection direction.
@@ -1187,7 +1187,7 @@ public abstract class GraphicPrimitive
         return true; // All points are contained
     }
 
-    
+
     /**
      * Determines whether the primitive is contained within or intersects with
      * the specified rectangle, depending on the selection direction.
@@ -1202,7 +1202,7 @@ public abstract class GraphicPrimitive
     public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
-            return isFullyContained(rect);          
+            return isFullyContained(rect);
 
         for (PointG point : virtualPoint) {
             if (rect.contains(point.x, point.y)) {

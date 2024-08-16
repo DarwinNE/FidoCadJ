@@ -6,7 +6,7 @@ if [ "$1" = "" ]; then
   exit 1
 fi
 
-java -jar $1 -c rules.xml ../src/net/sourceforge/fidocadj/**/*  ../src/net/sourceforge/fidocadj/* >fidocadj_check.txt
+java -jar $1 -c rules.xml ../src/fidocadj/**/*  ../src/fidocadj/* >fidocadj_check.txt
 
 echo "Checkstyle results stored in fidocadj_check.txt"
 echo "lines on fidocadj_check.txt"

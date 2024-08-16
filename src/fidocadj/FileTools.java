@@ -239,10 +239,10 @@ public class FileTools
             return false;
         } else {
             fff.circuitPanel.getParserActions().openFileName
-            = Globals.createCompleteFileName(din, fin);
+                = Globals.createCompleteFileName(din, fin);
 
             fff.circuitPanel.getParserActions().openFileName
-            = Globals.adjustExtension(
+                = Globals.adjustExtension(
                     fff.circuitPanel.getParserActions().openFileName,
                     Globals.DEFAULT_EXTENSION);
 

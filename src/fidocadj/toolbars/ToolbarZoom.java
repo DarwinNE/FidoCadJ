@@ -59,7 +59,7 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
 
     private final JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
-    
+
     private FidoFrame fidoFrame;
 
     /** Standard constructor

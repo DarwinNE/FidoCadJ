@@ -384,7 +384,7 @@ public final class PrimitiveOval extends GraphicPrimitive
     {
         return 3;
     }
-    
+
     /**
      * Determines whether the oval defined by the points in virtualPoint
      * intersects with the specified rectangle.
@@ -395,24 +395,24 @@ public final class PrimitiveOval extends GraphicPrimitive
      * rectangle.
      *
      * @param rect the Rectangle object to check for intersection.
-     * 
+     *
      * @param isLeftToRightSelection Determine the direction of the selection
      *
      * @return true if any point on the edge of the oval intersects the
      *         rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(RectangleG rect, 
+    public boolean intersects(RectangleG rect,
                               boolean isLeftToRightSelection)
     {
         if (isLeftToRightSelection)
-            return isFullyContained(rect);  
-        
+            return isFullyContained(rect);
+
         int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
         int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
         int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
-        
+
         RectangleG ovalBounds = new RectangleG(
                                                 x1, y1, x2 - x1, y2 - y1);
         if (rect.intersects(ovalBounds)) {
@@ -422,12 +422,13 @@ public final class PrimitiveOval extends GraphicPrimitive
             int b = (y2 - y1) / 2;
 
             for (int i = rect.getX(); i <= rect.getX() + rect.getWidth(); i++) {
-                for (int j = rect.getY(); j <= 
+                for (int j = rect.getY(); j <=
                         rect.getY() + rect.getHeight(); j++) {
                     double normalizedX = (double) (i - centerX) / a;
                     double normalizedY = (double) (j - centerY) / b;
-                    if (Math.abs(normalizedX * normalizedX + 
-                                 normalizedY * normalizedY - 1) < 0.05) {
+                    if (Math.abs(normalizedX * normalizedX +
+                                 normalizedY * normalizedY - 1) < 0.05)
+                    {
                         return true;
                     }
                 }

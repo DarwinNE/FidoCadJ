@@ -218,8 +218,10 @@ public final class DialogSymbolize extends MinimumSizeDialog
                     cpanel.setLx(cpanel.getMapCoordinates().unmapXnosnap(x));
                     cpanel.setLy(cpanel.getMapCoordinates().unmapYnosnap(y));
                 }
-                x=cpanel.getMapCoordinates().mapXi(cpanel.getLx(),cpanel.getLy(),false);
-                y=cpanel.getMapCoordinates().mapYi(cpanel.getLx(),cpanel.getLy(),false);
+                x=cpanel.getMapCoordinates().mapXi(
+                    cpanel.getLx(),cpanel.getLy(),false);
+                y=cpanel.getMapCoordinates().mapYi(
+                    cpanel.getLx(),cpanel.getLy(),false);
                 cpanel.setDx(x);
                 cpanel.setDy(y);
                 cpanel.repaint();

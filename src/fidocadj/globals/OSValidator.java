@@ -3,7 +3,7 @@ package fidocadj.globals;
 
 /** OSValidator.java
  * Utility class for detecting the current operating system.
- * 
+ *
  * This class provides static methods to determine if the operating system
  * is Windows, macOS, Unix/Linux, or Solaris. The OS name is retrieved
  * from the system properties when the class is loaded.
@@ -34,7 +34,7 @@ public final class OSValidator
 {
 
     /**
-     * The name of the operating system, 
+     * The name of the operating system,
      * converted to lowercase for easy comparison.
      *
      * <p>

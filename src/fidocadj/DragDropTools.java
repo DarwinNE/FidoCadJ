@@ -171,14 +171,16 @@ public class DragDropTools implements DropTargetListener
                             if (k>=0) {
                                 FidoFrame popFrame;
 
-                                if(fff.circuitPanel.getUndoActions().getModified()) {
+                                if(fff.circuitPanel.getUndoActions().
+                                    getModified())
+                                {
                                     popFrame=fff.createNewInstance();
                                 } else {
                                     popFrame=fff;
                                 }
 
-                                popFrame.circuitPanel.getParserActions().openFileName =
-                                    line.substring(k+7);
+                                popFrame.circuitPanel.getParserActions().
+                                    openFileName = line.substring(k+7);
 
                                 // Deprecated! It should indicate the encoding,
                                 // but WE WANT the encoding using being the
@@ -186,7 +188,8 @@ public class DragDropTools implements DropTargetListener
                                 // deprecated, but it is the correct behaviour,
                                 // here.
 
-                                popFrame.circuitPanel.getParserActions().openFileName =
+                                popFrame.circuitPanel.getParserActions().
+                                    openFileName =
                                     java.net.URLDecoder.decode(
                                     popFrame.circuitPanel.getParserActions().
                                     openFileName);
@@ -194,8 +197,10 @@ public class DragDropTools implements DropTargetListener
                                 // After we set the current file name, we just
                                 // open it.
                                 popFrame.getFileTools().openFile();
-                                popFrame.circuitPanel.getUndoActions().saveUndoState();
-                                popFrame.circuitPanel.getUndoActions().setModified(false);
+                                popFrame.circuitPanel.getUndoActions().
+                                    saveUndoState();
+                                popFrame.circuitPanel.getUndoActions().
+                                    setModified(false);
                                 break;
                             }
                             line = in.readLine();

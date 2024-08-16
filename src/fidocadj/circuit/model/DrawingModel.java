@@ -333,7 +333,7 @@ public final class DrawingModel
     {
         return getPrimitiveVector().isEmpty();
     }
-        
+
     /** Returns changed state
         @return changed state.
     */

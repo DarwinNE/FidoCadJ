@@ -115,20 +115,20 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
         fileNew.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/new.png")));
-        
+
         JMenuItem fileOpen = new JMenuItem(Globals.messages.getString("Open"));
         fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
             Globals.shortcutKey));
         fileOpen.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/open.png")));
-        
+
         JMenuItem fileSave = new
             JMenuItem(Globals.messages.getString("Save"));
         fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Globals.shortcutKey));
         fileSave.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/save.png")));
-        
+
         JMenuItem fileSaveName = new
             JMenuItem(Globals.messages.getString("SaveName"));
         fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
@@ -265,7 +265,7 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
         editPaste.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/paste.png")));
-        
+
         JMenuItem clipboardCircuit = new
             JMenuItem(Globals.messages.getString("DefineClipboard"));
         clipboardCircuit.setIcon(new ImageIcon(
@@ -418,7 +418,7 @@ public class MenuTools implements MenuListener
             JMenuItem(Globals.messages.getString("About_menu"));
         aboutMenu.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/info.png")));
-        
+
         about.add(aboutMenu);
 
         aboutMenu.addActionListener(al);

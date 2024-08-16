@@ -257,7 +257,7 @@ public final class ExportPDF implements ExportInterface, TextInterface
                       encoding);
             br = new BufferedReader(isr);
             if(isr==null) {
-                
+
             }
 
             String line = br.readLine();

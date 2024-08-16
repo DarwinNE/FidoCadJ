@@ -126,7 +126,8 @@ public final class FidoMain
     private static void applyOptimizationSettings(CommandLineParser clp)
     {
         if (!clp.getStripOptimization()
-                && OSValidator.isMac()) {
+                && OSValidator.isMac())
+        {
             // CAREFUL**************************************************
             // In all MacOSX systems I tried, this greatly increases the
             // redrawing speed. *HOWEVER* the default value for Java 1.6
@@ -167,7 +168,8 @@ public final class FidoMain
             boolean splitLayers)
     {
         if (!Globals.checkExtension(clp.getOutputFile(),
-                clp.getExportFormat()) && !clp.getForceMode()) {
+                clp.getExportFormat()) && !clp.getForceMode())
+        {
             System.err.println(
                     "File extension is not coherent with the "
                     + "export output format! Use -f to skip this test.");
@@ -235,7 +237,8 @@ public final class FidoMain
     {
         pa.loadLibraryDirectory(libDirectory);
         if (new File(Globals.createCompleteFileName(
-                libDirectory, "IHRAM.FCL")).exists()) {
+                libDirectory, "IHRAM.FCL")).exists())
+        {
             System.out.println("IHRAM library got from external file");
         } else {
             if (englishLibraries) {
@@ -261,7 +264,8 @@ public final class FidoMain
             ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-                libDirectory, "FCDstdlib.fcl")).exists()) {
+                libDirectory, "FCDstdlib.fcl")).exists())
+        {
             System.out.println("Standard library got from external file");
         } else {
             if (englishLibraries) {
@@ -287,7 +291,8 @@ public final class FidoMain
             ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-                libDirectory, "PCB.fcl")).exists()) {
+                libDirectory, "PCB.fcl")).exists())
+        {
             System.out.println("Standard PCB library got from external file");
         } else {
             if (englishLibraries) {
@@ -316,7 +321,8 @@ public final class FidoMain
          * System.out.println("EY library is only available in english");
          * } */
         if (new File(Globals.createCompleteFileName(
-                libDirectory, "EY_Libraries.fcl")).exists()) {
+                libDirectory, "EY_Libraries.fcl")).exists())
+        {
             System.out.println("Standard EY_Libraries got from external file");
         } else {
             pa.loadLibraryInJar(FidoFrame.class.getResource(
@@ -337,7 +343,8 @@ public final class FidoMain
             ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-                libDirectory, "elettrotecnica.fcl")).exists()) {
+                libDirectory, "elettrotecnica.fcl")).exists())
+        {
             System.out.println(
                     "Electrotechnics library got from external file");
         } else {

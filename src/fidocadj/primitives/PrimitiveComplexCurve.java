@@ -1168,7 +1168,7 @@ public final class PrimitiveComplexCurve
     {
         return nPoints+1;
     }
-    
+
     /**
      * Determines whether the shape defined by the points in the polygon "q"
      * intersects with the specified selection rectangle. This method checks
@@ -1181,8 +1181,9 @@ public final class PrimitiveComplexCurve
      * the method returns true.
      *
      * If "isLeftToRightSelection" is false, the method checks for any..
-     * intersections between the rectangle and the segments of the curve. 
-     * It also returns true if any vertex of the curve lies inside the rectangle.
+     * intersections between the rectangle and the segments of the curve.
+     * It also returns true if any vertex of the curve lies inside the
+     * rectangle.
      *
      * @param rect the RectangleG object representing the selection rectangle.
      * @param isLeftToRightSelection true if the selection is from left to right
@@ -1229,7 +1230,8 @@ public final class PrimitiveComplexCurve
                 // and the curve's segments.
                 for (int i = 0; i < q.getNpoints() - 1; i++) {
                     if (rect.intersectsLine(xpoints[i], ypoints[i],
-                            xpoints[i + 1], ypoints[i + 1])) {
+                            xpoints[i + 1], ypoints[i + 1]))
+                    {
                         return true;
                     }
                 }
@@ -1238,7 +1240,8 @@ public final class PrimitiveComplexCurve
                 if (isClosed && q.getNpoints() > 1) {
                     if (rect.intersectsLine(xpoints[q.getNpoints() - 1],
                             ypoints[q.getNpoints() - 1],
-                            xpoints[0], ypoints[0])) {
+                            xpoints[0], ypoints[0]))
+                    {
                         return true;
                     }
                 }

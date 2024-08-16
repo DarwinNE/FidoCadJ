@@ -83,7 +83,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     // Draw the grid
     private boolean isGridVisible;
-    
+
     // Selection direction
     private boolean isLeftToRight;
 
@@ -176,7 +176,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         antiAlias = true;
         record = 1e100;
         evidenceRect = new Rectangle(0, 0, -1, -1);
-        
+
         isLeftToRight = false;
 
         // Set up the standard view settings:
@@ -213,7 +213,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                 public void mouseMoved(MouseEvent e)
                 {
                     if (continuosMoveActions.isEnteringMacro()
-                            && !isFocusOwner()) {
+                        && !isFocusOwner())
+                    {
                         requestFocus();
                     }
                 }
@@ -265,7 +266,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     public void setSelectionState(int s, String macro)
     {
         if (selectionListener != null &&
-                s != continuosMoveActions.actionSelected) {
+                s != continuosMoveActions.actionSelected)
+        {
             selectionListener.setSelectionState(s, macro);
             selectionListener.setStrictCompatibility(extStrict);
         }
@@ -325,7 +327,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         continuosMoveActions.addChangeCoordinatesListener(c);
         handleActions.addChangeCoordinatesListener(c);
-        
+
     }
     /** Return the current editing layer.
      *
@@ -590,7 +592,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
         // Draw the handles of all selected primitives.
         drawingAgent.drawSelectedHandles(graphicSwing, mapCoordinates);
-                       
+
         if (this.isLeftToRight) {
             this.selectionColor = Color.BLUE;
             float dash1[] = {3.0f};
@@ -605,7 +607,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // If an evidence rectangle is active, draw it.
         if (evidenceRect != null
                 && continuosMoveActions.actionSelected ==
-                ElementsEdtActions.SELECTION) {
+                ElementsEdtActions.SELECTION)
+        {
             g.setColor(selectionColor);
             g.drawRect(evidenceRect.x, evidenceRect.y,
                     evidenceRect.width, evidenceRect.height);
@@ -747,7 +750,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                 undoActions);
         continuosMoveActions = new ContinuosMoveActions(drawingModel,
                 selectionActions, undoActions, editorActions);
-        
+
         handleActions = new HandleActions(getDrawingModel(), getEditorActions(),
             getSelectionActions(), getUndoActions());
         drawingAgent = new Drawing(drawingModel);
@@ -974,7 +977,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     }
 
     /** Determine the direction of the selection.
-     
+
         @param isLeftToRight True if the direction is from left to right..
                              False if it is from right to left.
      */

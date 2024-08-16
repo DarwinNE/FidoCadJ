@@ -72,7 +72,7 @@ public class HandleActions
     // Other old cursor position for handle drag...
     private int oldpx;
     private int oldpy;
-    
+
     private boolean isLeftToRightSelection;
 
 
@@ -257,14 +257,14 @@ public class HandleActions
                 if(!multiple) { sa.setSelectionAll(false); }
                 edt.selectRect(xa, ya, xb-xa, yb-ya);
             }*/
-            
+
             if (handleBeingDragged == GraphicPrimitive.RECT_SELECTION) {
                 int xa = Math.min(oldpx, cs.unmapXnosnap(px));
                 int ya = Math.min(oldpy, cs.unmapYnosnap(py));
                 int xb = Math.max(oldpx, cs.unmapXnosnap(px));
                 int yb = Math.max(oldpy, cs.unmapYnosnap(py));
 
-                RectangleG selectionRect = new RectangleG(xa, ya, 
+                RectangleG selectionRect = new RectangleG(xa, ya,
                     xb - xa, yb - ya);
 
                 if (!multiple) {
@@ -278,7 +278,7 @@ public class HandleActions
                 }
             }
 
-            
+
             // Test if we are anyway dragging an entire primitive
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE &&
                 hasMoved && ua!=null)
@@ -317,9 +317,9 @@ public class HandleActions
                 int ya = cs.mapYi(oldpx, oldpy, false);
                 int xb = opx;
                 int yb = opy;
-                
+
                 isLeftToRightSelection = xb >= xa;
-                
+
                 editorObject.isLeftToRightSelection(isLeftToRightSelection);
                 if(coordinatesListener!=null) {
                     if(isLeftToRightSelection) {
@@ -332,8 +332,6 @@ public class HandleActions
                     }
                 }
 
-                //    Globals.messages.getString()
-                    
                 if(opx>xa && px<xa) {
                     flip=true;
                 }

@@ -546,7 +546,8 @@ public class MacroTree extends JPanel
         LibraryListener l = new LibraryListenerAdapter() {
             public void libraryLoaded()
             {
-                previewPanel.getDrawingModel().setLibrary(libraryModel.getAllMacros());
+                previewPanel.getDrawingModel().
+                    setLibrary(libraryModel.getAllMacros());
             }
         };
         libraryModel.addLibraryListener(l);

@@ -121,11 +121,11 @@ public class PopUpMenu implements ActionListener
         editCut = new JMenuItem(Globals.messages.getString("Cut"));
         editCut.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/cut.png")));
-        
+
         editCopy = new JMenuItem(Globals.messages.getString("Copy"));
         editCopy.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/copy.png")));
-        
+
         editSelectAll = new JMenuItem(Globals.messages.getString("SelectAll"));
         editSelectAll.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/select_all.png")));
@@ -133,15 +133,15 @@ public class PopUpMenu implements ActionListener
         editPaste = new JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/paste.png")));
-        
+
         editDuplicate = new JMenuItem(Globals.messages.getString("Duplicate"));
         editDuplicate.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/duplicate.png")));
-        
+
         editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
         editRotate.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/rotate.png")));
-        
+
         editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
         editMirror.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/mirror.png")));
@@ -149,7 +149,7 @@ public class PopUpMenu implements ActionListener
         editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
         editSymbolize.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/symbolize.png")));
-        
+
         editUSymbolize =
             new JMenuItem(Globals.messages.getString("Unsymbolize"));
         editUSymbolize.setIcon(new ImageIcon(
@@ -158,7 +158,7 @@ public class PopUpMenu implements ActionListener
         editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
         editAddNode.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/add_node.png")));
-        
+
         editRemoveNode =
             new JMenuItem(Globals.messages.getString("Remove_node"));
         editRemoveNode.setIcon(new ImageIcon(

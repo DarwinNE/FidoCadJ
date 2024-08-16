@@ -727,12 +727,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      * Determines whether the bounding box of the text defined by the current
      * font settings intersects with the specified rectangle.
      *
-     * Calculate the dimensions of the text based on the current font settings. 
-     * It then creates a bounding box around the text and checks if this 
+     * Calculate the dimensions of the text based on the current font settings.
+     * It then creates a bounding box around the text and checks if this
      * bounding box intersects with the given rectangle.
      *
      * @param rect the Rectangle object to check for intersection.
-     * 
+     *
      * @param isLeftToRightSelection Determine the direction of the selection
      *
      * @return true if the bounding box of the text intersects the rectangle,

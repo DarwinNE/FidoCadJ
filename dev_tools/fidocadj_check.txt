@@ -1,2 +1,6 @@
 Starting audit...
+/Users/davidebucci/Documents/Synchronized/Software/FidoCadJ/dev_tools/../src/fidocadj/dialogs/LayerCellRenderer.java:47:23: warning: Le nom 'ICON_SIZE' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Documents/Synchronized/Software/FidoCadJ/dev_tools/../src/fidocadj/dialogs/LayerComboBoxEditor.java:66:23: warning: Le nom 'ICON_SIZE' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Documents/Synchronized/Software/FidoCadJ/dev_tools/../src/fidocadj/dialogs/LayerCellRenderer.java:47:23: warning: Le nom 'ICON_SIZE' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Documents/Synchronized/Software/FidoCadJ/dev_tools/../src/fidocadj/dialogs/LayerComboBoxEditor.java:66:23: warning: Le nom 'ICON_SIZE' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
 Audit done.

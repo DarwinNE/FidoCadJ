@@ -89,8 +89,9 @@ public class Drawing
 
         synchronized (this) {
             // At first, we check if the current view has changed.
-            if(dmp.getChanged() || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() ||
-                oY!=cs.getYCenter() || oO!=cs.getOrientation())
+            if(dmp.getChanged() || oZ!=cs.getXMagnitude()
+                || oX!=cs.getXCenter() || oY!=cs.getYCenter()
+                || oO!=cs.getOrientation())
             {
                 oZ=cs.getXMagnitude();
                 oX=cs.getXCenter();
