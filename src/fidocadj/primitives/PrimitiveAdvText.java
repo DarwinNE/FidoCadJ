@@ -775,6 +775,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         double sin = Math.sin(angleRad);
         double cos = Math.cos(angleRad);
 
+        // Adjust for mirroring
+        if ((sty & TEXT_MIRRORED) != 0) {
+            cos = -cos;
+        }
+
         int x = virtualPoint[0].x;
         int y = virtualPoint[0].y;
 
