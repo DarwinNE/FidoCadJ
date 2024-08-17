@@ -144,8 +144,8 @@ public final class FidoFrame extends JFrame implements
         getRootPane().putClientProperty("Aqua.windowStyle", "combinedToolBar");
 
         prepareLanguageResources();
-        Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
-            InputEvent.CTRL_MASK);
+        Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_DOWN_MASK,
+            InputEvent.CTRL_DOWN_MASK);
 
         DialogUtil.center(this, .75,.75,800,500);
 
@@ -273,7 +273,7 @@ public final class FidoFrame extends JFrame implements
                 // If it does not work, try to use the standard English
                 Globals.messages = new
                 AccessResources (ResourceBundle.getBundle("MessagesBundle",
-                    new Locale("en", "US")));
+                    Locale.of("en", "US")));
                 System.out.println("No locale available, sorry... "+
                     "interface will be in English");
             } catch(MissingResourceException mre1) {
@@ -312,7 +312,7 @@ public final class FidoFrame extends JFrame implements
 
         if(loc==null) {
             // Make sort that only the language is used for the current
-            newLocale = new Locale(systemLanguage);
+            newLocale = Locale.forLanguageTag(systemLanguage);
         } else {
 
             newLocale = loc;
@@ -451,8 +451,8 @@ public final class FidoFrame extends JFrame implements
         // suppose that people are less uncomfortable with the current Internet
         // standard...
 
-        boolean englishLibraries = !currentLocale.getLanguage().equals(new
-            Locale("it", "", "").getLanguage());
+        boolean englishLibraries = !currentLocale.getLanguage().equals(
+                Locale.forLanguageTag("it").getLanguage());
 
         // This is useful if this is not the first time that libraries are
         // being loaded.
@@ -832,7 +832,7 @@ public final class FidoFrame extends JFrame implements
         }
         if(!libDirectory.equals(oldDirectory)) {
             loadLibraries();
-            show();
+            setVisible(true);
         }
         repaint();
     }

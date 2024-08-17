@@ -375,7 +375,7 @@ public class PopUpMenu implements ActionListener
          // left key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
-            InputEvent.ALT_MASK,false), left);
+            InputEvent.ALT_DOWN_MASK,false), left);
 
         cp.getActionMap().put(left, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
@@ -388,7 +388,7 @@ public class PopUpMenu implements ActionListener
          // right key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
-            InputEvent.ALT_MASK,false), right);
+            InputEvent.ALT_DOWN_MASK,false), right);
 
         cp.getActionMap().put(right, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
@@ -402,7 +402,7 @@ public class PopUpMenu implements ActionListener
          // up key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-            InputEvent.ALT_MASK,false), up);
+            InputEvent.ALT_DOWN_MASK,false), up);
 
         cp.getActionMap().put(up, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
@@ -415,7 +415,7 @@ public class PopUpMenu implements ActionListener
         // down key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
-            InputEvent.ALT_MASK,false), down);
+            InputEvent.ALT_DOWN_MASK,false), down);
 
         cp.getActionMap().put(down, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
