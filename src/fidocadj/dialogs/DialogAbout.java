@@ -154,6 +154,7 @@ public final class DialogAbout extends MinimumSizeDialog
         constraints.insets=new Insets(0,20,20,20);
 
         link.setBorderPainted(false);
+        link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         link.addActionListener(new OpenUrlAction());
         contentPane.add(link, constraints);
