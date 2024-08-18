@@ -200,9 +200,8 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             {
                 button3=true;
             }
-        } else {
-            button3 = (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)==
-                    InputEvent.BUTTON3_DOWN_MASK;
+        } else if (evt.getButton() == MouseEvent.BUTTON3) {
+            button3 = true;
         }
 
         // If we are in the selection state, either we are ending the editing
