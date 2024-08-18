@@ -192,7 +192,7 @@ public class DragDropTools implements DropTargetListener
                                     openFileName =
                                     java.net.URLDecoder.decode(
                                     popFrame.circuitPanel.getParserActions().
-                                    openFileName);
+                                    openFileName, "UTF-8");
 
                                 // After we set the current file name, we just
                                 // open it.
