@@ -30,6 +30,7 @@ import fidocadj.circuit.controllers.CopyPasteActions;
 import fidocadj.circuit.controllers.AddElements;
 import fidocadj.circuit.controllers.ParserActions;
 import fidocadj.circuit.controllers.ElementsEdtActions;
+import fidocadj.globals.OSValidator;
 import fidocadj.toolbars.ToolbarZoom;
 import fidocadj.toolbars.ToolbarTools;
 import fidocadj.toolbars.ZoomToFitListener;
@@ -874,7 +875,7 @@ public final class FidoFrame extends JFrame implements
     */
     public void somethingHasChanged()
     {
-        if (Globals.weAreOnAMac) {
+        if (OSValidator.isMac()) {
 
             // Apparently, this does not work as expected in MacOSX 10.4 Tiger.
             // Those are MacOSX >= 10.5 Leopard features.

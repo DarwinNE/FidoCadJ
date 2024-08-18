@@ -51,9 +51,6 @@ public final class Globals
     // Native file dialogs are far better on MacOSX than Linux
     public static boolean useNativeFileDialogs;
 
-    // We are on a Mac!!!
-    public static boolean weAreOnAMac;
-
     // Show the cancel button to the right of the OK button, as it is done in
     // Windows
     public static boolean okCancelWinOrder;

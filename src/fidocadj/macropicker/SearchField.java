@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
-import fidocadj.globals.Globals;
+import fidocadj.globals.OSValidator;
 
 
 /**
@@ -63,7 +63,7 @@ public final class SearchField extends JTextField implements FocusListener
     */
     @Override public void paintComponent(Graphics g)
     {
-        if(Globals.weAreOnAMac) {
+        if(OSValidator.isMac()) {
             // This is useful only on Macintosh, since the text field shown is
             // rounded.
             Rectangle r = getBounds();

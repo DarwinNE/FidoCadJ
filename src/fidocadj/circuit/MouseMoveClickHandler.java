@@ -10,6 +10,7 @@ import fidocadj.circuit.controllers.EditorActions;
 import fidocadj.circuit.controllers.HandleActions;
 import fidocadj.timer.MyTimer;
 import fidocadj.geom.MapCoordinates;
+import fidocadj.globals.OSValidator;
 
 
 /** Handle the mouse click operations, as well as some dragging actions.
@@ -192,7 +193,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         boolean toggle = getToggle(evt);
 
         // Key bindings are a little different with macOS.
-        if(Globals.weAreOnAMac) {
+        if(OSValidator.isMac()) {
             if(evt.getButton()==MouseEvent.BUTTON3) {
                 button3=true;
             } else if(evt.getButton()==MouseEvent.BUTTON1 &&

@@ -403,8 +403,6 @@ class CreateSwingInterface implements Runnable
 
             Preferences.userNodeForPackage(g.getClass());
 
-            Globals.weAreOnAMac = true;
-
             // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");
             // This is for JVM < 1.5 It won't harm on higher versions.
