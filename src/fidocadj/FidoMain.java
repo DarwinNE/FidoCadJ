@@ -426,7 +426,7 @@ class CreateSwingInterface implements Runnable
                         "I will continue with the basic Apple l&f");
             }
         } else {
-            if (System.getProperty("os.name").startsWith("Win")) {
+            if (OSValidator.isWindows()) {
                 /* If the host system is a window system, select the Windows
                  * look and feel. This is a way to encourage people to use
                  * FidoCadJ even on a Windows system, forgotting about Java.
