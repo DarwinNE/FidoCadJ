@@ -46,7 +46,7 @@ public abstract class AbstractMacroTreeNode implements MacroTreeNode
         Get the children nodes.
         @return the child nodes elements.
     */
-    public Enumeration children()
+    public Enumeration<AbstractMacroTreeNode> children()
     {
         return childNodes.elements();
     }
