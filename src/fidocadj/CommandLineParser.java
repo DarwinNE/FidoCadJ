@@ -218,7 +218,7 @@ public class CommandLineParser
                         // used.
                         loc=args[i].substring(2);
                     }
-                    currentLocale = Locale.forLanguageTag(loc);
+                    currentLocale=new Locale(loc);
 
                 } else {
                     System.err.println("Unrecognized option: "+args[i]);

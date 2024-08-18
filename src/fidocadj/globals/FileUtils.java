@@ -152,7 +152,7 @@ public final class FileUtils
                 throw new IOException("Can not create temp. directory.");
             }
 
-            criteria = criteria.toLowerCase(Locale.forLanguageTag("en"));
+            criteria = criteria.toLowerCase(new Locale("en"));
 
             String[] children = sourceLocation.list();
             if(children==null) {

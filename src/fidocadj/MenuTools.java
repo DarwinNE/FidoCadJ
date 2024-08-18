@@ -132,7 +132,7 @@ public class MenuTools implements MenuListener
         JMenuItem fileSaveName = new
             JMenuItem(Globals.messages.getString("SaveName"));
         fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-            Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
+            Globals.shortcutKey | InputEvent.SHIFT_MASK));
         fileSaveName.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/save_name.png")));
 
@@ -227,7 +227,7 @@ public class MenuTools implements MenuListener
         JMenuItem editRedo = new
             JMenuItem(Globals.messages.getString("Redo"));
         editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-            Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
+            Globals.shortcutKey | InputEvent.SHIFT_MASK));
         editRedo.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/redo.png")));
         //editRedo.setEnabled(false);
@@ -457,7 +457,7 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
             // Update libraries
             fff.loadLibraries();
-            fff.setVisible(true);
+            fff.show();
         } else if (arg.equals(Globals.messages.getString("Circ_opt"))) {
             // Options for the current drawing
             fff.showPrefs();

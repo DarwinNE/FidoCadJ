@@ -958,8 +958,7 @@ public class ParserActions
                         macroName=prefix+"."+macroName;
                     }
 
-                    macroName=macroName.toLowerCase(
-                                        Locale.forLanguageTag("en"));
+                    macroName=macroName.toLowerCase(new Locale("en"));
                     model.getLibrary().put(macroName, new
                         MacroDesc(macroName,"","","","", prefix));
                     /*System.out.printf("-- macroName:%s | longName:%s |
@@ -977,7 +976,7 @@ public class ParserActions
                 // Windows all file names are case insensitive. Under
                 // other operating systems, we need to be waaay much
                 // careful, hence we convert the macro name to lower case.
-                macroName = macroName.toLowerCase(Locale.forLanguageTag("en"));
+                macroName = macroName.toLowerCase(new Locale("en"));
                 macroDesc = model.getLibrary().get(macroName);
                 if(macroDesc==null) {
                     return;
@@ -1010,8 +1009,7 @@ public class ParserActions
             {
                 // This filter allows to obtain all files with the fcd
                 // file extension
-                return name.toLowerCase(
-                        Locale.forLanguageTag("en")).endsWith(".fcl");
+                return name.toLowerCase(new Locale("en")).endsWith(".fcl");
             }
         });
 

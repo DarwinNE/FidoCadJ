@@ -456,7 +456,7 @@ public class LibraryModel
     public static String createMacroKey(String fileName,String key)
     {
         String macroKey = fileName+"."+key;
-        return macroKey.toLowerCase(Locale.forLanguageTag("en"));
+        return macroKey.toLowerCase(new Locale("en"));
     }
 
     /**

@@ -79,7 +79,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             this.filterWord = null;
             fireChanged();
         } else {
-            Locale lo = Locale.forLanguageTag("en");
+            Locale lo = new Locale("en");
             final String chainedWord = filterWord.toLowerCase(lo);
             synchronizeTree(new NodeFilterInterface() {
                 public boolean accept(MacroTreeNode node)
