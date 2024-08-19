@@ -1,5 +1,6 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
+import fidocadj.dialogs.DialogUtil;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

@@ -3,7 +3,7 @@ package fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import fidocadj.dialogs.ParameterDescription;
+import fidocadj.dialogs.controls.ParameterDescription;
 import fidocadj.export.ExportInterface;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
@@ -137,7 +137,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         initPrimitive(-1, macroF, macroS);
         library=lib;
         layers=l;
-        String key=keyT.toLowerCase(new Locale("en"));
+        String key=keyT.toLowerCase(Locale.forLanguageTag("en"));
         macro=new DrawingModel();
         macroCoord=new MapCoordinates();
         changed=true;
@@ -355,7 +355,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
             // The macro key recognition is made case insensitive by converting
             // internally all keys to lower case.
 
-            macroName=macroName.toLowerCase(new Locale("en"));
+            macroName=macroName.toLowerCase(Locale.forLanguageTag("en"));
 
             // Let's see if the macro is recognized and store it.
             MacroDesc macro=(MacroDesc)library.get(macroName);

@@ -1,4 +1,4 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 /**
     The user should check the parameter type before using. The allowed
     parameter types are: (Integer|Double|String|Boolean|Point).

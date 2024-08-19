@@ -403,8 +403,6 @@ class CreateSwingInterface implements Runnable
 
             Preferences.userNodeForPackage(g.getClass());
 
-            Globals.weAreOnAMac = true;
-
             // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");
             // This is for JVM < 1.5 It won't harm on higher versions.
@@ -428,7 +426,7 @@ class CreateSwingInterface implements Runnable
                         "I will continue with the basic Apple l&f");
             }
         } else {
-            if (System.getProperty("os.name").startsWith("Win")) {
+            if (OSValidator.isWindows()) {
                 /* If the host system is a window system, select the Windows
                  * look and feel. This is a way to encourage people to use
                  * FidoCadJ even on a Windows system, forgotting about Java.

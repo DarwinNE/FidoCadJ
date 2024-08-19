@@ -10,6 +10,7 @@ import fidocadj.circuit.controllers.EditorActions;
 import fidocadj.circuit.controllers.HandleActions;
 import fidocadj.timer.MyTimer;
 import fidocadj.geom.MapCoordinates;
+import fidocadj.globals.OSValidator;
 
 
 /** Handle the mouse click operations, as well as some dragging actions.
@@ -122,7 +123,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         boolean toggle = getToggle(evt);
 
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
-            (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
+            (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)==0 &&
             !evt.isShiftDown())
         {
             haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
@@ -154,7 +155,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         // Handle the ruler. Basically, we just save the coordinates and
         // we launch a repaint which will be done as soon as possible.
         // No graphical elements are drawn outside a repaint.
-        if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 ||
+        if((evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)!=0 ||
             evt.isShiftDown())
         {
             cp.getRuler().setRulerEnd(px, py);
@@ -163,7 +164,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         }
 
         haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates(),
-            (evt.getModifiers() & ActionEvent.CTRL_MASK)==
+            (evt.getModifiersEx() & ActionEvent.CTRL_MASK)==
             ActionEvent.CTRL_MASK);
         // A little profiling if necessary. I noticed that time needed for
         // handling clicks is not negligible in large drawings, hence the
@@ -192,7 +193,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         boolean toggle = getToggle(evt);
 
         // Key bindings are a little different with macOS.
-        if(Globals.weAreOnAMac) {
+        if(OSValidator.isMac()) {
             if(evt.getButton()==MouseEvent.BUTTON3) {
                 button3=true;
             } else if(evt.getButton()==MouseEvent.BUTTON1 &&
@@ -200,9 +201,8 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             {
                 button3=true;
             }
-        } else {
-            button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
-                    InputEvent.BUTTON3_MASK;
+        } else if (evt.getButton() == MouseEvent.BUTTON3) {
+            button3 = true;
         }
 
         // If we are in the selection state, either we are ending the editing

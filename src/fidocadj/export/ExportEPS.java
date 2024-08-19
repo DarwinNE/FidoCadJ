@@ -155,7 +155,7 @@ public final class ExportEPS implements ExportInterface, TextInterface
             ", EPS export filter by Davide Bucci\n");
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",
-            new Locale("en"));
+            Locale.forLanguageTag("en"));
         Date date = new Date();
         out.write("%%CreationDate: "+dateFormat.format(date)+"\n");
         out.write("%%EndComments\n");

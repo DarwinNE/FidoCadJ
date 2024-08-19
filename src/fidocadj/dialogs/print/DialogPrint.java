@@ -14,7 +14,7 @@ import fidocadj.globals.Globals;
 import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 import fidocadj.dialogs.DialogUtil;
 import fidocadj.circuit.model.DrawingModel;
-import fidocadj.dialogs.LayerCellRenderer;
+import fidocadj.dialogs.controls.LayerCellRenderer;
 import fidocadj.layers.LayerDesc;
 
 /** Choose file format, size and options of the graphic exporting.

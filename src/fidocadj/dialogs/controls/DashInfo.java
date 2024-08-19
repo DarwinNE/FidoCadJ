@@ -1,8 +1,11 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
-/**
+/** This class contains some settings about the actual dashing style. It is used
+    in the automatic primitive characteristics dialog.
 
-<pre>
+    @author Davide Bucci
+
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -20,20 +23,23 @@ package fidocadj.dialogs;
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2009-2023 by Davide Bucci
-</pre>
-    @author Davide Bucci
+    </pre>
+
 */
-public class LayerInfo
+public class DashInfo
 {
-    int layer;
+    // Here we store the dash style
+    public int style;
 
-    /** Create a LayerInfo object with the given layer
-    @param i the layer to be used.
-
+    /** Creator.
+        @param i the style to be stored
     */
-    public LayerInfo(int i)
-    { layer=i; }
+    public DashInfo(int i)
+    { style=i; }
 
-    public int getLayer()
-    { return layer; }
+    /** Retrieve the style.
+        @return the style.
+    */
+    public int getStyle()
+    { return style; }
 }

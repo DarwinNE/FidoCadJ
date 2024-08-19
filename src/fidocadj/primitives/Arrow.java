@@ -7,8 +7,8 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PolygonInterface;
-import fidocadj.dialogs.ParameterDescription;
-import fidocadj.dialogs.ArrowInfo;
+import fidocadj.dialogs.controls.ParameterDescription;
+import fidocadj.dialogs.controls.ArrowInfo;
 import fidocadj.globals.Globals;
 import fidocadj.export.PointPr;
 

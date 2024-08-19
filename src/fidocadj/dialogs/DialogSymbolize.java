@@ -1,18 +1,5 @@
 package fidocadj.dialogs;
 
-import fidocadj.circuit.CircuitPanel;
-import fidocadj.circuit.controllers.EditorActions;
-import fidocadj.circuit.controllers.ParserActions;
-import fidocadj.circuit.controllers.SelectionActions;
-import fidocadj.circuit.model.DrawingModel;
-import fidocadj.geom.DrawingSize;
-import fidocadj.geom.MapCoordinates;
-import fidocadj.globals.Globals;
-import fidocadj.globals.LibUtils;
-import fidocadj.primitives.GraphicPrimitive;
-import fidocadj.primitives.MacroDesc;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
-
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -25,6 +12,20 @@ import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
+import fidocadj.dialogs.controls.OriginCircuitPanel;
+import fidocadj.circuit.CircuitPanel;
+import fidocadj.circuit.controllers.EditorActions;
+import fidocadj.circuit.controllers.ParserActions;
+import fidocadj.circuit.controllers.SelectionActions;
+import fidocadj.circuit.model.DrawingModel;
+import fidocadj.geom.DrawingSize;
+import fidocadj.geom.MapCoordinates;
+import fidocadj.globals.Globals;
+import fidocadj.globals.LibUtils;
+import fidocadj.primitives.GraphicPrimitive;
+import fidocadj.primitives.MacroDesc;
+import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** Choose file format, size and options of the graphic exporting.
 

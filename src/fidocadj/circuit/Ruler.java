@@ -85,13 +85,15 @@ public class Ruler
             return;
         }
 
-        int sx=rulerStartX;
-        int sy=rulerStartY;
-        int ex=rulerEndX;
-        int ey=rulerEndY;
+        // Cast to Graphics2D to use advanced drawing features
+        Graphics2D g2d = (Graphics2D) g;
+
+        int sx = rulerStartX;
+        int sy = rulerStartY;
+        int ex = rulerEndX;
+        int ey = rulerEndY;
 
         double length;
-        //MapCoordinates cs=dmp.getMapCoordinates();
 
         int xa = cs.unmapXnosnap(sx);
         int ya = cs.unmapYnosnap(sy);
@@ -99,40 +101,39 @@ public class Ruler
         int xb = cs.unmapXnosnap(ex);
         int yb = cs.unmapYnosnap(ey);
 
-        int x1;
-        int y1;
-        int x2;
-        int y2;
-        double x;
-        double y;
+        int x1, y1, x2, y2;
+        double x, y;
 
         // Calculates the ruler length.
-        length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
+        length = Math.sqrt(
+                (double) (xa - xb) * (xa - xb) + (ya - yb) * (ya - yb));
 
-        g.setColor(Color.GREEN);
+        g2d.setColor(Color.GREEN);
+        g2d.setStroke(new BasicStroke(1)); // Set the stroke thickness
 
-        g.drawLine(sx, sy, ex, ey);
+        g2d.drawLine(sx, sy, ex, ey);
 
         // A little bit of trigonometry :-)
-
         double alpha;
-        if (sx==ex) {
-            alpha = Math.PI/2.0+(ey-sy<0?0:Math.PI);
+        if (sx == ex) {
+            alpha = Math.PI / 2.0 + (ey - sy < 0 ? 0 : Math.PI);
         } else {
-            alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
+            alpha = Math.atan((double) (ey - sy) / (double) (ex - sx));
         }
 
-        alpha += ex-sx>0?0:Math.PI;
+        alpha += ex - sx > 0 ? 0 : Math.PI;
 
-        // Those magic numers are the lenghts of the tics (major and minor)
+        // Lengths of the tics (major and minor)
         double l = 5.0;
 
-        if (cs.getXMagnitude()<1.0) {
-            l=10;
-        } else if(cs.getXMagnitude() > 5.0) {
-            l=1;
+        if (cs.getXMagnitude() < 1.0) {
+            l = 10;
         } else {
-            l=5;
+            if (cs.getXMagnitude() > 5.0) {
+                l = 1;
+            } else {
+                l = 5;
+            }
         }
 
         double ll = 0.0;
@@ -140,55 +141,55 @@ public class Ruler
         int m = 5;
         int j = 0;
 
-        double dex = sx + length*Math.cos(alpha)*cs.getXMagnitude();
-        double dey = sy + length*Math.sin(alpha)*cs.getYMagnitude();
+        double dex = sx + length * Math.cos(alpha) * cs.getXMagnitude();
+        double dey = sy + length * Math.sin(alpha) * cs.getYMagnitude();
 
-        alpha += Math.PI/2.0;
+        alpha += Math.PI / 2.0;
 
-        boolean debut=true;
+        boolean debut = true;
 
-        // Draw the ticks.
-        for(double i=0; i<=length; i+=l) {
-            if (j==m || debut) {
-                j=0;
-                ll=2*ld;
-                debut=false;
+        // Draw the ticks
+        for (double i = 0; i <= length; i += l) {
+            if (j == m || debut) {
+                j = 0;
+                ll = 2 * ld;
+                debut = false;
             } else {
-                ll=ld;
+                ll = ld;
             }
             ++j;
-            x = dex*i/length+(double)sx*(length-i)/length;
-            y = dey*i/length+(double)sy*(length-i)/length;
+            x = dex * i / length + (double) sx * (length - i) / length;
+            y = dey * i / length + (double) sy * (length - i) / length;
 
-            x1 = (int)(x - ll*Math.cos(alpha));
-            x2 = (int)(x + ll*Math.cos(alpha));
-            y1 = (int)(y - ll*Math.sin(alpha));
-            y2 = (int)(y + ll*Math.sin(alpha));
+            x1 = (int) (x - ll * Math.cos(alpha));
+            x2 = (int) (x + ll * Math.cos(alpha));
+            y1 = (int) (y - ll * Math.sin(alpha));
+            y2 = (int) (y + ll * Math.sin(alpha));
 
-            g.drawLine(x1, y1, x2, y2);
+            g2d.drawLine(x1, y1, x2, y2);
         }
 
-        Font f=new Font(rulerFont,Font.PLAIN,10);
-        g.setFont(f);
+        Font f = new Font(rulerFont, Font.PLAIN, 10);
+        g2d.setFont(f);
 
-        String t1 = Globals.roundTo(length,2);
+        String t1 = Globals.roundTo(length, 2);
 
         // Remember that one FidoCadJ logical unit is 127 microns.
-        String t2 = Globals.roundTo(length*.127,2)+" mm";
+        String t2 = Globals.roundTo(length * .127, 2) + " mm";
 
         FontMetrics fm = g.getFontMetrics(f);
 
         // Draw the box at the end, with the measurement results.
-        g.setColor(Color.white);
-        g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
-            fm.stringWidth(t2))+1, 24);
+        g2d.setColor(Color.white);
+        g2d.fillRect(ex + 10, ey, Math.max(fm.stringWidth(t1),
+                fm.stringWidth(t2)) + 1, 24);
 
-        g.setColor(rulerColor);
-        g.drawRect(ex+9, ey-1, Math.max(fm.stringWidth(t1),
-            fm.stringWidth(t2))+2, 25);
-        g.setColor(textColor);
-        g.drawString(t1, ex+10, ey+10);
-        g.drawString(t2, ex+10, ey+20);
+        g2d.setColor(rulerColor);
+        g2d.drawRect(ex + 9, ey - 1, Math.max(fm.stringWidth(t1),
+                fm.stringWidth(t2)) + 2, 25);
+        g2d.setColor(textColor);
+        g2d.drawString(t1, ex + 10, ey + 10);
+        g2d.drawString(t2, ex + 10, ey + 20);
     }
 
     /** Define the coordinates of the starting point of the ruler.
