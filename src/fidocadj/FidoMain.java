@@ -13,7 +13,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.FileUtils;
 import fidocadj.globals.OSValidator;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;

@@ -1,4 +1,4 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.settings;
 
 import fidocadj.dialogs.controls.ColorPicker;
 import java.awt.*;
@@ -11,8 +11,8 @@ import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.LibraryPanel;
 import fidocadj.dialogs.controls.DialogUtil;
 
-/** The dialogOptions class implements a modal dialog, which allows the user to
- * choose which circuit drawing options (size, anti aliasing, profiling) should
+/** The DialogSettings class implements a modal dialog, which allows the user to
+ * choose which circuit drawing settings (size, anti aliasing, profiling) should
  * be activated.
  *
  * <pre>
@@ -33,10 +33,10 @@ import fidocadj.dialogs.controls.DialogUtil;
  * along with FidoCadJ. If not,
  * @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
  *
- * Copyright 2007-2023 by Davide Bucci
+ * Copyright 2007-2024 by Davide Bucci, Manuel Finessi
  * </pre>
  */
-public final class DialogOptions extends MinimumSizeDialog
+public final class DialogSettings extends MinimumSizeDialog
 {
 
     public double zoomValue;
@@ -99,7 +99,7 @@ public final class DialogOptions extends MinimumSizeDialog
      * @param macroTextHeight text height for macros.
      * @param shiftDuringCopyAndPaste shift during copy and paste.
      */
-    public DialogOptions(JFrame parentFrame, double currentZoom,
+    public DialogSettings(JFrame parentFrame, double currentZoom,
             boolean profileStatus,
             boolean antiAliasingState, int gridState, String libDir,
             boolean toolBarTextState, boolean toolBarSmallIconState,

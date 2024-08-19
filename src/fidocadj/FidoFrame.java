@@ -15,7 +15,7 @@ import java.util.*;
 import java.net.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
-import fidocadj.dialogs.DialogOptions;
+import fidocadj.dialogs.settings.DialogSettings;
 import fidocadj.dialogs.DialogAbout;
 import fidocadj.geom.DrawingSize;
 import fidocadj.geom.MapCoordinates;
@@ -23,7 +23,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.Utf8ResourceBundle;
 import fidocadj.globals.LibUtils;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 import fidocadj.circuit.HasChangedListener;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.CopyPasteActions;
@@ -745,7 +745,7 @@ public final class FidoFrame extends JFrame implements
         // justified, since the preference panel is after all very specific
         // to the particular program to which it is referred, i.e. in this
         // case FidoCadJ...
-        DialogOptions options=new DialogOptions(this,
+        DialogSettings options=new DialogSettings(this,
             circuitPanel.getMapCoordinates().getXMagnitude(),
             circuitPanel.profileTime,circuitPanel.antiAlias,
             circuitPanel.getMapCoordinates().getXGridStep(),

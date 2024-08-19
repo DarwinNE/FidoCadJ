@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import fidocadj.primitives.MacroDesc;
 import fidocadj.undo.UndoActorListener;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 import fidocadj.FidoMain;
 
 /** Class to handle library files and databases.

@@ -1,4 +1,4 @@
-package fidocadj.globals;
+package fidocadj.dialogs.settings;
 
 import java.util.HashMap;
 import java.util.Map;
