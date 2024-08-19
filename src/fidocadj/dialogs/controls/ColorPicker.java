@@ -36,8 +36,8 @@ import java.awt.event.MouseEvent;
 public class ColorPicker extends JPanel
 {
     private Color color;
-    private final Border border = 
-                    BorderFactory.createEtchedBorder(EtchedBorder.RAISED); 
+    private final Border border =
+                    BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 
     /**
      Constructs a ColorPickerRectangle with specified..
@@ -51,8 +51,8 @@ public class ColorPicker extends JPanel
             Color initialColor)
     {
         this.color = initialColor;
-        setPreferredSize(new Dimension(initialWidth, initialHeight)); 
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+        setPreferredSize(new Dimension(initialWidth, initialHeight));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Add a mouse listener to handle clicks
         addMouseListener(new MouseAdapter()
@@ -62,7 +62,7 @@ public class ColorPicker extends JPanel
             {
                 Color newColor = JColorChooser.showDialog(null, "", color);
                 if (newColor != null) {
-                    setColor(newColor); 
+                    setColor(newColor);
                 }
             }
         });
