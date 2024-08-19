@@ -1,6 +1,6 @@
 package fidocadj.dialogs;
 
-import fidocadj.dialogs.controls.LayerCellRenderer;
+import java.util.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,8 +9,8 @@ import javax.swing.*;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.LayerCellRenderer;
 
-import java.util.*;
 
 /** List and choose the layer to be edited.
     The class dialogLayer allows to choose which layers should be displayed,

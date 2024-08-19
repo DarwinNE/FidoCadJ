@@ -1,5 +1,18 @@
 package fidocadj.dialogs;
 
+import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.LinkedList;
+import java.util.Locale;
+
+import javax.swing.*;
+import javax.swing.event.*;
+
 import fidocadj.dialogs.controls.OriginCircuitPanel;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.EditorActions;
@@ -13,19 +26,6 @@ import fidocadj.globals.LibUtils;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.MacroDesc;
 import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
-
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.LinkedList;
-import java.util.Locale;
-
-import javax.swing.*;
-import javax.swing.event.*;
 
 /** Choose file format, size and options of the graphic exporting.
 

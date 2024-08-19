@@ -1,5 +1,11 @@
 package fidocadj.dialogs;
 
+import java.io.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+
 import fidocadj.dialogs.controls.LayerInfo;
 import fidocadj.dialogs.controls.OSKeybPanel;
 import fidocadj.dialogs.controls.ParameterDescription;
@@ -8,13 +14,8 @@ import fidocadj.dialogs.controls.DashInfo;
 import fidocadj.dialogs.controls.DashCellRenderer;
 import fidocadj.dialogs.controls.ArrowInfo;
 import fidocadj.dialogs.controls.ArrowCellRenderer;
-import java.io.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
-
 import fidocadj.dialogs.controls.OSKeybPanel.KEYBMODES;
+
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.PointG;
