@@ -9,7 +9,8 @@ import javax.imageio.*;
 import javax.swing.event.*;
 
 import fidocadj.globals.Globals;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
+import fidocadj.dialogs.controls.DialogUtil;
 
 
 /** The class DialogAttachImage allows to determine which image has to be

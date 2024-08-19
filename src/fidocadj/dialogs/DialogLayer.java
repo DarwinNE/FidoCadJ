@@ -8,8 +8,9 @@ import javax.swing.*;
 
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.LayerCellRenderer;
+import fidocadj.dialogs.controls.DialogUtil;
 
 
 /** List and choose the layer to be edited.

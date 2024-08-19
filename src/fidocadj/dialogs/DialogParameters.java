@@ -15,6 +15,7 @@ import fidocadj.dialogs.controls.DashCellRenderer;
 import fidocadj.dialogs.controls.ArrowInfo;
 import fidocadj.dialogs.controls.ArrowCellRenderer;
 import fidocadj.dialogs.controls.OSKeybPanel.KEYBMODES;
+import fidocadj.dialogs.controls.DialogUtil;
 
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;

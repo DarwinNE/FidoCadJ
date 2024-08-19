@@ -11,8 +11,8 @@ import javax.swing.event.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import fidocadj.globals.Globals;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
-import fidocadj.dialogs.DialogUtil;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
+import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.dialogs.controls.LayerCellRenderer;
 import fidocadj.layers.LayerDesc;

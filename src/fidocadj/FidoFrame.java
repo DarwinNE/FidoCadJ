@@ -15,7 +15,7 @@ import java.util.*;
 import java.net.*;
 import java.util.prefs.*;
 
-import fidocadj.dialogs.DialogUtil;
+import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.dialogs.DialogOptions;
 import fidocadj.dialogs.DialogAbout;
 import fidocadj.geom.DrawingSize;
