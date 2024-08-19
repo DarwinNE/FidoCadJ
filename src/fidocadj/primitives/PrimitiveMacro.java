@@ -3,7 +3,7 @@ package fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import fidocadj.dialogs.ParameterDescription;
+import fidocadj.dialogs.controls.ParameterDescription;
 import fidocadj.export.ExportInterface;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;

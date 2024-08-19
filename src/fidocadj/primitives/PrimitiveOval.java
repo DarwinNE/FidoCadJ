@@ -3,8 +3,8 @@ package fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import fidocadj.dialogs.ParameterDescription;
-import fidocadj.dialogs.DashInfo;
+import fidocadj.dialogs.controls.ParameterDescription;
+import fidocadj.dialogs.controls.DashInfo;
 import fidocadj.export.ExportInterface;
 import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;

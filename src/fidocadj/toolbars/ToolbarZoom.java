@@ -14,8 +14,8 @@ import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 
-import fidocadj.dialogs.LayerCellRenderer;
-import fidocadj.dialogs.LayerComboBoxEditor;
+import fidocadj.dialogs.controls.LayerCellRenderer;
+import fidocadj.dialogs.controls.LayerComboBoxEditor;
 
 
 /** ToolbarZoom class

@@ -16,7 +16,7 @@ import fidocadj.circuit.CircuitPanel;
 import fidocadj.dialogs.DialogAttachImage;
 import fidocadj.dialogs.DialogAbout;
 import fidocadj.dialogs.DialogLayer;
-import fidocadj.dialogs.EnterCircuitFrame;
+import fidocadj.dialogs.controls.EnterCircuitFrame;
 import fidocadj.clipboard.TextTransfer;
 import fidocadj.geom.ChangeCoordinatesListener;
 

@@ -1,5 +1,6 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
+import fidocadj.dialogs.controls.CellDash;
 import java.awt.*;
 import javax.swing.*;
 

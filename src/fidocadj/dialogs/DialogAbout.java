@@ -1,5 +1,6 @@
 package fidocadj.dialogs;
 
+import fidocadj.dialogs.controls.BareBonesBrowserLaunch;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

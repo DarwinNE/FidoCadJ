@@ -6,8 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-import fidocadj.dialogs.LayerInfo;
-import fidocadj.dialogs.ParameterDescription;
+import fidocadj.dialogs.controls.LayerInfo;
+import fidocadj.dialogs.controls.ParameterDescription;
 import fidocadj.dialogs.DialogParameters;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.timer.MyTimer;

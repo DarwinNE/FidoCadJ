@@ -1,12 +1,20 @@
 package fidocadj.dialogs;
 
+import fidocadj.dialogs.controls.LayerInfo;
+import fidocadj.dialogs.controls.OSKeybPanel;
+import fidocadj.dialogs.controls.ParameterDescription;
+import fidocadj.dialogs.controls.LayerCellRenderer;
+import fidocadj.dialogs.controls.DashInfo;
+import fidocadj.dialogs.controls.DashCellRenderer;
+import fidocadj.dialogs.controls.ArrowInfo;
+import fidocadj.dialogs.controls.ArrowCellRenderer;
 import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
-import fidocadj.dialogs.OSKeybPanel.KEYBMODES;
+import fidocadj.dialogs.controls.OSKeybPanel.KEYBMODES;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.PointG;
@@ -282,7 +290,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jco[co++], constraints);
             } else if (pd.parameter instanceof LayerInfo) {
                 jco[co] = new JComboBox(new Vector<LayerDesc>(layers));
-                jco[co].setSelectedIndex(((LayerInfo) pd.parameter).layer);
+                jco[co].setSelectedIndex(((LayerInfo) pd.parameter).getLayer());
                 jco[co].setRenderer(new LayerCellRenderer());
 
                 constraints.weightx = 100;

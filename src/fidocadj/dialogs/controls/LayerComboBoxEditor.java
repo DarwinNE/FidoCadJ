@@ -1,4 +1,4 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
 import java.awt.Component;
 import java.awt.Cursor;
@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import fidocadj.FidoFrame;
 import fidocadj.circuit.CircuitPanel;
+import fidocadj.dialogs.DialogEditLayer;
 import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.layers.LayerDesc;
 

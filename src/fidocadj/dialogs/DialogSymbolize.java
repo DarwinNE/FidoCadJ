@@ -1,5 +1,6 @@
 package fidocadj.dialogs;
 
+import fidocadj.dialogs.controls.OriginCircuitPanel;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.EditorActions;
 import fidocadj.circuit.controllers.ParserActions;

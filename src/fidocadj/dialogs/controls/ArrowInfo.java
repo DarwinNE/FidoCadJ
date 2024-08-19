@@ -1,4 +1,4 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
 /** This class contains information about the arrow style. It is useful
     for the automatic generation of the properties dialog.

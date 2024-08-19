@@ -1,5 +1,6 @@
 package fidocadj.dialogs;
 
+import fidocadj.dialogs.controls.LibraryPanel;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;

@@ -1,4 +1,4 @@
-package fidocadj.dialogs;
+package fidocadj.dialogs.controls;
 
 import java.awt.*;
 import javax.swing.*;
