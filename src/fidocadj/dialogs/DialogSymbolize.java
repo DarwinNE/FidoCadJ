@@ -26,6 +26,7 @@ import fidocadj.globals.LibUtils;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.MacroDesc;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
+import fidocadj.dialogs.controls.DialogUtil;
 
 /** Choose file format, size and options of the graphic exporting.
 

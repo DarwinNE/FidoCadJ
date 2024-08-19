@@ -8,6 +8,7 @@ import java.io.*;
 import fidocadj.globals.Globals;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.LibraryPanel;
+import fidocadj.dialogs.controls.DialogUtil;
 
 /** The dialogOptions class implements a modal dialog, which allows the user to
  * choose which circuit drawing options (size, anti aliasing, profiling) should

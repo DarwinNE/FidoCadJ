@@ -8,6 +8,7 @@ import java.net.*;
 import fidocadj.globals.Globals;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.BareBonesBrowserLaunch;
+import fidocadj.dialogs.controls.DialogUtil;
 
 /**
     Shows a rather standard "About" dialog. Nothing more exotic than showing
