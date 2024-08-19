@@ -2,7 +2,6 @@ package fidocadj;
 
 import javax.swing.*;
 
-import java.util.prefs.*;
 import java.io.*;
 import java.util.*;
 
@@ -14,6 +13,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.FileUtils;
 import fidocadj.globals.OSValidator;
+import fidocadj.globals.SettingsManager;
 import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
@@ -401,7 +401,8 @@ class CreateSwingInterface implements Runnable
         if (OSValidator.isMac()) {
             AccessResources g = new AccessResources();
 
-            Preferences.userNodeForPackage(g.getClass());
+            SettingsManager settingsManager = 
+                                new SettingsManager(AccessResources.class);
 
             // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");

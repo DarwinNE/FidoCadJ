@@ -2,7 +2,6 @@ package fidocadj;
 
 import javax.swing.*;
 
-import java.util.prefs.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
@@ -14,6 +13,7 @@ import fidocadj.dialogs.DialogCopyAsImage;
 import fidocadj.dialogs.DialogExport;
 import fidocadj.globals.Globals;
 import fidocadj.geom.ChangeCoordinatesListener;
+import fidocadj.globals.SettingsManager;
 
 
 /** ExportTools.java
@@ -58,14 +58,14 @@ public class ExportTools implements ClipboardOwner
     private int exportYsize;
     private boolean exportResolutionBased;
     private boolean splitLayers;
-    final private Preferences prefs;
+    final private SettingsManager prefs;
     private ChangeCoordinatesListener coordL;
 
     /** Standard constructor.
         @param p the preferences object which will be used to save or
         retrieve the settings. If null, preferences will not be stored.
     */
-    public ExportTools(Preferences p)
+    public ExportTools(SettingsManager p)
     {
         exportFilename="";
         exportMagnification=1.0;

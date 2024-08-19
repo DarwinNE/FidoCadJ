@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.prefs.Preferences;
 import java.util.Locale;
 
 import fidocadj.primitives.MacroDesc;
 import fidocadj.undo.UndoActorListener;
+import fidocadj.globals.SettingsManager;
 import fidocadj.FidoMain;
 
 /** Class to handle library files and databases.
@@ -166,7 +166,7 @@ public final class LibUtils
     */
     public static String getLibDir() throws FileNotFoundException
     {
-        Preferences prefs = Preferences.userNodeForPackage(FidoMain.class);
+        SettingsManager prefs = new SettingsManager(FidoMain.class);
         String s = prefs.get("DIR_LIBS", "");
         if (s == null || s.length()==0) {
             throw new FileNotFoundException();
