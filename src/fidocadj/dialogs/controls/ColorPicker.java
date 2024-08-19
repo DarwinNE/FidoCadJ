@@ -40,7 +40,7 @@ public class ColorPicker extends JPanel
                     BorderFactory.createEtchedBorder(EtchedBorder.RAISED); 
 
     /**
-     Constructs a ColorPickerRectangle with specified..
+     Constructs a ColorPicker with specified..
      initial dimensions and color.
 
      @param initialWidth the initial width
