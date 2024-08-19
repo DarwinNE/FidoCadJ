@@ -1,7 +1,6 @@
 package fidocadj;
 
 import java.io.*;
-import java.util.prefs.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Locale;
@@ -9,6 +8,7 @@ import java.util.Locale;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.globals.Globals;
 import fidocadj.export.ExportGraphic;
+import fidocadj.globals.SettingsManager;
 
 /** FileTools.java
  * Class performing high level user interface operation involving files.
@@ -39,7 +39,7 @@ public class FileTools
 {
 
     final private FidoFrame fff;
-    final private Preferences prefs;
+    final private SettingsManager prefs;
 
     // Open/save default properties
     public String openFileDirectory;
@@ -50,7 +50,7 @@ public class FileTools
      * @param p the preferences where to read/write settings (or null if
      * they should not be saved).
      */
-    public FileTools(FidoFrame f, Preferences p)
+    public FileTools(FidoFrame f, SettingsManager p)
     {
         fff = f;
         prefs = p;

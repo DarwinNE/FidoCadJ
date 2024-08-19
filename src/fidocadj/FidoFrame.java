@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.net.*;
-import java.util.prefs.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.dialogs.DialogOptions;
@@ -24,6 +23,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.Utf8ResourceBundle;
 import fidocadj.globals.LibUtils;
+import fidocadj.globals.SettingsManager;
 import fidocadj.circuit.HasChangedListener;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.CopyPasteActions;
@@ -102,7 +102,7 @@ public final class FidoFrame extends JFrame implements
 
     // Libraries properties
     public String libDirectory;
-    public Preferences preferences;
+    public SettingsManager preferences;
 
     // Toolbar properties
     // The toolbar dedicated to the available tools (the first one under
@@ -162,7 +162,7 @@ public final class FidoFrame extends JFrame implements
 
         if (runsAsApplication) {
             // Prepare the preferences associated to the FidoFrame class
-            preferences = Preferences.userNodeForPackage(this.getClass());
+            preferences = new SettingsManager(this.getClass());
         } else {
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
