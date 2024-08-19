@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.LayerCellRenderer;
 
 

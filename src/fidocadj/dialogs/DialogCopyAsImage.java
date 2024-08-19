@@ -8,7 +8,7 @@ import javax.swing.*;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.DimensionG;
 import fidocadj.graphic.PointG;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.geom.DrawingSize;
 import fidocadj.circuit.views.Export;

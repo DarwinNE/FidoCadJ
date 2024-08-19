@@ -8,7 +8,7 @@ import javax.swing.*;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.swing.ColorSwing;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 
 /** The class DialogEditLayer allows to choose the style, visibility and
     description of the current layer.

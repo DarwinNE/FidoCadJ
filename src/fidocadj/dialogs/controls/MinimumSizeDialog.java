@@ -1,4 +1,4 @@
-package fidocadj.dialogs.mindimdialog;
+package fidocadj.dialogs.controls;
 
 import javax.swing.*;
 import java.awt.event.*;

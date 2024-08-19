@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.net.*;
 
 import fidocadj.globals.Globals;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.BareBonesBrowserLaunch;
 
 /**

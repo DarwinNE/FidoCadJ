@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.io.*;
 
 import fidocadj.globals.Globals;
-import fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.LibraryPanel;
 
 /** The dialogOptions class implements a modal dialog, which allows the user to
