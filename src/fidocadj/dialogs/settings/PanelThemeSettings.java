@@ -58,7 +58,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     /**
      Constructor for PanelThemeSettings.
 
-     @param settingsManager the settings manager to handle the application settings.
+     @param settingsManager the settings manager to handle the ..
+                            application settings.
      */
     public PanelThemeSettings(SettingsManager settingsManager)
     {

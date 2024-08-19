@@ -118,10 +118,12 @@ public class SettingsManager
      */
     public int getInt(String key, int defaultValue)
     {
-        if (settings.containsKey(key)) {
-            return (int) settings.get(key);
+        String value = get(key, String.valueOf(defaultValue)); 
+        try {
+            return Integer.parseInt(value); 
+        } catch (NumberFormatException e) {
+            return defaultValue; 
         }
-        return preferences.getInt(key, defaultValue);
     }
 
     /**
@@ -134,12 +136,15 @@ public class SettingsManager
      */
     public double getDouble(String key, double defaultValue)
     {
-        if (settings.containsKey(key)) {
-            return (double) settings.get(key);
+        String value = get(key, String.valueOf(defaultValue));
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            // Se la conversione fallisce, restituisce il valore di default
+            return defaultValue;
         }
-        return preferences.getDouble(key, defaultValue);
     }
-
+    
     /**
      Gets a boolean setting from the manager or preferences store.
 
@@ -150,10 +155,8 @@ public class SettingsManager
      */
     public boolean getBoolean(String key, boolean defaultValue)
     {
-        if (settings.containsKey(key)) {
-            return (boolean) settings.get(key);
-        }
-        return preferences.getBoolean(key, defaultValue);
+        String value = get(key, String.valueOf(defaultValue));  
+        return Boolean.parseBoolean(value); 
     }
 
     /**

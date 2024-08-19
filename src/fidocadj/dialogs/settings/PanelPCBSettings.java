@@ -45,7 +45,8 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
     /**
      Constructor for PanelPCBSettings.
 
-     @param settingsManager the settings manager to handle the application settings.
+     @param settingsManager the settings manager to handle the ..
+                            application settings.
      */
     public PanelPCBSettings(SettingsManager settingsManager)
     {
@@ -63,18 +64,24 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
+        // Set weighty to 1.0 for pushing components to the top
+        constraints.weighty = 1.0;
+        constraints.anchor = GridBagConstraints.NORTH;
+
         // Label and text field for PCB line width setting
         JLabel pcbLineWidthLabel = new JLabel(Globals.messages.getString(
                 "pcbline_width"));
         constraints = DialogUtil.createConst(0, 0, 1, 1, 0.01, 0.01,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(30, 6, 6, 6));
+                new Insets(30, 10, 5, 5));
         add(pcbLineWidthLabel, constraints);
 
         pcbLineWidthField = new JTextField(10);
-        constraints = DialogUtil.createConst(1, 0, 2, 1, 0.01, 0.01,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(30, 6, 6, 6));
+        pcbLineWidthField.setPreferredSize(new Dimension(150,
+                pcbLineWidthField.getPreferredSize().height));
+        constraints = DialogUtil.createConst(1, 0, 1, 1, 0.01, 0.01,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(30, 5, 5, 10));
         add(pcbLineWidthField, constraints);
 
         // Label and text field for PCB pad width setting
@@ -82,13 +89,15 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
                 "pcbpad_width"));
         constraints = DialogUtil.createConst(0, 1, 1, 1, 0.01, 0.01,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(8, 6, 6, 6));
+                new Insets(15, 10, 5, 5));
         add(pcbPadWidthLabel, constraints);
 
         pcbPadWidthField = new JTextField(10);
-        constraints = DialogUtil.createConst(1, 1, 2, 1, 0.01, 0.01,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(8, 6, 6, 6));
+        pcbPadWidthField.setPreferredSize(new Dimension(150,
+                pcbPadWidthField.getPreferredSize().height));
+        constraints = DialogUtil.createConst(1, 1, 1, 1, 0.01, 0.01,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(15, 5, 5, 10));
         add(pcbPadWidthField, constraints);
 
         // Label and text field for PCB pad height setting
@@ -96,13 +105,15 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
                 "pcbpad_height"));
         constraints = DialogUtil.createConst(0, 2, 1, 1, 0.01, 0.01,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(8, 6, 6, 6));
+                new Insets(15, 10, 5, 5));
         add(pcbPadHeightLabel, constraints);
 
         pcbPadHeightField = new JTextField(10);
-        constraints = DialogUtil.createConst(1, 2, 2, 1, 0.01, 0.01,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(8, 6, 6, 6));
+        pcbPadHeightField.setPreferredSize(new Dimension(150,
+                pcbPadHeightField.getPreferredSize().height));
+        constraints = DialogUtil.createConst(1, 2, 1, 1, 0.01, 0.01,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(15, 5, 5, 10));
         add(pcbPadHeightField, constraints);
 
         // Label and text field for PCB pad hole diameter setting
@@ -110,14 +121,22 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
                 "pcbpad_intw"));
         constraints = DialogUtil.createConst(0, 3, 1, 1, 0.01, 0.01,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(8, 6, 6, 6));
+                new Insets(15, 10, 5, 5));
         add(pcbPadHoleDiameterLabel, constraints);
 
         pcbPadHoleDiameterField = new JTextField(10);
-        constraints = DialogUtil.createConst(1, 3, 2, 1, 0.01, 0.01,
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(8, 6, 6, 6));
+        pcbPadHoleDiameterField.setPreferredSize(new Dimension(150,
+                pcbPadHoleDiameterField.getPreferredSize().height));
+        constraints = DialogUtil.createConst(1, 3, 1, 1, 0.01, 0.01,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(15, 5, 5, 10));
         add(pcbPadHoleDiameterField, constraints);
+
+        // Spacer to push all components to the top
+        constraints = DialogUtil.createConst(0, 4, 2, 1, 1.0, 1.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0));
+        add(Box.createGlue(), constraints);
     }
 
     /**

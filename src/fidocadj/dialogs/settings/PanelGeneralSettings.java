@@ -41,6 +41,7 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
     private JTextField libDirectoryField;
     private JCheckBox textToolbarCheckBox;
     private JCheckBox smallIconsCheckBox;
+    private JCheckBox extStrict_CB;
 
     /**
      Constructor for PanelGeneralSettings.
@@ -65,40 +66,61 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
 
         // Label for the library directory setting
         JLabel libDirLabel = new JLabel(Globals.messages.getString("lib_dir"));
-        constraints = DialogUtil.createConst(0, 0, 1, 1, 0.01, 0.01,
+        constraints = DialogUtil.createConst(0, 0, 4, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(20, 40, 6, 0));
         add(libDirLabel, constraints);
 
         // Text field for the library directory path
-        libDirectoryField = new JTextField(10);
-        constraints = DialogUtil.createConst(1, 0, 2, 1, 0.01, 0.01,
-                GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
-                new Insets(6, 40, 6, 20));
+        libDirectoryField = new JTextField(20);
+        constraints = DialogUtil.createConst(0, 1, 3, 1, 1.0, 0.0,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(0, 40, 6, 20));
         add(libDirectoryField, constraints);
 
         // Button to browse for a library directory
         JButton browseButton = new JButton(Globals.messages.getString("Browse"));
-        constraints = DialogUtil.createConst(3, 0, 1, 1, 0.01, 0.01,
+        constraints = DialogUtil.createConst(3, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(6, 40, 6, 20));
+                new Insets(0, 0, 6, 20));
         add(browseButton, constraints);
+
+        // Label for restart information
+        JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
+        restw.setForeground(Color.BLUE);
+        constraints = DialogUtil.createConst(0, 2, 4, 1, 1.0, 0.0,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(35, 40, 6, 0));
+        add(restw, constraints);
 
         // Checkbox to toggle text in the toolbar
         textToolbarCheckBox = new JCheckBox(Globals.messages.getString(
                 "TextToolbar"));
-        constraints = DialogUtil.createConst(0, 1, 4, 1, 0.01, 0.01,
+        constraints = DialogUtil.createConst(0, 3, 4, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(6, 40, 6, 0));
+                new Insets(10, 40, 6, 0));
         add(textToolbarCheckBox, constraints);
 
         // Checkbox to toggle small icons in the toolbar
         smallIconsCheckBox = new JCheckBox(Globals.messages.getString(
                 "SmallIcons"));
-        constraints = DialogUtil.createConst(0, 2, 4, 1, 0.01, 0.01,
+        constraints = DialogUtil.createConst(0, 4, 4, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(6, 40, 6, 0));
+                new Insets(10, 40, 6, 0));
         add(smallIconsCheckBox, constraints);
+
+        // Checkbox for strict FidoCAD compatibility
+        extStrict_CB = new JCheckBox(Globals.messages.getString("strict_FC_comp"));
+        constraints = DialogUtil.createConst(0, 5, 4, 1, 1.0, 0.0,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(25, 40, 6, 0));
+        add(extStrict_CB, constraints);
+
+        // Spacer to push all controls to the top
+        constraints = DialogUtil.createConst(0, 6, 4, 1, 1.0, 1.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0));
+        add(Box.createGlue(), constraints);
 
         // Action listener for the browse button to select a directory
         browseButton.addActionListener(new ActionListener()
@@ -130,6 +152,8 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
                 "true").equals("true"));
         smallIconsCheckBox.setSelected(settingsManager.get("SMALL_ICON_TOOLBAR",
                 "false").equals("true"));
+        extStrict_CB.setSelected(settingsManager.get("STRICT_COMPATIBILITY",
+                "false").equals("true"));
     }
 
     /**
@@ -143,5 +167,7 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
                 textToolbarCheckBox.isSelected() ? "true" : "false");
         settingsManager.put("SMALL_ICON_TOOLBAR",
                 smallIconsCheckBox.isSelected() ? "true" : "false");
+        settingsManager.put("STRICT_COMPATIBILITY",
+                extStrict_CB.isSelected() ? "true" : "false");
     }
 }
