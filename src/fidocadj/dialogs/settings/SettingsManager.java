@@ -140,7 +140,7 @@ public class SettingsManager
         try {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            // Se la conversione fallisce, restituisce il valore di default
+            // If the conversion fails, it returns the default value.
             return defaultValue;
         }
     }

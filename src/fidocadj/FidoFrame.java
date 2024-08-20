@@ -739,11 +739,11 @@ public final class FidoFrame extends JFrame implements
         ElementsEdtActions eea = circuitPanel.getContinuosMoveActions();
         AddElements ae = eea.getAddElements();
 
-        // Creare e visualizzare la finestra di dialogo per le impostazioni
+        // Create and display the settings dialog window
         DialogSettings options = new DialogSettings(this, preferences);
         options.showDialog();
 
-        // Ora aggiorna le proprietà in base alle nuove impostazioni
+        // Update properties based on the new settings
         circuitPanel.setBackground(Color.decode(preferences.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
         
