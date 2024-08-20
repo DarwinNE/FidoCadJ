@@ -411,6 +411,7 @@ class CreateSwingInterface implements Runnable
 
         if (isCustomTheme) {
             customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
+            System.err.println(customThemePath);
         }
 
         try {
@@ -512,30 +513,33 @@ class CreateSwingInterface implements Runnable
     {
         try {
             if (isCustomTheme && customThemePath != null && !customThemePath.isEmpty()) {
-                // Load and apply the custom theme from the properties file
+                // Load the custom theme from the properties file
                 Properties props = new Properties();
                 try (FileInputStream inputStream = new FileInputStream(
                         customThemePath)) {
                     props.load(inputStream);
                 }
 
-                // Convert Properties to Map<String, String> required by FlatLaf
+                // Convert Properties to Map<String, String> as required by FlatLaf
                 Map<String, String> themeProperties = new HashMap<>();
                 for (String key : props.stringPropertyNames()) {
                     themeProperties.put(key, props.getProperty(key));
                 }
 
-                // Apply the custom theme settings
-                FlatLaf.setGlobalExtraDefaults(themeProperties);
-
-                // Use FlatLightLaf or FlatDarkLaf as the base for the custom theme
+                // Set up the base theme before applying custom properties
                 if (isDarkTheme) {
                     FlatDarkLaf.setup();
                 } else {
                     FlatLightLaf.setup();
                 }
+
+                // Apply the custom theme properties
+                FlatLaf.setGlobalExtraDefaults(themeProperties);
+                FlatDarkLaf.setup(); // base for custom theme
+                // Ensure that the UI reflects the changes
+                FlatLaf.updateUI();
             } else {
-                // Apply predefined themes based on user preference
+                // Apply default themes based on user preference
                 if (isLightTheme) {
                     FlatLightLaf.setup();
                 } else {
@@ -543,9 +547,12 @@ class CreateSwingInterface implements Runnable
                         FlatDarkLaf.setup();
                     }
                 }
+
+                // Ensure that the UI reflects the changes
+                FlatLaf.updateUI();
             }
         } catch (Exception e) {
-            // Handle exceptions that might occur during theme application
+            // Handle any exceptions that may occur during theme application
             System.err.println("Failed to apply the theme: " + e.getMessage());
         }
     }

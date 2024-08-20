@@ -141,6 +141,27 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         customThemePathField = new JTextField(20);
         browseCustomThemeButton = new JButton(
                 Globals.messages.getString("Browse"));
+        
+        browseCustomThemeButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+                fileChooser.setFileFilter(
+                        new javax.swing.filechooser.FileNameExtensionFilter(
+                                "Properties Files (*.properties)", "properties"));
+
+                int returnValue = fileChooser.showOpenDialog(
+                        PanelThemeSettings.this);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    customThemePathField.setText(
+                            fileChooser.getSelectedFile().getPath());
+                }
+            }
+        });
 
         constraints = DialogUtil.createConst(1, 4, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
