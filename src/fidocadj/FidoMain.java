@@ -423,6 +423,9 @@ class CreateSwingInterface implements Runnable
         } catch (Exception e) {
             System.out.println(
                 "Failed to apply theme. Falling back to default.");
+        } catch (NoClassDefFoundError e) {
+            System.out.println(
+                "Can not locate FlatLaf. Falling back to default.");
         }
 
         /**
