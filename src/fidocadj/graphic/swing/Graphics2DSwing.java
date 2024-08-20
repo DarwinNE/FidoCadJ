@@ -662,10 +662,11 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         @param ymin the y (screen) coordinate of the upper left corner
         @param xmax the x (screen) coordinate of the bottom right corner
         @param ymax the y (screen) coordinate of the bottom right corner
+        @param colorDots the color for dot grid
+        @param colorLines the color for lines grid
     */
-    public void drawGrid(MapCoordinates cs,
-        int xmin, int ymin,
-        int xmax, int ymax)
+    public void drawGrid(MapCoordinates cs,int xmin, int ymin, int xmax, 
+            int ymax, ColorInterface colorDots, ColorInterface colorLines)
     {
         // Drawing the grid seems easy, but it appears that setting a pixel
         // takes a lot of time. Basically, we create a textured brush and we
@@ -710,7 +711,8 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
                 bufferedImage=null;
                 d=2;
                 // The loops are done in logical units.
-                g.setColor(new Color(220,220,220));
+                ColorSwing clrl = (ColorSwing)colorLines;
+                g.setColor(clrl.getColorSwing());
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     g.drawLine(
                         (int)Math.round(cs.mapXr(x,0)),ymin,
@@ -749,7 +751,8 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
                 height>maxAllowableGridBrushHeight)
             {
                 // Simpler (and generally less efficient) version of the grid
-                g.setColor(Color.gray);
+                ColorSwing clrd = (ColorSwing) colorDots;
+                g.setColor(clrd.getColorSwing());
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
                         g.fillRect((int)Math.round(cs.mapXr(x,y)-dd),
@@ -776,7 +779,9 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
             // Create a graphics contents on the buffered image
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setColor(Color.white);
-            g2d.setColor(Color.gray);
+            ColorSwing clrd = (ColorSwing) colorDots;
+            g2d.setColor(clrd.getColorSwing());
+            g.setColor(clrd.getColorSwing());
 
             // Prepare the image with the grid.
             for (x=0; x<=cs.unmapXsnap(width); x+=dx) {

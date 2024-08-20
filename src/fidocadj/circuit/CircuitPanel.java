@@ -89,6 +89,18 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     // Default background color
     private Color backgroundColor;
+    
+    // Default grid dots color
+    private ColorSwing gridDotsColor;
+ 
+    // Default grid lines color
+    private ColorSwing gridLinesColor;
+
+    public CircuitPanel()
+    {
+        this.ruler = null;
+    }
+    
 
     // Position of the rectangle used for the selection
     private Rectangle evidenceRect;
@@ -161,6 +173,9 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     public CircuitPanel(boolean isEditable)
     {
         backgroundColor = Color.white;
+        gridDotsColor = new ColorSwing(Color.BLACK);
+        gridLinesColor = new ColorSwing(Color.LIGHT_GRAY);
+        
         setDrawingModel(new DrawingModel());
 
         mwHandler = new MouseWheelHandler(this);
@@ -525,6 +540,26 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         backgroundColor = sfondo;
     }
+    
+    /**
+     Sets the dots grid color.
+
+     @param color the the dots grid color to be used.
+     */
+    public void setDotsGridColor(Color color)
+    {
+        gridDotsColor = new ColorSwing(color);
+    }
+
+    /**
+     Sets the lines grid color.
+
+     @param color the lines grid colo to be used.
+     */
+    public void setLinesGridColor(Color color)
+    {
+        gridLinesColor = new ColorSwing(color);
+    }
 
     /** Activate and sets an evidence rectangle which will be put on screen
      * at the next redraw. All sizes are given in pixel.
@@ -574,7 +609,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // Draw the grid if necessary.
         if (isGridVisible) {
             graphicSwing.drawGrid(mapCoordinates, 0, 0,
-                    getWidth(), getHeight());
+                    getWidth(), getHeight(), gridDotsColor, gridLinesColor);
         }
 
         // The standard color is black.

@@ -389,10 +389,11 @@ public class GraphicsNull implements GraphicsInterface, TextInterface
         @param ymin the y (screen) coordinate of the upper left corner.
         @param xmax the x (screen) coordinate of the bottom right corner.
         @param ymax the y (screen) coordinate of the bottom right corner.
+        @param colorDots the color for dot grid
+        @param colorLines the color for lines grid
     */
-    public void drawGrid(MapCoordinates cs,
-        int xmin, int ymin,
-        int xmax, int ymax)
+    public void drawGrid(MapCoordinates cs, int xmin, int ymin, int xmax, 
+            int ymax, ColorInterface colorDots, ColorInterface colorLines)
     {
             // nothing to do
     }

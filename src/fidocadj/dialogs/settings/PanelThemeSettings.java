@@ -343,7 +343,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         backgroundColorPicker.setColor(Color.decode(settingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
         gridDotsColorPicker.setColor(Color.decode(settingsManager.get(
-                "GRID_DOTS_COLOR", "#808080")));
+                "GRID_DOTS_COLOR", "#000000")));
         gridLinesColorPicker.setColor(Color.decode(settingsManager.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
         drawingColorPicker.setColor(Color.decode(settingsManager.get(

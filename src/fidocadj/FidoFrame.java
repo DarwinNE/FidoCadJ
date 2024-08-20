@@ -423,7 +423,13 @@ public final class FidoFrame extends JFrame implements
         
         circuitPanel.setBackground(Color.decode(preferences.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
-
+        
+        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+                "GRID_DOTS_COLOR", "#000000")));
+        
+        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+                "GRID_LINES_COLOR", "#D3D3D3")));
+        
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
@@ -734,6 +740,13 @@ public final class FidoFrame extends JFrame implements
         // Ora aggiorna le proprietà in base alle nuove impostazioni
         circuitPanel.setBackground(Color.decode(preferences.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
+        
+        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+                "GRID_DOTS_COLOR", "#000000")));
+
+        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+                "GRID_LINES_COLOR", "#D3D3D3")));
+        
         circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);
         circuitPanel.antiAlias = preferences.getBoolean("ANTIALIAS",
