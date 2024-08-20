@@ -401,28 +401,27 @@ class CreateSwingInterface implements Runnable
     public void run()
     {
         SettingsManager settingsManager = new SettingsManager(this.getClass());
-        boolean enableCustomThemes = settingsManager.get("ENABLE_CUSTOM_THEMES",
+        boolean enableThemesSupport = settingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");
         String theme = settingsManager.get("THEME", "light");
         boolean isLightTheme = theme.equals("light");
         boolean isDarkTheme = theme.equals("dark");
-        boolean isCustomTheme = theme.equals("custom");
+        boolean isCustomTheme = settingsManager.get("PERSONALIZED_THEME",
+                "false").equals("true");
         String customThemePath = null;
 
-        if (isCustomTheme) {
+        if (isCustomTheme && enableThemesSupport) {
             customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
-            System.err.println(customThemePath);
         }
 
         try {
-            if (enableCustomThemes) {
+            if (enableThemesSupport) {
                 applyTheme(isLightTheme, isDarkTheme, isCustomTheme,
                         customThemePath);
             }
         } catch (Exception e) {
             System.out.println("Failed to apply theme. Falling back to default.");
         }
-
 
         /**
          *****************************************************************
@@ -435,7 +434,7 @@ class CreateSwingInterface implements Runnable
             System.setProperty("com.apple.mrj.application.apple.menu.about.name",
                     "FidoCadJ");
             try {
-                if (!enableCustomThemes) {
+                if (!enableThemesSupport) {
                     System.out.println("Trying to activate VAqua11");
                     UIManager.setLookAndFeel(
                             "org.violetlib.aqua.AquaLookAndFeel");
@@ -443,14 +442,14 @@ class CreateSwingInterface implements Runnable
                 }
             } catch (Exception e) {
                 System.out.println(
-             "Failed to activate macOS Look and Feel. Continuing with default.");
+                        "Failed to activate macOS Look and Feel. Continuing with default.");
             }
         } else {
             if (OSValidator.isWindows()) {
                 try {
-                    if (!enableCustomThemes) {
+                    if (!enableThemesSupport) {
                         UIManager.setLookAndFeel(
-                          "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                                "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
                     }
                 } catch (Exception eE) {
                     System.out.println(
@@ -464,12 +463,9 @@ class CreateSwingInterface implements Runnable
          END OF THE PLATFORM SELECTION CODE
          ******************************************************************
          */
-        // This substitutes the AppleSpecific class for Java >=9 and it is a
-        // much more general and desirable solution.
         Globals.desktopInt = new ADesktopIntegration();
         Globals.desktopInt.registerActions();
 
-        // Here we create the main window object
         FidoFrame popFrame = new FidoFrame(true, currentLocale);
 
         if (!"".equals(libDirectory)) {
@@ -478,18 +474,14 @@ class CreateSwingInterface implements Runnable
 
         popFrame.init();
 
-        // Show the window immediately to improve perception of speed
         popFrame.setVisible(true);
 
-        // Load the libraries
         popFrame.loadLibraries();
 
-        // If a file should be loaded, load it now
         if (!"".equals(loadFile)) {
             popFrame.getFileTools().load(loadFile);
         }
 
-        // Force a global validation of the window size
         popFrame.setVisible(true);
     }
 
@@ -500,8 +492,8 @@ class CreateSwingInterface implements Runnable
      dark theme, or a custom theme loaded from an external properties file.
      If the custom theme is selected and the specified path is valid,
      the properties are loaded and applied using FlatLaf.
-     If a custom theme is not specified, it falls back to the light or dark theme
-     based on the user's preferences.
+     If a custom theme is not specified, it falls back to the ..
+     light or dark theme based on the user's preferences.
 
      @param isLightTheme true if the light theme should be applied
      @param isDarkTheme true if the dark theme should be applied
@@ -512,7 +504,8 @@ class CreateSwingInterface implements Runnable
             boolean isCustomTheme, String customThemePath)
     {
         try {
-            if (isCustomTheme && customThemePath != null && !customThemePath.isEmpty()) {
+            if (isCustomTheme && customThemePath != null &&
+                                            !customThemePath.isEmpty()) {
                 // Load the custom theme from the properties file
                 Properties props = new Properties();
                 try (FileInputStream inputStream = new FileInputStream(
@@ -526,6 +519,9 @@ class CreateSwingInterface implements Runnable
                     themeProperties.put(key, props.getProperty(key));
                 }
 
+                // Apply the custom theme properties
+                FlatLaf.setGlobalExtraDefaults(themeProperties);
+
                 // Set up the base theme before applying custom properties
                 if (isDarkTheme) {
                     FlatDarkLaf.setup();
@@ -533,9 +529,6 @@ class CreateSwingInterface implements Runnable
                     FlatLightLaf.setup();
                 }
 
-                // Apply the custom theme properties
-                FlatLaf.setGlobalExtraDefaults(themeProperties);
-                FlatDarkLaf.setup(); // base for custom theme
                 // Ensure that the UI reflects the changes
                 FlatLaf.updateUI();
             } else {

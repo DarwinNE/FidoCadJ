@@ -42,10 +42,10 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     private SettingsManager settingsManager;
     private JRadioButton lightThemeRadioButton;
     private JRadioButton darkThemeRadioButton;
-    private JRadioButton customThemeRadioButton;
+    private JCheckBox personalizedThemeCheckBox;
     private JTextField customThemePathField;
     private JButton browseCustomThemeButton;
-    private JCheckBox enableCustomThemesCheckBox;
+    private JCheckBox enableThemesSupportCheckBox;
 
     private ColorPicker backgroundColorPicker;
     private ColorPicker gridDotsColorPicker;
@@ -57,7 +57,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     /**
      Constructor for PanelThemeSettings.
 
-     @param settingsManager the settings manager to handle the application settings.
+     @param settingsManager settings manager to handle the application settings.
      */
     public PanelThemeSettings(SettingsManager settingsManager)
     {
@@ -98,26 +98,23 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         themeManagementPanel.setLayout(new GridBagLayout());
 
         // Checkbox to enable custom themes support
-        enableCustomThemesCheckBox = new JCheckBox(
+        enableThemesSupportCheckBox = new JCheckBox(
                 Globals.messages.getString("Theme_enableSupport"));
-        enableCustomThemesCheckBox.setOpaque(false);
-        constraints = DialogUtil.createConst(0, 1, 2, 1, 100, 100,
+        enableThemesSupportCheckBox.setOpaque(false);
+        constraints = DialogUtil.createConst(0, 1, 3, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(6, 6, 6, 6));
-        themeManagementPanel.add(enableCustomThemesCheckBox, constraints);
+        themeManagementPanel.add(enableThemesSupportCheckBox, constraints);
 
         // Radio buttons for theme selection
         lightThemeRadioButton = new JRadioButton(
                 Globals.messages.getString("FlatLaf_light"));
         darkThemeRadioButton = new JRadioButton(
                 Globals.messages.getString("FlatLaf_dark"));
-        customThemeRadioButton = new JRadioButton(
-                Globals.messages.getString("FlatLaf_custom"));
 
         ButtonGroup themeGroup = new ButtonGroup();
         themeGroup.add(lightThemeRadioButton);
         themeGroup.add(darkThemeRadioButton);
-        themeGroup.add(customThemeRadioButton);
 
         // Set "Tema light" as the default selected option
         lightThemeRadioButton.setSelected(true);
@@ -132,12 +129,19 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(darkThemeRadioButton, constraints);
 
-        constraints = DialogUtil.createConst(0, 4, 1, 1, 100, 100,
-                GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(6, 6, 6, 6));
-        themeManagementPanel.add(customThemeRadioButton, constraints);
+        // Label explaining the custom theme is based on the selected theme
+        JLabel customThemeInfoLabel = new JLabel(
+                Globals.messages.getString("Custom_theme_info"));
+        customThemeInfoLabel.setForeground(Color.decode("#404040"));
 
-        // TextBox and Button for selecting custom theme file
+        constraints = DialogUtil.createConst(1, 3, 2, 1, 100, 100,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(6, 6, 6, 6));
+        themeManagementPanel.add(customThemeInfoLabel, constraints);
+
+        // Checkbox and TextBox for custom theme file
+        personalizedThemeCheckBox = new JCheckBox(
+                Globals.messages.getString("FlatLaf_custom"));
         customThemePathField = new JTextField(20);
         browseCustomThemeButton = new JButton(
                 Globals.messages.getString("Browse"));
@@ -163,6 +167,20 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
             }
         });
 
+        personalizedThemeCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean isSelected = personalizedThemeCheckBox.isSelected();
+                customThemePathField.setEnabled(isSelected);
+                browseCustomThemeButton.setEnabled(isSelected);
+            }
+        });
+
+        constraints = DialogUtil.createConst(0, 4, 1, 1, 100, 100,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(6, 6, 6, 6));
+        themeManagementPanel.add(personalizedThemeCheckBox, constraints);
+
         constraints = DialogUtil.createConst(1, 4, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(6, 6, 6, 6));
@@ -174,27 +192,21 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         themeManagementPanel.add(browseCustomThemeButton, constraints);
 
         // Enable/Disable Controls based on Custom Themes
-        enableCustomThemesCheckBox.addActionListener(new ActionListener()
+        enableThemesSupportCheckBox.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                enableThemeControls(enableCustomThemesCheckBox.isSelected());
+                boolean isEnabled = enableThemesSupportCheckBox.isSelected();
+                lightThemeRadioButton.setEnabled(isEnabled);
+                darkThemeRadioButton.setEnabled(isEnabled);
+                personalizedThemeCheckBox.setEnabled(isEnabled);
+                customThemePathField.setEnabled(
+                        isEnabled && personalizedThemeCheckBox.isSelected());
+                browseCustomThemeButton.setEnabled(
+                        isEnabled && personalizedThemeCheckBox.isSelected());
             }
         });
-
-        ActionListener themeSelectionListener = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                enableThemeControls(true);
-            }
-        };
-
-        lightThemeRadioButton.addActionListener(themeSelectionListener);
-        darkThemeRadioButton.addActionListener(themeSelectionListener);
-        customThemeRadioButton.addActionListener(themeSelectionListener);
 
         // Groupbox "Color Management"
         JPanel colorManagementPanel = new JPanel();
@@ -295,41 +307,27 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         add(colorManagementPanel, constraints);
     }
 
-    private void enableThemeControls(boolean isEnabled)
-    {
-        lightThemeRadioButton.setEnabled(isEnabled);
-        darkThemeRadioButton.setEnabled(isEnabled);
-        customThemeRadioButton.setEnabled(isEnabled);
-
-        boolean customThemeSelected =
-                            isEnabled && customThemeRadioButton.isSelected();
-        customThemePathField.setEnabled(customThemeSelected);
-        browseCustomThemeButton.setEnabled(customThemeSelected);
-    }
-
     @Override
     public void loadSettings()
     {
         String theme = settingsManager.get("THEME", "light");
-        switch (theme) {
-            case "dark":
-                darkThemeRadioButton.setSelected(true);
-                break;
-            case "custom":
-                customThemeRadioButton.setSelected(true);
-                break;
-            default:
-                lightThemeRadioButton.setSelected(true);
-                break;
+        if ("dark".equals(theme)) {
+            darkThemeRadioButton.setSelected(true);
+        } else {
+            lightThemeRadioButton.setSelected(true);
         }
 
         customThemePathField.setText(
                 settingsManager.get("CUSTOM_THEME_PATH", ""));
         boolean enableCustomThemes = settingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");
-        enableCustomThemesCheckBox.setSelected(enableCustomThemes);
+        enableThemesSupportCheckBox.setSelected(enableCustomThemes);
 
-        enableThemeControls(enableCustomThemes);
+        boolean isCustomThemeEnabled = settingsManager.get("PERSONALIZED_THEME", 
+                                                        "false").equals("true");
+        personalizedThemeCheckBox.setSelected(isCustomThemeEnabled);
+        customThemePathField.setEnabled(isCustomThemeEnabled);
+        browseCustomThemeButton.setEnabled(isCustomThemeEnabled);
 
         backgroundColorPicker.setColor(Color.decode(settingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
@@ -348,19 +346,13 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     @Override
     public void saveSettings()
     {
-        String theme = "light";
-        if (darkThemeRadioButton.isSelected()) {
-            theme = "dark";
-        } else {
-            if (customThemeRadioButton.isSelected()) {
-                theme = "custom";
-            }
-        }
-
+        String theme = lightThemeRadioButton.isSelected() ? "light" : "dark";
         settingsManager.put("THEME", theme);
         settingsManager.put("CUSTOM_THEME_PATH", customThemePathField.getText());
         settingsManager.put("ENABLE_CUSTOM_THEMES",
-                enableCustomThemesCheckBox.isSelected() ? "true" : "false");
+                enableThemesSupportCheckBox.isSelected() ? "true" : "false");
+        settingsManager.put("PERSONALIZED_THEME",
+                personalizedThemeCheckBox.isSelected() ? "true" : "false");
 
         settingsManager.put("BACKGROUND_COLOR", String.format("#%06X",
                 (0xFFFFFF & backgroundColorPicker.getColor().getRGB())));
