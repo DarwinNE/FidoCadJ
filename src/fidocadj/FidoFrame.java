@@ -420,6 +420,9 @@ public final class FidoFrame extends JFrame implements
         ae.pcbPadStyle=Integer.parseInt(preferences.get("PCB_pad_style","0"));
         ae.pcbPadDrill=Integer.parseInt(preferences.get("PCB_pad_drill","5"));
         ae.pcbThickness=Integer.parseInt(preferences.get("PCB_thickness","5"));
+        
+        circuitPanel.setBackground(Color.decode(preferences.get(
+                "BACKGROUND_COLOR", "#FFFFFF")));
 
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
@@ -729,6 +732,8 @@ public final class FidoFrame extends JFrame implements
         options.showDialog();
 
         // Ora aggiorna le proprietà in base alle nuove impostazioni
+        circuitPanel.setBackground(Color.decode(preferences.get(
+                "BACKGROUND_COLOR", "#FFFFFF")));
         circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);
         circuitPanel.antiAlias = preferences.getBoolean("ANTIALIAS",
