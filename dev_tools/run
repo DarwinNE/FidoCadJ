@@ -4,6 +4,6 @@
 #/System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Commands/java -classpath "./bin:./jar:./jar/quaqua.jar:./jar/"  FidoFrame
 #java  -server -classpath "./bin:./jar:./jar/quaqua.jar:./jar/"  net.sourceforge.fidocadj.FidoMain $@
 #java  -server -classpath "./bin:./jar:./jar/VAqua7.jar:./jar/"  net.sourceforge.fidocadj.FidoMain $@
-java  -server -classpath "./bin:./jar:./jar/VAqua11.jar:./jar/"  fidocadj.FidoMain $@
+java  -server -classpath "./bin:./jar:./jar/flatlaf-3.5.1.jar:./jar/"  fidocadj.FidoMain $@
 # cd ..
 
