@@ -18,9 +18,10 @@ import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.DimensionG;
-
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
 
 
 /** FidoMain.java
@@ -405,14 +406,22 @@ class CreateSwingInterface implements Runnable
         String theme = settingsManager.get("THEME", "light");
         boolean isLightTheme = theme.equals("light");
         boolean isDarkTheme = theme.equals("dark");
+        boolean isCustomTheme = theme.equals("custom");
+        String customThemePath = null;
+
+        if (isCustomTheme) {
+            customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
+        }
 
         try {
             if (enableCustomThemes) {
-                applyTheme(isLightTheme, isDarkTheme);
+                applyTheme(isLightTheme, isDarkTheme, isCustomTheme,
+                        customThemePath);
             }
         } catch (Exception e) {
             System.out.println("Failed to apply theme. Falling back to default.");
         }
+
 
         /**
          *****************************************************************
@@ -486,21 +495,58 @@ class CreateSwingInterface implements Runnable
     /**
      Applies the selected theme based on the user's preferences.
 
-     @param isLightTheme true if the light theme should be applied, false otherwise.
-     @param isDarkTheme true if the dark theme should be applied, false otherwise.
+     This method handles the application of either a predefined light or ..
+     dark theme, or a custom theme loaded from an external properties file.
+     If the custom theme is selected and the specified path is valid,
+     the properties are loaded and applied using FlatLaf.
+     If a custom theme is not specified, it falls back to the light or dark theme
+     based on the user's preferences.
+
+     @param isLightTheme true if the light theme should be applied
+     @param isDarkTheme true if the dark theme should be applied
+     @param isCustomTheme true if a custom theme should be applied
+     @param customThemePath the path to the custom theme properties file.
      */
-    private void applyTheme(boolean isLightTheme, boolean isDarkTheme)
+    private void applyTheme(boolean isLightTheme, boolean isDarkTheme,
+            boolean isCustomTheme, String customThemePath)
     {
         try {
-            if (isLightTheme) {
-                FlatLightLaf.setup();
-            } else {
+            if (isCustomTheme && customThemePath != null && !customThemePath.isEmpty()) {
+                // Load and apply the custom theme from the properties file
+                Properties props = new Properties();
+                try (FileInputStream inputStream = new FileInputStream(
+                        customThemePath)) {
+                    props.load(inputStream);
+                }
+
+                // Convert Properties to Map<String, String> required by FlatLaf
+                Map<String, String> themeProperties = new HashMap<>();
+                for (String key : props.stringPropertyNames()) {
+                    themeProperties.put(key, props.getProperty(key));
+                }
+
+                // Apply the custom theme settings
+                FlatLaf.setGlobalExtraDefaults(themeProperties);
+
+                // Use FlatLightLaf or FlatDarkLaf as the base for the custom theme
                 if (isDarkTheme) {
                     FlatDarkLaf.setup();
+                } else {
+                    FlatLightLaf.setup();
+                }
+            } else {
+                // Apply predefined themes based on user preference
+                if (isLightTheme) {
+                    FlatLightLaf.setup();
+                } else {
+                    if (isDarkTheme) {
+                        FlatDarkLaf.setup();
+                    }
                 }
             }
         } catch (Exception e) {
-            System.err.println("FlatLaf theme setup fail");
+            // Handle exceptions that might occur during theme application
+            System.err.println("Failed to apply the theme: " + e.getMessage());
         }
     }
 }
