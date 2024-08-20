@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import fidocadj.dialogs.controls.ColorPicker;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.globals.Globals;
 
 /**
  PanelThemeSettings is responsible for managing the theme and color settings
@@ -80,12 +81,13 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         // Groupbox "Theme Management"
         JPanel themeManagementPanel = new JPanel();
         themeManagementPanel.setBorder(
-                BorderFactory.createTitledBorder("Gestione tema"));
+                BorderFactory.createTitledBorder(
+                            Globals.messages.getString("Theme_groupBox")));
         themeManagementPanel.setLayout(new GridBagLayout());
 
         // Checkbox to enable custom themes support
         enableCustomThemesCheckBox = new JCheckBox(
-                "Abilita il supporto per temi personalizzati");
+                Globals.messages.getString("Theme_enableSupport"));
         enableCustomThemesCheckBox.setOpaque(false);
         constraints = DialogUtil.createConst(0, 0, 2, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
@@ -93,9 +95,12 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         themeManagementPanel.add(enableCustomThemesCheckBox, constraints);
 
         // Radio buttons for theme selection
-        lightThemeRadioButton = new JRadioButton("Tema light");
-        darkThemeRadioButton = new JRadioButton("Tema dark");
-        customThemeRadioButton = new JRadioButton("Tema personalizzato");
+        lightThemeRadioButton = new JRadioButton(
+                    Globals.messages.getString("FlatLaf_light"));
+        darkThemeRadioButton = new JRadioButton(
+                    Globals.messages.getString("FlatLaf_dark"));
+        customThemeRadioButton = new JRadioButton(
+                    Globals.messages.getString("FlatLaf_custom"));
 
         ButtonGroup themeGroup = new ButtonGroup();
         themeGroup.add(lightThemeRadioButton);
@@ -122,9 +127,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         // TextBox and Button for selecting custom theme file
         customThemePathField = new JTextField(20);
-        customThemePathField.setEnabled(false);
-        browseCustomThemeButton = new JButton("Sfoglia");
-        browseCustomThemeButton.setEnabled(false);
+        browseCustomThemeButton = new JButton(
+                        Globals.messages.getString("Browse"));
 
         constraints = DialogUtil.createConst(1, 3, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
@@ -142,19 +146,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                boolean enabled = enableCustomThemesCheckBox.isSelected();
-                lightThemeRadioButton.setEnabled(enabled);
-                darkThemeRadioButton.setEnabled(enabled);
-                customThemeRadioButton.setEnabled(enabled);
-                if (!enabled) {
-                    customThemePathField.setEnabled(false);
-                    browseCustomThemeButton.setEnabled(false);
-                } else {
-                    customThemePathField.setEnabled(
-                            customThemeRadioButton.isSelected());
-                    browseCustomThemeButton.setEnabled(
-                            customThemeRadioButton.isSelected());
-                }
+                enableThemeControls(enableCustomThemesCheckBox.isSelected());
             }
         });
 
@@ -163,9 +155,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                boolean customSelected = customThemeRadioButton.isSelected();
-                customThemePathField.setEnabled(customSelected);
-                browseCustomThemeButton.setEnabled(customSelected);
+                enableThemeControls(customThemeRadioButton.isSelected());
             }
         };
 
@@ -176,12 +166,13 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         // Groupbox "Color Management"
         JPanel colorManagementPanel = new JPanel();
         colorManagementPanel.setBorder(
-                BorderFactory.createTitledBorder("Gestione colori"));
+                BorderFactory.createTitledBorder(
+                            Globals.messages.getString("Colors_management")));
         colorManagementPanel.setLayout(new GridBagLayout());
 
         // Column 1: Long text labels
         JLabel backgroundColorLabel = new JLabel(
-                "Colore di sfondo dell'area di disegno");
+                Globals.messages.getString("Circuit_backgroud"));
         constraints = DialogUtil.createConst(0, 0, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -194,7 +185,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(backgroundColorPicker, constraints);
 
         JLabel selectionRightToLeftColorLabel = new JLabel(
-                "Colore rettangolo di selezione da destra a sinistra");
+                Globals.messages.getString("Select_RL_color"));
         constraints = DialogUtil.createConst(0, 1, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -207,7 +198,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(selectionRightToLeftColorPicker, constraints);
 
         JLabel selectionLeftToRightColorLabel = new JLabel(
-                "Colore rettangolo di selezione da sinistra a destra");
+                Globals.messages.getString("Select_LR_color"));
         constraints = DialogUtil.createConst(0, 2, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -220,7 +211,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(selectionLeftToRightColorPicker, constraints);
 
         JLabel selectedElementsColorLabel = new JLabel(
-                "Colore elementi selezionati");
+                Globals.messages.getString("Select_color"));
         constraints = DialogUtil.createConst(0, 3, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -233,7 +224,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(selectedElementsColorPicker, constraints);
 
         // Column 2: Short text labels
-        JLabel gridDotsColorLabel = new JLabel("Colore griglia (punti)");
+        JLabel gridDotsColorLabel = new JLabel(
+                        Globals.messages.getString("Grid_dots_color"));
         constraints = DialogUtil.createConst(2, 0, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -245,7 +237,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(gridDotsColorPicker, constraints);
 
-        JLabel gridLinesColorLabel = new JLabel("Colore griglia (linee)");
+        JLabel gridLinesColorLabel = new JLabel(
+                        Globals.messages.getString("Grid_lines_color"));
         constraints = DialogUtil.createConst(2, 1, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -257,7 +250,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(gridLinesColorPicker, constraints);
 
-        JLabel drawingColorLabel = new JLabel("Colore di default per il disegno");
+        JLabel drawingColorLabel=new JLabel(
+                        Globals.messages.getString("Primitive_color"));
         constraints = DialogUtil.createConst(2, 2, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -282,6 +276,25 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     }
 
     /**
+     Enables or disables the custom theme controls based on the state of
+     the custom theme option.
+
+     @param isEnabled true if custom theme controls should be enabled, 
+                      false otherwise.
+     */
+    private void enableThemeControls(boolean isEnabled)
+    {
+        lightThemeRadioButton.setEnabled(isEnabled);
+        darkThemeRadioButton.setEnabled(isEnabled);
+        customThemeRadioButton.setEnabled(isEnabled);
+
+        boolean customThemeSelected = 
+                    isEnabled && customThemeRadioButton.isSelected();
+        customThemePathField.setEnabled(customThemeSelected);
+        browseCustomThemeButton.setEnabled(customThemeSelected);
+    }
+
+    /**
      Load settings from SettingsManager and populate the UI components.
      */
     @Override
@@ -303,9 +316,11 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         customThemePathField.setText(
                 settingsManager.get("CUSTOM_THEME_PATH", ""));
-        enableCustomThemesCheckBox.setSelected(
-                settingsManager.get("ENABLE_CUSTOM_THEMES", "false").equals(
-                        "true"));
+        boolean enableCustomThemes = settingsManager.get("ENABLE_CUSTOM_THEMES",
+                "false").equals("true");
+        enableCustomThemesCheckBox.setSelected(enableCustomThemes);
+
+        enableThemeControls(enableCustomThemes);
 
         // Load color settings
         backgroundColorPicker.setColor(Color.decode(settingsManager.get(
