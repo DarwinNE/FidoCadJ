@@ -39,7 +39,6 @@ import fidocadj.globals.Globals;
  */
 public class PanelThemeSettings extends JPanel implements SettingsPanel
 {
-
     private SettingsManager settingsManager;
     private JRadioButton lightThemeRadioButton;
     private JRadioButton darkThemeRadioButton;
@@ -51,7 +50,6 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     private ColorPicker backgroundColorPicker;
     private ColorPicker gridDotsColorPicker;
     private ColorPicker gridLinesColorPicker;
-    private ColorPicker drawingColorPicker;
     private ColorPicker selectionRightToLeftColorPicker;
     private ColorPicker selectionLeftToRightColorPicker;
     private ColorPicker selectedElementsColorPicker;
@@ -169,7 +167,6 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                // Only enable custom theme controls if custom theme is selected
                 enableThemeControls(true);
             }
         };
@@ -227,13 +224,13 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         JLabel selectedElementsColorLabel = new JLabel(
                 Globals.messages.getString("Select_color"));
-        constraints = DialogUtil.createConst(0, 3, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(2, 2, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(selectedElementsColorLabel, constraints);
 
         selectedElementsColorPicker = new ColorPicker(30, 20, Color.YELLOW);
-        constraints = DialogUtil.createConst(1, 3, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(3, 2, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(selectedElementsColorPicker, constraints);
@@ -265,19 +262,6 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(gridLinesColorPicker, constraints);
 
-        JLabel drawingColorLabel = new JLabel(
-                Globals.messages.getString("Primitive_color"));
-        constraints = DialogUtil.createConst(2, 2, 1, 1, 100, 100,
-                GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(6, 6, 6, 6));
-        colorManagementPanel.add(drawingColorLabel, constraints);
-
-        drawingColorPicker = new ColorPicker(30, 20, Color.BLACK);
-        constraints = DialogUtil.createConst(3, 2, 1, 1, 100, 100,
-                GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(6, 6, 6, 6));
-        colorManagementPanel.add(drawingColorPicker, constraints);
-
         // Adding both GroupBoxes to the main panel
         constraints = DialogUtil.createConst(0, 1, 1, 1, 100, 100,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
@@ -290,34 +274,21 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         add(colorManagementPanel, constraints);
     }
 
-    /**
-     Enables or disables the custom theme controls based on the state
-     of the custom theme option.
-
-     @param isEnabled true if custom theme controls should be enabled,
-     false otherwise.
-     */
     private void enableThemeControls(boolean isEnabled)
     {
         lightThemeRadioButton.setEnabled(isEnabled);
         darkThemeRadioButton.setEnabled(isEnabled);
         customThemeRadioButton.setEnabled(isEnabled);
 
-        boolean customThemeSelected = 
+        boolean customThemeSelected =
                             isEnabled && customThemeRadioButton.isSelected();
         customThemePathField.setEnabled(customThemeSelected);
         browseCustomThemeButton.setEnabled(customThemeSelected);
     }
 
-    /**
-     Loads settings from SettingsManager and populates the UI components.
-     This method is called during the initialization of the panel to restore
-     the saved settings.
-     */
     @Override
     public void loadSettings()
     {
-        // Load theme settings
         String theme = settingsManager.get("THEME", "light");
         switch (theme) {
             case "dark":
@@ -339,15 +310,12 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         enableThemeControls(enableCustomThemes);
 
-        // Load color settings
         backgroundColorPicker.setColor(Color.decode(settingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
         gridDotsColorPicker.setColor(Color.decode(settingsManager.get(
                 "GRID_DOTS_COLOR", "#000000")));
         gridLinesColorPicker.setColor(Color.decode(settingsManager.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
-        drawingColorPicker.setColor(Color.decode(settingsManager.get(
-                "DRAWING_COLOR", "#000000")));
         selectionRightToLeftColorPicker.setColor(Color.decode(
                 settingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
         selectionLeftToRightColorPicker.setColor(Color.decode(
@@ -356,15 +324,10 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 "SELECTED_ELEMENTS_COLOR", "#FFFF00")));
     }
 
-    /**
-     Saves the settings from the UI components into the SettingsManager.
-     This method is called when the settings are applied or saved by the user.
-     */
     @Override
     public void saveSettings()
     {
-        // Save theme settings
-        String theme = "light";  // Default to light theme
+        String theme = "light";
         if (darkThemeRadioButton.isSelected()) {
             theme = "dark";
         } else {
@@ -378,15 +341,12 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         settingsManager.put("ENABLE_CUSTOM_THEMES",
                 enableCustomThemesCheckBox.isSelected() ? "true" : "false");
 
-        // Save color settings
         settingsManager.put("BACKGROUND_COLOR", String.format("#%06X",
                 (0xFFFFFF & backgroundColorPicker.getColor().getRGB())));
         settingsManager.put("GRID_DOTS_COLOR", String.format("#%06X",
                 (0xFFFFFF & gridDotsColorPicker.getColor().getRGB())));
         settingsManager.put("GRID_LINES_COLOR", String.format("#%06X",
                 (0xFFFFFF & gridLinesColorPicker.getColor().getRGB())));
-        settingsManager.put("DRAWING_COLOR", String.format("#%06X",
-                (0xFFFFFF & drawingColorPicker.getColor().getRGB())));
         settingsManager.put("SELECTION_RTL_COLOR", String.format("#%06X",
                 (0xFFFFFF & selectionRightToLeftColorPicker.getColor().getRGB())));
         settingsManager.put("SELECTION_LTR_COLOR", String.format("#%06X",
