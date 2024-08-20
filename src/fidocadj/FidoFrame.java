@@ -15,7 +15,7 @@ import java.util.*;
 import java.net.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
-import fidocadj.dialogs.DialogOptions;
+import fidocadj.dialogs.settings.DialogSettings;
 import fidocadj.dialogs.DialogAbout;
 import fidocadj.geom.DrawingSize;
 import fidocadj.geom.MapCoordinates;
@@ -23,7 +23,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.Utf8ResourceBundle;
 import fidocadj.globals.LibUtils;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 import fidocadj.circuit.HasChangedListener;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.CopyPasteActions;
@@ -366,32 +366,18 @@ public final class FidoFrame extends JFrame implements
     */
     public void readPreferences()
     {
-        if(preferences==null) {
+        if (preferences == null) {
             return;
         }
 
         // The library directory
-        libDirectory = preferences.get("DIR_LIBS", "");
+        libDirectory = preferences.getString("DIR_LIBS", "");
 
         // The icon size
-        String defaultSize="";
-
-        // Check the screen resolution. Now (April 2015), a lot of very high
-        // resolution screens begin to be widespread. So, if the pixel
-        // density is greater than 150 dpi, bigger icons are used by at the
-        // very first time FidoCadJ is run.
-        /*if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
-            defaultSize="false";
-        } else {
-            defaultSize="true";
-        }*/
-        // 2020 I suspect the best result is now obtained with "false".
-        defaultSize="false";
-
-        smallIconsToolbar = "true".equals(preferences.get("SMALL_ICON_TOOLBAR",
-                defaultSize));
-        // Presence of the text description in the toolbar
-        textToolbar = "true".equals(preferences.get("TEXT_TOOLBAR", "true"));
+        String defaultSize = "false";
+        smallIconsToolbar = preferences.getBoolean("SMALL_ICON_TOOLBAR",
+                Boolean.parseBoolean(defaultSize));
+        textToolbar = preferences.getBoolean("TEXT_TOOLBAR", true);
 
         // Read export preferences
         exportTools.readPrefs();
@@ -399,14 +385,11 @@ public final class FidoFrame extends JFrame implements
         fileTools.readPrefs();
 
         // Element sizes
-        Globals.lineWidth=Double.parseDouble(
-                preferences.get("STROKE_SIZE_STRAIGHT", "0.5"));
-
-        Globals.lineWidthCircles=Double.parseDouble(
-                preferences.get("STROKE_SIZE_OVAL", "0.35"));
-
-        Globals.diameterConnection=Double.parseDouble(
-                preferences.get("CONNECTION_SIZE", "2.0"));
+        Globals.lineWidth = preferences.getDouble("STROKE_SIZE_STRAIGHT", 0.5);
+        Globals.lineWidthCircles = preferences.getDouble("STROKE_SIZE_OVAL",
+                0.35);
+        Globals.diameterConnection = preferences.getDouble("CONNECTION_SIZE",
+                2.0);
     }
 
     /** Load the saved configuration for the grid.
@@ -437,7 +420,22 @@ public final class FidoFrame extends JFrame implements
         ae.pcbPadStyle=Integer.parseInt(preferences.get("PCB_pad_style","0"));
         ae.pcbPadDrill=Integer.parseInt(preferences.get("PCB_pad_drill","5"));
         ae.pcbThickness=Integer.parseInt(preferences.get("PCB_thickness","5"));
-
+        
+        circuitPanel.setBackground(Color.decode(preferences.get(
+                "BACKGROUND_COLOR", "#FFFFFF")));
+        
+        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+                "GRID_DOTS_COLOR", "#000000")));
+        
+        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+                "GRID_LINES_COLOR", "#D3D3D3")));
+        
+        circuitPanel.setLeftToRightColor(Color.decode(
+                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+        
+        circuitPanel.setRightToLeftColor(Color.decode(
+                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+        
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
@@ -514,8 +512,8 @@ public final class FidoFrame extends JFrame implements
         // compatibility.
         if (runsAsApplication)  {
             circuitPanel.getDrawingModel().setTextFont(
-                    preferences.get("MACRO_FONT", Globals.defaultTextFont),
-                    Integer.parseInt(preferences.get("MACRO_SIZE", "3")),
+                    preferences.getString("MACRO_FONT", Globals.defaultTextFont),
+                    preferences.getInt("MACRO_SIZE", 3),
                     circuitPanel.getUndoActions());
 
             readGridSettings();
@@ -731,107 +729,84 @@ public final class FidoFrame extends JFrame implements
         return popFrame;
     }
 
-    /** Show the FidoCadJ preferences panel
-    */
+    /**
+     Show the FidoCadJ preferences panel
+     */
     public void showPrefs()
     {
         String oldDirectory = libDirectory;
         CopyPasteActions cpa = circuitPanel.getCopyPasteActions();
         ElementsEdtActions eea = circuitPanel.getContinuosMoveActions();
-        AddElements ae =eea.getAddElements();
+        AddElements ae = eea.getAddElements();
 
-        // At first, we create the preference panel. This kind of code is
-        // probably not very easy to read and reutilize. This is probably
-        // justified, since the preference panel is after all very specific
-        // to the particular program to which it is referred, i.e. in this
-        // case FidoCadJ...
-        DialogOptions options=new DialogOptions(this,
-            circuitPanel.getMapCoordinates().getXMagnitude(),
-            circuitPanel.profileTime,circuitPanel.antiAlias,
-            circuitPanel.getMapCoordinates().getXGridStep(),
-            libDirectory,
-            textToolbar,
-            smallIconsToolbar,
-            ae.getPcbThickness(),
-            ae.getPcbPadSizeX(),
-            ae.getPcbPadSizeY(),
-            ae.getPcbPadDrill(),
-            circuitPanel.getStrictCompatibility(),
-            circuitPanel.getDrawingModel().getTextFont(),
-            Globals.lineWidth,
-            Globals.diameterConnection,
-            circuitPanel.getDrawingModel().getTextFontSize(),
-            cpa.getShiftCopyPaste());
+        // Create and display the settings dialog window
+        DialogSettings options = new DialogSettings(this, preferences);
+        options.showDialog();
 
-        // The panel is now made visible. Its properties will be updated only
-        // if the user clicks on "Ok".
-        options.setVisible(true);
+        // Update properties based on the new settings
+        circuitPanel.setBackground(Color.decode(preferences.get(
+                "BACKGROUND_COLOR", "#FFFFFF")));
+        
+        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+                "GRID_DOTS_COLOR", "#000000")));
 
+        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+                "GRID_LINES_COLOR", "#D3D3D3")));
+        
+        circuitPanel.setLeftToRightColor(Color.decode(
+                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+        
+        circuitPanel.setRightToLeftColor(Color.decode(
+                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+        
+        circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
+                circuitPanel.profileTime);
+        circuitPanel.antiAlias = preferences.getBoolean("ANTIALIAS",
+                circuitPanel.antiAlias);
+        textToolbar = preferences.getBoolean("TEXT_TOOLBAR", textToolbar);
+        smallIconsToolbar = preferences.getBoolean("SMALL_ICON_TOOLBAR",
+                smallIconsToolbar);
 
-        // Now, we can update the properties.
-        circuitPanel.profileTime=options.profileTime;
-        circuitPanel.antiAlias=options.antiAlias;
-        textToolbar=options.textToolbar;
-        smallIconsToolbar=options.smallIconsToolbar;
+        circuitPanel.getMapCoordinates().setMagnitudes(preferences.getDouble(
+                "ZOOM_VALUE", circuitPanel.getMapCoordinates().getXMagnitude()),
+                preferences.getDouble("ZOOM_VALUE",
+                        circuitPanel.getMapCoordinates().getYMagnitude()));
+        circuitPanel.getMapCoordinates().setXGridStep(preferences.getInt(
+                "GRID_SIZE", circuitPanel.getMapCoordinates().getXGridStep()));
+        circuitPanel.getMapCoordinates().setYGridStep(preferences.getInt(
+                "GRID_SIZE", circuitPanel.getMapCoordinates().getYGridStep()));
 
-        circuitPanel.getMapCoordinates().setMagnitudes(options.zoomValue,
-                                                       options.zoomValue);
-        circuitPanel.getMapCoordinates().setXGridStep(options.gridSize);
-        circuitPanel.getMapCoordinates().setYGridStep(options.gridSize);
+        ae.setPcbThickness(preferences.getInt("PCB_LINEWIDTH",
+                ae.getPcbThickness()));
+        ae.setPcbPadSizeX(preferences.getInt("PCB_PAD_WIDTH",
+                ae.getPcbPadSizeX()));
+        ae.setPcbPadSizeY(preferences.getInt("PCB_PAD_HEIGHT",
+                ae.getPcbPadSizeY()));
+        ae.setPcbPadDrill(preferences.getInt("PCB_PAD_DRILL",
+                ae.getPcbPadDrill()));
 
-        ae.setPcbThickness(options.pcblinewidth_i);
-        ae.setPcbPadSizeX(options.pcbpadwidth_i);
-        ae.setPcbPadSizeY(options.pcbpadheight_i);
-        ae.setPcbPadDrill(options.pcbpadintw_i);
+        circuitPanel.getDrawingModel().setTextFont(preferences.getString(
+                "MACRO_FONT", circuitPanel.getDrawingModel().getTextFont()),
+                preferences.getInt("MACRO_SIZE",
+                        circuitPanel.getDrawingModel().getTextFontSize()),
+                circuitPanel.getUndoActions());
 
-        circuitPanel.getDrawingModel().setTextFont(options.macroFont_s,
-            options.macroSize_i,
-            circuitPanel.getUndoActions());
+        circuitPanel.setStrictCompatibility(preferences.getBoolean(
+                "STRICT_COMPATIBILITY", circuitPanel.getStrictCompatibility()));
+        toolBar.setStrictCompatibility(circuitPanel.getStrictCompatibility());
+        cpa.setShiftCopyPaste(preferences.getBoolean("SHIFT_CP",
+                cpa.getShiftCopyPaste()));
 
-        circuitPanel.setStrictCompatibility(options.extStrict);
-        toolBar.setStrictCompatibility(options.extStrict);
-        cpa.setShiftCopyPaste(options.shiftCP);
+        libDirectory = preferences.getString("DIR_LIBS", libDirectory);
 
-        libDirectory=options.libDirectory;
+        Globals.lineWidth = preferences.getDouble("STROKE_SIZE_STRAIGHT",
+                Globals.lineWidth);
+        Globals.lineWidthCircles = preferences.getDouble("STROKE_SIZE_OVAL",
+                Globals.lineWidthCircles);
+        Globals.diameterConnection = preferences.getDouble("CONNECTION_SIZE",
+                Globals.diameterConnection);
 
-        Globals.lineWidth = options.stroke_size_straight_i;
-        Globals.lineWidthCircles = options.stroke_size_straight_i;
-        Globals.diameterConnection = options.connectionSize_i;
-
-        // We know that this code will be useful only when FidoCadJ will run as
-        // a standalone application. If it is used as an applet, this would
-        // cause the application crash when the applet security model is active.
-        // In this way, we can still use FidoCadJ as an applet, even with the
-        // very restrictive security model applied by default to applets.
-
-        if (runsAsApplication) {
-            preferences.put("DIR_LIBS", libDirectory);
-            preferences.put("MACRO_FONT",
-                    circuitPanel.getDrawingModel().getTextFont());
-
-            preferences.put("MACRO_SIZE",
-                    ""+circuitPanel.getDrawingModel().getTextFontSize());
-
-            preferences.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
-            preferences.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
-            preferences.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
-            preferences.put("SMALL_ICON_TOOLBAR",
-                    smallIconsToolbar?"true":"false");
-
-            preferences.put("TEXT_TOOLBAR", textToolbar?"true":"false");
-            preferences.put("GRID_SIZE",
-                    ""+circuitPanel.getMapCoordinates().getXGridStep());
-
-            // Save default PCB characteristics
-            preferences.put("pcbPadSizeX", ""+ae.pcbPadSizeX);
-            preferences.put("pcbPadSizeY", ""+ae.pcbPadSizeY);
-            preferences.put("pcbPadStyle", ""+ae.pcbPadStyle);
-            preferences.put("pcbPadDrill", ""+ae.pcbPadDrill);
-            preferences.put("pcbThickness", ""+ae.pcbThickness);
-            preferences.put("SHIFT_CP", cpa.getShiftCopyPaste()?"true":"false");
-
-        }
-        if(!libDirectory.equals(oldDirectory)) {
+        if (!libDirectory.equals(oldDirectory)) {
             loadLibraries();
             setVisible(true);
         }

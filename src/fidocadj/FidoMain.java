@@ -13,11 +13,16 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.FileUtils;
 import fidocadj.globals.OSValidator;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.DimensionG;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
+
 
 /** FidoMain.java
  * SWING App: The starting point of FidoCadJ.
@@ -395,71 +400,72 @@ class CreateSwingInterface implements Runnable
     @Override
     public void run()
     {
-        /** *****************************************************************
-         * PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
-         ****************************************************************** */
+        SettingsManager settingsManager = new SettingsManager(this.getClass());
+        boolean enableThemesSupport = settingsManager.get("ENABLE_CUSTOM_THEMES",
+                "false").equals("true");
+        String theme = settingsManager.get("THEME", "light");
+        boolean isLightTheme = theme.equals("light");
+        boolean isDarkTheme = theme.equals("dark");
+        boolean isCustomTheme = settingsManager.get("PERSONALIZED_THEME",
+                "false").equals("true");
+        String customThemePath = null;
+
+        if (isCustomTheme && enableThemesSupport) {
+            customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
+        }
+
+        try {
+            if (enableThemesSupport) {
+                applyTheme(isLightTheme, isDarkTheme, isCustomTheme,
+                        customThemePath);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to apply theme. Falling back to default.");
+        }
+
+        /**
+         *****************************************************************
+         PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
+         ******************************************************************
+         */
         if (OSValidator.isMac()) {
-            AccessResources g = new AccessResources();
-
-            SettingsManager settingsManager = 
-                                new SettingsManager(AccessResources.class);
-
-            // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");
-            // This is for JVM < 1.5 It won't harm on higher versions.
             System.setProperty("apple.laf.useScreenMenuBar", "true");
-            // This is for having the good application name in the menu
-            System.setProperty(
-                    "com.apple.mrj.application.apple.menu.about.name",
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name",
                     "FidoCadJ");
-
             try {
-                System.out.println("Trying to activate VAqua11");
-                UIManager.setLookAndFeel(
-                        "org.violetlib.aqua.AquaLookAndFeel");
-                System.out.println("VAqua11 look and feel active");
+                if (!enableThemesSupport) {
+                    System.out.println("Trying to activate VAqua11");
+                    UIManager.setLookAndFeel(
+                            "org.violetlib.aqua.AquaLookAndFeel");
+                    System.out.println("VAqua11 look and feel active");
+                }
             } catch (Exception e) {
-                // Quaqua is not active. Just continue!
-
                 System.out.println(
-                        "The Quaqua look and feel is not available");
-                System.out.println(
-                        "I will continue with the basic Apple l&f");
+                        "Failed to activate macOS Look and Feel. Continuing with default.");
             }
         } else {
             if (OSValidator.isWindows()) {
-                /* If the host system is a window system, select the Windows
-                 * look and feel. This is a way to encourage people to use
-                 * FidoCadJ even on a Windows system, forgotting about Java.
-                 */
                 try {
-                    UIManager.setLookAndFeel(
-                        "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    if (!enableThemesSupport) {
+                        UIManager.setLookAndFeel(
+                                "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    }
                 } catch (Exception eE) {
                     System.out.println(
-                            "Could not load the Windows Look and feel!");
+                            "Could not load the Windows Look and Feel!");
                 }
             }
         }
 
-        // Un-comment to try to use the Metal LAF
-
-        /*
-         * try {
-         * UIManager.setLookAndFeel(
-         * UIManager.getCrossPlatformLookAndFeelClassName());
-         * Globals.weAreOnAMac =false;
-         * } catch (Exception E) {}
+        /**
+         *****************************************************************
+         END OF THE PLATFORM SELECTION CODE
+         ******************************************************************
          */
-        /** *****************************************************************
-         * END OF THE PLATFORM SELECTION CODE
-         ****************************************************************** */
-        // This substitutes the AppleSpecific class for Java >=9 and it is a
-        // much more general and desirable solution.
         Globals.desktopInt = new ADesktopIntegration();
         Globals.desktopInt.registerActions();
 
-        // Here we create the main window object
         FidoFrame popFrame = new FidoFrame(true, currentLocale);
 
         if (!"".equals(libDirectory)) {
@@ -468,23 +474,79 @@ class CreateSwingInterface implements Runnable
 
         popFrame.init();
 
-        // We begin by showing immediately the window. This improves the
-        // perception of speed given to the user, since the libraries
-        // are not yet loaded
         popFrame.setVisible(true);
 
-        // We load the libraries (this does not take so long in modern
-        // systems).
         popFrame.loadLibraries();
-        // If a file should be loaded, load it now, since popFrame has been
-        // created and initialized.
+
         if (!"".equals(loadFile)) {
             popFrame.getFileTools().load(loadFile);
         }
 
-        // We force a global validation of the window size, by including
-        // this time the tree containing the various libraries and the
-        // macros.
         popFrame.setVisible(true);
+    }
+
+    /**
+     Applies the selected theme based on the user's preferences.
+
+     This method handles the application of either a predefined light or ..
+     dark theme, or a custom theme loaded from an external properties file.
+     If the custom theme is selected and the specified path is valid,
+     the properties are loaded and applied using FlatLaf.
+     If a custom theme is not specified, it falls back to the ..
+     light or dark theme based on the user's preferences.
+
+     @param isLightTheme true if the light theme should be applied
+     @param isDarkTheme true if the dark theme should be applied
+     @param isCustomTheme true if a custom theme should be applied
+     @param customThemePath the path to the custom theme properties file.
+     */
+    private void applyTheme(boolean isLightTheme, boolean isDarkTheme,
+            boolean isCustomTheme, String customThemePath)
+    {
+        try {
+            if (isCustomTheme && customThemePath != null &&
+                                            !customThemePath.isEmpty()) {
+                // Load the custom theme from the properties file
+                Properties props = new Properties();
+                try (FileInputStream inputStream = new FileInputStream(
+                        customThemePath)) {
+                    props.load(inputStream);
+                }
+
+                // Convert Properties to Map<String, String> as required by FlatLaf
+                Map<String, String> themeProperties = new HashMap<>();
+                for (String key : props.stringPropertyNames()) {
+                    themeProperties.put(key, props.getProperty(key));
+                }
+
+                // Apply the custom theme properties
+                FlatLaf.setGlobalExtraDefaults(themeProperties);
+
+                // Set up the base theme before applying custom properties
+                if (isDarkTheme) {
+                    FlatDarkLaf.setup();
+                } else {
+                    FlatLightLaf.setup();
+                }
+
+                // Ensure that the UI reflects the changes
+                FlatLaf.updateUI();
+            } else {
+                // Apply default themes based on user preference
+                if (isLightTheme) {
+                    FlatLightLaf.setup();
+                } else {
+                    if (isDarkTheme) {
+                        FlatDarkLaf.setup();
+                    }
+                }
+
+                // Ensure that the UI reflects the changes
+                FlatLaf.updateUI();
+            }
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during theme application
+            System.err.println("Failed to apply the theme: " + e.getMessage());
+        }
     }
 }

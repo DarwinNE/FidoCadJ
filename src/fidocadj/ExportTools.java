@@ -13,7 +13,7 @@ import fidocadj.dialogs.DialogCopyAsImage;
 import fidocadj.dialogs.DialogExport;
 import fidocadj.globals.Globals;
 import fidocadj.geom.ChangeCoordinatesListener;
-import fidocadj.globals.SettingsManager;
+import fidocadj.dialogs.settings.SettingsManager;
 
 
 /** ExportTools.java
