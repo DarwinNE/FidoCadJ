@@ -491,12 +491,16 @@ class CreateSwingInterface implements Runnable
      */
     private void applyTheme(boolean isLightTheme, boolean isDarkTheme)
     {
-        if (isLightTheme) {
-            FlatLightLaf.setup();
-        } else {
-            if (isDarkTheme) {
-                FlatDarkLaf.setup();
+        try {
+            if (isLightTheme) {
+                FlatLightLaf.setup();
+            } else {
+                if (isDarkTheme) {
+                    FlatDarkLaf.setup();
+                }
             }
+        } catch (Exception e) {
+            System.err.println("FlatLaf theme setup fail");
         }
     }
 }
