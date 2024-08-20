@@ -19,6 +19,10 @@ import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.DimensionG;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+
+
 /** FidoMain.java
  * SWING App: The starting point of FidoCadJ.
  *
