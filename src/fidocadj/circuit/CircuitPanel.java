@@ -90,6 +90,12 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     // Default background color
     private Color backgroundColor;
     
+    // Right-to-left selection rectangle color
+    private Color rightToLeftColor;
+    
+    // Left-to-right selection rectangle color
+    private Color leftToRightColor;
+    
     // Default grid dots color
     private ColorSwing gridDotsColor;
  
@@ -175,6 +181,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         backgroundColor = Color.white;
         gridDotsColor = new ColorSwing(Color.BLACK);
         gridLinesColor = new ColorSwing(Color.LIGHT_GRAY);
+        Color rightToLeftColor = Color.GREEN;
+        Color leftToRightColor = Color.BLUE;
         
         setDrawingModel(new DrawingModel());
 
@@ -268,6 +276,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     /** Makes sure the object gets focus.
      */
+    @Override
     public void getFocus()
     {
         requestFocusInWindow();
@@ -278,6 +287,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * @param s the selection state
      * @param macro the macro key (if applies)
      */
+    @Override
     public void setSelectionState(int s, String macro)
     {
         if (selectionListener != null &&
@@ -376,6 +386,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      *
      * @param s the layer to be selected.
      */
+    @Override
     public void changeSelectedLayer(int s)
     {
         // Change the current layer
@@ -391,6 +402,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      *
      * @param v is the wanted grid visibility state.
      */
+    @Override
     public void setGridVisibility(boolean v)
     {
         isGridVisible = v;
@@ -411,6 +423,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      *
      * @param v is the wanted snap state.
      */
+    @Override
     public void setSnapState(boolean v)
     {
         mapCoordinates.setSnap(v);
@@ -433,6 +446,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * @param rate the amount the zoom is multiplied (or divided). Should be
      * greater than 1.
      */
+    @Override
     public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
         int xpos = mapCoordinates.unmapXnosnap(x);
@@ -513,6 +527,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      *
      * @return the current editing action.
      */
+    @Override
     public int getSelectionState()
     {
         return continuosMoveActions.getSelectionState();
@@ -522,6 +537,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      *
      * @param tz the zoom factor to be used.
      */
+    @Override
     public void changeZoom(double tz)
     {
         double z = Math.round(tz * 100.0) / 100.0;
@@ -550,6 +566,26 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         gridDotsColor = new ColorSwing(color);
     }
+    
+    /**
+     Sets Right-to-left selection rectangle color
+
+     @param color the selection rectangle color to be used.
+     */
+    public void setRightToLeftColor(Color color)
+    {
+        rightToLeftColor = color;
+    }
+    
+    /**
+     Sets Left-to-right selection rectangle color
+
+     @param color the selection rectangle color to be used.
+     */
+    public void setLeftToRightColor(Color color)
+    {
+        leftToRightColor = color;
+    }
 
     /**
      Sets the lines grid color.
@@ -569,6 +605,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * @param w the width of the rectangle.
      * @param h the height of the rectangle.
      */
+    @Override
     public void setEvidenceRect(int lx, int ly, int w, int h)
     {
         evidenceRect = new Rectangle();
@@ -629,14 +666,14 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         drawingAgent.drawSelectedHandles(graphicSwing, mapCoordinates);
 
         if (this.isLeftToRight) {
-            this.selectionColor = Color.BLUE;
+            this.selectionColor = leftToRightColor;
             float dash1[] = {3.0f};
             BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
                                                  BasicStroke.JOIN_MITER,
                                                  10.0f, dash1, 0.0f);
             g2.setStroke(dashed);
         } else {
-            this.selectionColor = Color.GREEN;
+            this.selectionColor = rightToLeftColor;
             g2.setStroke(new BasicStroke(1));
         }
         // If an evidence rectangle is active, draw it.
@@ -864,6 +901,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * primitive. If more than one primitive is selected, modify only the
      * layer of all selected primitives.
      */
+    @Override
     public void setPropertiesForPrimitive()
     {
         GraphicPrimitive gp = selectionActions.getFirstSelectedPrimitive();
@@ -917,6 +955,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * @param x the x logical coordinate of the point used for the selection.
      * @param y the y logical coordinate of the point used for the selection.
      */
+    @Override
     public void selectAndSetProperties(int x, int y)
     {
         selectionActions.setSelectionAll(false);
@@ -940,6 +979,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      * @param strict true if the compatibility with FidoCAD should be
      * obtained.
      */
+    @Override
     public void setStrictCompatibility(boolean strict)
     {
         extStrict = strict;
@@ -967,6 +1007,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     /** Force a repaint.
      */
+    @Override
     public void forcesRepaint()
     {
         repaint();
@@ -1016,6 +1057,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         @param isLeftToRight True if the direction is from left to right..
                              False if it is from right to left.
      */
+    @Override
     public void isLeftToRightSelection(boolean isLeftToRight)
     {
         this.isLeftToRight = isLeftToRight;

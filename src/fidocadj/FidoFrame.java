@@ -430,6 +430,12 @@ public final class FidoFrame extends JFrame implements
         circuitPanel.setLinesGridColor(Color.decode(preferences.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
         
+        circuitPanel.setLeftToRightColor(Color.decode(
+                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+        
+        circuitPanel.setRightToLeftColor(Color.decode(
+                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+        
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
@@ -746,6 +752,12 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.setLinesGridColor(Color.decode(preferences.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
+        
+        circuitPanel.setLeftToRightColor(Color.decode(
+                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+        
+        circuitPanel.setRightToLeftColor(Color.decode(
+                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
         
         circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);
