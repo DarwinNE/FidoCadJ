@@ -395,65 +395,61 @@ class CreateSwingInterface implements Runnable
     @Override
     public void run()
     {
-        /** *****************************************************************
-         * PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
-         ****************************************************************** */
+        SettingsManager settingsManager = new SettingsManager(this.getClass());
+        boolean enableCustomThemes = settingsManager.get("ENABLE_CUSTOM_THEMES",
+                "false").equals("true");
+        String theme = settingsManager.get("THEME", "light");
+        boolean isLightTheme = theme.equals("light");
+        boolean isDarkTheme = theme.equals("dark");
+
+        try {
+            if (enableCustomThemes) {
+                applyTheme(isLightTheme, isDarkTheme);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to apply theme. Falling back to default.");
+        }
+
+        /**
+         *****************************************************************
+         PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
+         ******************************************************************
+         */
         if (OSValidator.isMac()) {
-            AccessResources g = new AccessResources();
-
-            SettingsManager settingsManager = 
-                                new SettingsManager(AccessResources.class);
-
-            // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");
-            // This is for JVM < 1.5 It won't harm on higher versions.
             System.setProperty("apple.laf.useScreenMenuBar", "true");
-            // This is for having the good application name in the menu
-            System.setProperty(
-                    "com.apple.mrj.application.apple.menu.about.name",
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name",
                     "FidoCadJ");
-
             try {
-                System.out.println("Trying to activate VAqua11");
-                UIManager.setLookAndFeel(
-                        "org.violetlib.aqua.AquaLookAndFeel");
-                System.out.println("VAqua11 look and feel active");
+                if (!enableCustomThemes) {
+                    System.out.println("Trying to activate VAqua11");
+                    UIManager.setLookAndFeel(
+                            "org.violetlib.aqua.AquaLookAndFeel");
+                    System.out.println("VAqua11 look and feel active");
+                }
             } catch (Exception e) {
-                // Quaqua is not active. Just continue!
-
                 System.out.println(
-                        "The Quaqua look and feel is not available");
-                System.out.println(
-                        "I will continue with the basic Apple l&f");
+             "Failed to activate macOS Look and Feel. Continuing with default.");
             }
         } else {
             if (OSValidator.isWindows()) {
-                /* If the host system is a window system, select the Windows
-                 * look and feel. This is a way to encourage people to use
-                 * FidoCadJ even on a Windows system, forgotting about Java.
-                 */
                 try {
-                    UIManager.setLookAndFeel(
-                        "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    if (!enableCustomThemes) {
+                        UIManager.setLookAndFeel(
+                          "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    }
                 } catch (Exception eE) {
                     System.out.println(
-                            "Could not load the Windows Look and feel!");
+                            "Could not load the Windows Look and Feel!");
                 }
             }
         }
 
-        // Un-comment to try to use the Metal LAF
-
-        /*
-         * try {
-         * UIManager.setLookAndFeel(
-         * UIManager.getCrossPlatformLookAndFeelClassName());
-         * Globals.weAreOnAMac =false;
-         * } catch (Exception E) {}
+        /**
+         *****************************************************************
+         END OF THE PLATFORM SELECTION CODE
+         ******************************************************************
          */
-        /** *****************************************************************
-         * END OF THE PLATFORM SELECTION CODE
-         ****************************************************************** */
         // This substitutes the AppleSpecific class for Java >=9 and it is a
         // much more general and desirable solution.
         Globals.desktopInt = new ADesktopIntegration();
@@ -468,23 +464,35 @@ class CreateSwingInterface implements Runnable
 
         popFrame.init();
 
-        // We begin by showing immediately the window. This improves the
-        // perception of speed given to the user, since the libraries
-        // are not yet loaded
+        // Show the window immediately to improve perception of speed
         popFrame.setVisible(true);
 
-        // We load the libraries (this does not take so long in modern
-        // systems).
+        // Load the libraries
         popFrame.loadLibraries();
-        // If a file should be loaded, load it now, since popFrame has been
-        // created and initialized.
+
+        // If a file should be loaded, load it now
         if (!"".equals(loadFile)) {
             popFrame.getFileTools().load(loadFile);
         }
 
-        // We force a global validation of the window size, by including
-        // this time the tree containing the various libraries and the
-        // macros.
+        // Force a global validation of the window size
         popFrame.setVisible(true);
+    }
+
+    /**
+     Applies the selected theme based on the user's preferences.
+
+     @param isLightTheme true if the light theme should be applied, false otherwise.
+     @param isDarkTheme true if the dark theme should be applied, false otherwise.
+     */
+    private void applyTheme(boolean isLightTheme, boolean isDarkTheme)
+    {
+        if (isLightTheme) {
+            FlatLightLaf.setup();
+        } else {
+            if (isDarkTheme) {
+                FlatDarkLaf.setup();
+            }
+        }
     }
 }

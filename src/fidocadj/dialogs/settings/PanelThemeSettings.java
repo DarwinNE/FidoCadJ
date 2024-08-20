@@ -40,7 +40,7 @@ import fidocadj.globals.Globals;
 public class PanelThemeSettings extends JPanel implements SettingsPanel
 {
 
-    private final SettingsManager settingsManager;
+    private SettingsManager settingsManager;
     private JRadioButton lightThemeRadioButton;
     private JRadioButton darkThemeRadioButton;
     private JRadioButton customThemeRadioButton;
@@ -59,8 +59,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     /**
      Constructor for PanelThemeSettings.
 
-     @param settingsManager the settings manager to handle the ..
-                            application settings.
+     @param settingsManager the settings manager to handle the application settings.
      */
     public PanelThemeSettings(SettingsManager settingsManager)
     {
@@ -78,29 +77,44 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
+        // Label for restart information
+        JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
+        restw.setForeground(Color.BLUE);
+
+        // Set the constraints to center the label horizontally
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0; 
+        constraints.gridy = 0; 
+        constraints.gridwidth = 3; 
+        constraints.anchor = GridBagConstraints.CENTER; 
+        constraints.fill = GridBagConstraints.NONE; 
+        constraints.insets = new Insets(5, 0, 0, 0); 
+
+        add(restw, constraints);
+
         // Groupbox "Theme Management"
         JPanel themeManagementPanel = new JPanel();
         themeManagementPanel.setBorder(
                 BorderFactory.createTitledBorder(
-                            Globals.messages.getString("Theme_groupBox")));
+                        Globals.messages.getString("Theme_groupBox")));
         themeManagementPanel.setLayout(new GridBagLayout());
 
         // Checkbox to enable custom themes support
         enableCustomThemesCheckBox = new JCheckBox(
                 Globals.messages.getString("Theme_enableSupport"));
         enableCustomThemesCheckBox.setOpaque(false);
-        constraints = DialogUtil.createConst(0, 0, 2, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 1, 2, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(enableCustomThemesCheckBox, constraints);
 
         // Radio buttons for theme selection
         lightThemeRadioButton = new JRadioButton(
-                    Globals.messages.getString("FlatLaf_light"));
+                Globals.messages.getString("FlatLaf_light"));
         darkThemeRadioButton = new JRadioButton(
-                    Globals.messages.getString("FlatLaf_dark"));
+                Globals.messages.getString("FlatLaf_dark"));
         customThemeRadioButton = new JRadioButton(
-                    Globals.messages.getString("FlatLaf_custom"));
+                Globals.messages.getString("FlatLaf_custom"));
 
         ButtonGroup themeGroup = new ButtonGroup();
         themeGroup.add(lightThemeRadioButton);
@@ -110,17 +124,17 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         // Set "Tema light" as the default selected option
         lightThemeRadioButton.setSelected(true);
 
-        constraints = DialogUtil.createConst(0, 1, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 2, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(lightThemeRadioButton, constraints);
 
-        constraints = DialogUtil.createConst(0, 2, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 3, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(darkThemeRadioButton, constraints);
 
-        constraints = DialogUtil.createConst(0, 3, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 4, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(customThemeRadioButton, constraints);
@@ -128,14 +142,14 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         // TextBox and Button for selecting custom theme file
         customThemePathField = new JTextField(20);
         browseCustomThemeButton = new JButton(
-                        Globals.messages.getString("Browse"));
+                Globals.messages.getString("Browse"));
 
-        constraints = DialogUtil.createConst(1, 3, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(1, 4, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(customThemePathField, constraints);
 
-        constraints = DialogUtil.createConst(2, 3, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(2, 4, 1, 1, 100, 100,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
         themeManagementPanel.add(browseCustomThemeButton, constraints);
@@ -155,7 +169,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                enableThemeControls(customThemeRadioButton.isSelected());
+                // Only enable custom theme controls if custom theme is selected
+                enableThemeControls(true);
             }
         };
 
@@ -167,7 +182,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         JPanel colorManagementPanel = new JPanel();
         colorManagementPanel.setBorder(
                 BorderFactory.createTitledBorder(
-                            Globals.messages.getString("Colors_management")));
+                        Globals.messages.getString("Colors_management")));
         colorManagementPanel.setLayout(new GridBagLayout());
 
         // Column 1: Long text labels
@@ -225,7 +240,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         // Column 2: Short text labels
         JLabel gridDotsColorLabel = new JLabel(
-                        Globals.messages.getString("Grid_dots_color"));
+                Globals.messages.getString("Grid_dots_color"));
         constraints = DialogUtil.createConst(2, 0, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -238,7 +253,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(gridDotsColorPicker, constraints);
 
         JLabel gridLinesColorLabel = new JLabel(
-                        Globals.messages.getString("Grid_lines_color"));
+                Globals.messages.getString("Grid_lines_color"));
         constraints = DialogUtil.createConst(2, 1, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -250,8 +265,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 new Insets(6, 6, 6, 6));
         colorManagementPanel.add(gridLinesColorPicker, constraints);
 
-        JLabel drawingColorLabel=new JLabel(
-                        Globals.messages.getString("Primitive_color"));
+        JLabel drawingColorLabel = new JLabel(
+                Globals.messages.getString("Primitive_color"));
         constraints = DialogUtil.createConst(2, 2, 1, 1, 100, 100,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(6, 6, 6, 6));
@@ -264,23 +279,23 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         colorManagementPanel.add(drawingColorPicker, constraints);
 
         // Adding both GroupBoxes to the main panel
-        constraints = DialogUtil.createConst(0, 0, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 1, 1, 1, 100, 100,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                 new Insets(10, 10, 10, 10));
         add(themeManagementPanel, constraints);
 
-        constraints = DialogUtil.createConst(0, 1, 1, 1, 100, 100,
+        constraints = DialogUtil.createConst(0, 2, 1, 1, 100, 100,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                 new Insets(10, 10, 10, 10));
         add(colorManagementPanel, constraints);
     }
 
     /**
-     Enables or disables the custom theme controls based on the state of
-     the custom theme option.
+     Enables or disables the custom theme controls based on the state
+     of the custom theme option.
 
-     @param isEnabled true if custom theme controls should be enabled, 
-                      false otherwise.
+     @param isEnabled true if custom theme controls should be enabled,
+     false otherwise.
      */
     private void enableThemeControls(boolean isEnabled)
     {
@@ -289,13 +304,15 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         customThemeRadioButton.setEnabled(isEnabled);
 
         boolean customThemeSelected = 
-                    isEnabled && customThemeRadioButton.isSelected();
+                            isEnabled && customThemeRadioButton.isSelected();
         customThemePathField.setEnabled(customThemeSelected);
         browseCustomThemeButton.setEnabled(customThemeSelected);
     }
 
     /**
-     Load settings from SettingsManager and populate the UI components.
+     Loads settings from SettingsManager and populates the UI components.
+     This method is called during the initialization of the panel to restore
+     the saved settings.
      */
     @Override
     public void loadSettings()
@@ -340,13 +357,14 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     }
 
     /**
-     Save the settings from the UI components into SettingsManager.
+     Saves the settings from the UI components into the SettingsManager.
+     This method is called when the settings are applied or saved by the user.
      */
     @Override
     public void saveSettings()
     {
         // Save theme settings
-        String theme = "light";
+        String theme = "light";  // Default to light theme
         if (darkThemeRadioButton.isSelected()) {
             theme = "dark";
         } else {
@@ -354,6 +372,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 theme = "custom";
             }
         }
+
         settingsManager.put("THEME", theme);
         settingsManager.put("CUSTOM_THEME_PATH", customThemePathField.getText());
         settingsManager.put("ENABLE_CUSTOM_THEMES",
