@@ -47,7 +47,8 @@ public class DialogSettings extends MinimumSizeDialog
      Constructor for DialogOptions.
 
      @param parentFrame the parent frame.
-     @param settingsManager the settings manager that handles application settings.
+     @param settingsManager the settings manager that handles application
+        settings.
      */
     public DialogSettings(JFrame parentFrame, SettingsManager settingsManager)
     {
@@ -77,7 +78,8 @@ public class DialogSettings extends MinimumSizeDialog
                 panelGeneralSettings);
         tabsPane.addTab(Globals.messages.getString("Drawing"),
                 panelDrawingSettings);
-        tabsPane.addTab(Globals.messages.getString("PCBsizes"), panelPCBSettings);
+        tabsPane.addTab(Globals.messages.getString("PCBsizes"),
+            panelPCBSettings);
         tabsPane.addTab(Globals.messages.getString("Theme_management"),
                 panelThemeSettings);
 

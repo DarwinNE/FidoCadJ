@@ -475,7 +475,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
         if (orientationSCI == 0) {
             if (GeometricDistances.pointInRectangle(Math.min(xaSCI,
-                    xaSCI + wSCI), yaSCI, Math.abs(wSCI), thSCI, px, py)) {
+                    xaSCI + wSCI), yaSCI, Math.abs(wSCI), thSCI, px, py))
+            {
                 return 0;
             }
         } else {
@@ -542,7 +543,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         pd.description = Globals.messages.getString(descriptionKey);
         list.add(pd);
     }
-    
+
     /**
      Set the control parameters of the given primitive.
      This method is specular to getControls().
@@ -584,13 +585,13 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                             boolean flag = (Boolean) param;
                             switch (i) {
                                 case 5 ->
-                                    sty = flag ? sty | TEXT_MIRRORED : 
+                                    sty = flag ? sty | TEXT_MIRRORED :
                                                         sty & (~TEXT_MIRRORED);
                                 case 6 ->
-                                    sty = flag ? sty | TEXT_ITALIC : 
+                                    sty = flag ? sty | TEXT_ITALIC :
                                                         sty & (~TEXT_ITALIC);
                                 case 7 ->
-                                    sty = flag ? sty | TEXT_BOLD : 
+                                    sty = flag ? sty | TEXT_BOLD :
                                                         sty & (~TEXT_BOLD);
                             }
                         } else {
@@ -687,8 +688,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             subsFont = s.toString();
         }
 
-        return "TY " + virtualPoint[0].x + " " + virtualPoint[0].y + 
-                " " + siy + " " + six + " " + o + " " + sty + " " + 
+        return "TY " + virtualPoint[0].x + " " + virtualPoint[0].y +
+                " " + siy + " " + six + " " + o + " " + sty + " " +
                 getLayer() + " " + subsFont + " " + txt + "\n";
     }
 

@@ -81,12 +81,12 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         // Set the constraints to center the label horizontally
         constraints = new GridBagConstraints();
-        constraints.gridx = 0; 
-        constraints.gridy = 0; 
-        constraints.gridwidth = 3; 
-        constraints.anchor = GridBagConstraints.CENTER; 
-        constraints.fill = GridBagConstraints.NONE; 
-        constraints.insets = new Insets(5, 0, 0, 0); 
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.insets = new Insets(5, 0, 0, 0);
 
         add(restw, constraints);
 
@@ -145,7 +145,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         customThemePathField = new JTextField(20);
         browseCustomThemeButton = new JButton(
                 Globals.messages.getString("Browse"));
-        
+
         browseCustomThemeButton.addActionListener(new ActionListener()
         {
             @Override
@@ -156,7 +156,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
                 fileChooser.setFileFilter(
                         new javax.swing.filechooser.FileNameExtensionFilter(
-                                "Properties Files (*.properties)", "properties"));
+                                "Properties Files (*.properties)",
+                                "properties"));
 
                 int returnValue = fileChooser.showOpenDialog(
                         PanelThemeSettings.this);
@@ -169,7 +170,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         personalizedThemeCheckBox.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 boolean isSelected = personalizedThemeCheckBox.isSelected();
                 customThemePathField.setEnabled(isSelected);
                 browseCustomThemeButton.setEnabled(isSelected);
@@ -323,7 +325,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
                 "false").equals("true");
         enableThemesSupportCheckBox.setSelected(enableCustomThemes);
 
-        boolean isCustomThemeEnabled = settingsManager.get("PERSONALIZED_THEME", 
+        boolean isCustomThemeEnabled = settingsManager.get("PERSONALIZED_THEME",
                                                         "false").equals("true");
         personalizedThemeCheckBox.setSelected(isCustomThemeEnabled);
         customThemePathField.setEnabled(isCustomThemeEnabled);
@@ -348,7 +350,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     {
         String theme = lightThemeRadioButton.isSelected() ? "light" : "dark";
         settingsManager.put("THEME", theme);
-        settingsManager.put("CUSTOM_THEME_PATH", customThemePathField.getText());
+        settingsManager.put("CUSTOM_THEME_PATH",
+            customThemePathField.getText());
         settingsManager.put("ENABLE_CUSTOM_THEMES",
                 enableThemesSupportCheckBox.isSelected() ? "true" : "false");
         settingsManager.put("PERSONALIZED_THEME",
@@ -361,9 +364,11 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         settingsManager.put("GRID_LINES_COLOR", String.format("#%06X",
                 (0xFFFFFF & gridLinesColorPicker.getColor().getRGB())));
         settingsManager.put("SELECTION_RTL_COLOR", String.format("#%06X",
-                (0xFFFFFF & selectionRightToLeftColorPicker.getColor().getRGB())));
+                (0xFFFFFF &
+                    selectionRightToLeftColorPicker.getColor().getRGB())));
         settingsManager.put("SELECTION_LTR_COLOR", String.format("#%06X",
-                (0xFFFFFF & selectionLeftToRightColorPicker.getColor().getRGB())));
+                (0xFFFFFF &
+                    selectionLeftToRightColorPicker.getColor().getRGB())));
         settingsManager.put("SELECTED_ELEMENTS_COLOR", String.format("#%06X",
                 (0xFFFFFF & selectedElementsColorPicker.getColor().getRGB())));
     }

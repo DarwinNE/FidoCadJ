@@ -401,7 +401,8 @@ class CreateSwingInterface implements Runnable
     public void run()
     {
         SettingsManager settingsManager = new SettingsManager(this.getClass());
-        boolean enableThemesSupport = settingsManager.get("ENABLE_CUSTOM_THEMES",
+        boolean enableThemesSupport =
+            settingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");
         String theme = settingsManager.get("THEME", "light");
         boolean isLightTheme = theme.equals("light");
@@ -420,7 +421,8 @@ class CreateSwingInterface implements Runnable
                         customThemePath);
             }
         } catch (Exception e) {
-            System.out.println("Failed to apply theme. Falling back to default.");
+            System.out.println(
+                "Failed to apply theme. Falling back to default.");
         }
 
         /**
@@ -431,7 +433,8 @@ class CreateSwingInterface implements Runnable
         if (OSValidator.isMac()) {
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");
             System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+            System.setProperty(
+                "com.apple.mrj.application.apple.menu.about.name",
                     "FidoCadJ");
             try {
                 if (!enableThemesSupport) {
@@ -442,14 +445,16 @@ class CreateSwingInterface implements Runnable
                 }
             } catch (Exception e) {
                 System.out.println(
-                        "Failed to activate macOS Look and Feel. Continuing with default.");
+                     "Failed to activate macOS Look and Feel."+
+                     " Continuing with default.");
             }
         } else {
             if (OSValidator.isWindows()) {
                 try {
                     if (!enableThemesSupport) {
                         UIManager.setLookAndFeel(
-                                "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                                "com.sun.java.swing.plaf.windows."+
+                                "WindowsLookAndFeel");
                     }
                 } catch (Exception eE) {
                     System.out.println(
@@ -505,7 +510,8 @@ class CreateSwingInterface implements Runnable
     {
         try {
             if (isCustomTheme && customThemePath != null &&
-                                            !customThemePath.isEmpty()) {
+                                            !customThemePath.isEmpty())
+            {
                 // Load the custom theme from the properties file
                 Properties props = new Properties();
                 try (FileInputStream inputStream = new FileInputStream(
@@ -513,7 +519,8 @@ class CreateSwingInterface implements Runnable
                     props.load(inputStream);
                 }
 
-                // Convert Properties to Map<String, String> as required by FlatLaf
+                // Convert Properties to Map<String, String> as required by
+                // FlatLaf
                 Map<String, String> themeProperties = new HashMap<>();
                 for (String key : props.stringPropertyNames()) {
                     themeProperties.put(key, props.getProperty(key));

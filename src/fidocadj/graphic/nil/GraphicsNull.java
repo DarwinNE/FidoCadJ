@@ -392,7 +392,7 @@ public class GraphicsNull implements GraphicsInterface, TextInterface
         @param colorDots the color for dot grid
         @param colorLines the color for lines grid
     */
-    public void drawGrid(MapCoordinates cs, int xmin, int ymin, int xmax, 
+    public void drawGrid(MapCoordinates cs, int xmin, int ymin, int xmax,
             int ymax, ColorInterface colorDots, ColorInterface colorLines)
     {
             // nothing to do

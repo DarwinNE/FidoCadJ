@@ -79,7 +79,8 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
         add(libDirectoryField, constraints);
 
         // Button to browse for a library directory
-        JButton browseButton = new JButton(Globals.messages.getString("Browse"));
+        JButton browseButton = new
+            JButton(Globals.messages.getString("Browse"));
         constraints = DialogUtil.createConst(3, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.EAST, GridBagConstraints.NONE,
                 new Insets(0, 0, 6, 20));
@@ -110,7 +111,8 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
         add(smallIconsCheckBox, constraints);
 
         // Checkbox for strict FidoCAD compatibility
-        extStrict_CB = new JCheckBox(Globals.messages.getString("strict_FC_comp"));
+        extStrict_CB = new
+            JCheckBox(Globals.messages.getString("strict_FC_comp"));
         constraints = DialogUtil.createConst(0, 5, 4, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(25, 40, 6, 0));

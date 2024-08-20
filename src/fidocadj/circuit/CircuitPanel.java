@@ -89,16 +89,16 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     // Default background color
     private Color backgroundColor;
-    
+
     // Right-to-left selection rectangle color
     private Color rightToLeftColor;
-    
+
     // Left-to-right selection rectangle color
     private Color leftToRightColor;
-    
+
     // Default grid dots color
     private ColorSwing gridDotsColor;
- 
+
     // Default grid lines color
     private ColorSwing gridLinesColor;
 
@@ -106,7 +106,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         this.ruler = null;
     }
-    
+
 
     // Position of the rectangle used for the selection
     private Rectangle evidenceRect;
@@ -183,7 +183,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         gridLinesColor = new ColorSwing(Color.LIGHT_GRAY);
         Color rightToLeftColor = Color.GREEN;
         Color leftToRightColor = Color.BLUE;
-        
+
         setDrawingModel(new DrawingModel());
 
         mwHandler = new MouseWheelHandler(this);
@@ -556,7 +556,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         backgroundColor = sfondo;
     }
-    
+
     /**
      Sets the dots grid color.
 
@@ -566,7 +566,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         gridDotsColor = new ColorSwing(color);
     }
-    
+
     /**
      Sets Right-to-left selection rectangle color
 
@@ -576,7 +576,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         rightToLeftColor = color;
     }
-    
+
     /**
      Sets Left-to-right selection rectangle color
 

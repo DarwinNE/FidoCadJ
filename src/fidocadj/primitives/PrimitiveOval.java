@@ -223,9 +223,9 @@ public final class PrimitiveOval extends GraphicPrimitive
             if (nn > 5) {
                 parseLayer(tokens[5]);
             }
-            
+
             isFilled = "EP".equals(tokens[0]);
-            
+
             if (nn > 6 && "FCJ".equals(tokens[6])) {
                 dashStyle = checkDashStyle(Integer.parseInt(tokens[7]));
             }
@@ -330,7 +330,8 @@ public final class PrimitiveOval extends GraphicPrimitive
 
         if (isFilled) {
             if (GeometricDistances.pointInEllipse(xa, ya, xb - xa, yb - ya, px,
-                    py)) {
+                    py))
+            {
                 return 0;
             } else {
                 return 1000;

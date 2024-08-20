@@ -256,7 +256,7 @@ public interface GraphicsInterface
         @param colorDots the color for dot grid
         @param colorLines the color for lines grid
     */
-    void drawGrid(MapCoordinates cs, int xmin, int ymin, int xmax, int ymax, 
+    void drawGrid(MapCoordinates cs, int xmin, int ymin, int xmax, int ymax,
             ColorInterface colorDots, ColorInterface colorLines);
 
     /** Create a polygon object, compatible with the current implementation.

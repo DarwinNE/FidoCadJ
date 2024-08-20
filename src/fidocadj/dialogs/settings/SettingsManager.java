@@ -95,7 +95,7 @@ public class SettingsManager
     }
 
     /**
-     Stores a setting in the Preferences store. 
+     Stores a setting in the Preferences store.
      This method overloads the existing set method to allow storing ..
      settings as strings to maintain compatibility with older code.
 
@@ -118,11 +118,11 @@ public class SettingsManager
      */
     public int getInt(String key, int defaultValue)
     {
-        String value = get(key, String.valueOf(defaultValue)); 
+        String value = get(key, String.valueOf(defaultValue));
         try {
-            return Integer.parseInt(value); 
+            return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            return defaultValue; 
+            return defaultValue;
         }
     }
 
@@ -144,7 +144,7 @@ public class SettingsManager
             return defaultValue;
         }
     }
-    
+
     /**
      Gets a boolean setting from the manager or preferences store.
 
@@ -155,8 +155,8 @@ public class SettingsManager
      */
     public boolean getBoolean(String key, boolean defaultValue)
     {
-        String value = get(key, String.valueOf(defaultValue));  
-        return Boolean.parseBoolean(value); 
+        String value = get(key, String.valueOf(defaultValue));
+        return Boolean.parseBoolean(value);
     }
 
     /**

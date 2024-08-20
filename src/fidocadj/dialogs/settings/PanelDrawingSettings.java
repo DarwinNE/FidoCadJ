@@ -168,7 +168,8 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
         add(macroSizeField, constraints);
 
         // Checkbox for anti-aliasing
-        antiAliasCheckBox = new JCheckBox(Globals.messages.getString("Anti_al"));
+        antiAliasCheckBox = new
+            JCheckBox(Globals.messages.getString("Anti_al"));
         constraints = DialogUtil.createConst(1, 6, 1, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(8, 6, 6, 6));
@@ -194,7 +195,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
     private void loadFontsInBackground()
     {
         new Thread(() -> {
-            GraphicsEnvironment gE = 
+            GraphicsEnvironment gE =
                             GraphicsEnvironment.getLocalGraphicsEnvironment();
             String[] fontFamilies = gE.getAvailableFontFamilyNames();
             SwingUtilities.invokeLater(() -> {
