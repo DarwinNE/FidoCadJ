@@ -410,6 +410,7 @@ class CreateSwingInterface implements Runnable
         boolean isCustomTheme = settingsManager.get("PERSONALIZED_THEME",
                 "false").equals("true");
         String customThemePath = null;
+        boolean flatLafNotFound = false;
 
         if (isCustomTheme && enableThemesSupport) {
             customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
@@ -424,6 +425,7 @@ class CreateSwingInterface implements Runnable
             System.out.println(
                 "Failed to apply theme. Falling back to default.");
         } catch (NoClassDefFoundError e) {
+            flatLafNotFound = true;
             System.out.println(
                 "Can not locate FlatLaf. Falling back to default.");
         }
@@ -440,7 +442,7 @@ class CreateSwingInterface implements Runnable
                 "com.apple.mrj.application.apple.menu.about.name",
                     "FidoCadJ");
             try {
-                if (!enableThemesSupport) {
+                if (!enableThemesSupport || flatLafNotFound) {
                     System.out.println("Trying to activate VAqua11");
                     UIManager.setLookAndFeel(
                             "org.violetlib.aqua.AquaLookAndFeel");
@@ -454,7 +456,7 @@ class CreateSwingInterface implements Runnable
         } else {
             if (OSValidator.isWindows()) {
                 try {
-                    if (!enableThemesSupport) {
+                    if (!enableThemesSupport || flatLafNotFound) {
                         UIManager.setLookAndFeel(
                                 "com.sun.java.swing.plaf.windows."+
                                 "WindowsLookAndFeel");

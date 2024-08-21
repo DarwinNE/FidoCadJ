@@ -67,6 +67,8 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
 
     private double zoom;
     private double actualZoom;
+    
+    private Color selectedColor;
 
     /*  Strategy in 0.24.7:
         -------------------
@@ -99,6 +101,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         oldZoom = -1;
         actualZoom = -1;
         zoom=1;
+        selectedColor = Color.GREEN;
         /* Is that useful??? */
         g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
@@ -120,6 +123,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         oldZoom = -1;
         actualZoom = -1;
         zoom=1;
+        selectedColor = Color.GREEN;
         /* Is that useful??? */
         /*g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
@@ -140,6 +144,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         oldZoom = -1;
         actualZoom = -1;
         zoom=1;
+        selectedColor = Color.GREEN;
     }
 
     /** Retrieves an object implementing an appropriate TextInterface.
@@ -240,6 +245,14 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
     {
         ColorSwing cc = (ColorSwing) c;
         g.setColor(cc.getColorSwing());
+    }
+    
+    /** Sets the current color of selected item
+        @param color the color to be set.
+    */
+    public void setSelectedColor(Color color)
+    {
+        selectedColor = color;
     }
 
     /** Gets the current color.
@@ -504,10 +517,10 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         // color.
 
         if (l==null) {
-            g.setColor(Color.green);
+            g.setColor(selectedColor);
         } else {
             ColorSwing c =(ColorSwing) l.getColor();
-            g.setColor(blendColors(Color.green, c.getColorSwing(), 0.6f));
+            g.setColor(blendColors(selectedColor, c.getColorSwing(), 0.6f));
         }
         g.setComposite(AlphaComposite.getInstance(
             AlphaComposite.SRC_OVER, 1.0f));
