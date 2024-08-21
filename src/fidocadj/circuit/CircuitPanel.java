@@ -566,6 +566,16 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         gridDotsColor = new ColorSwing(color);
     }
+    
+    /**
+     Sets the current color of selected item
+
+     @param color the color to be set.
+     */
+    public void setSelectedColor(Color color)
+    {
+        graphicSwing.setSelectedColor(color);
+    }
 
     /**
      Sets Right-to-left selection rectangle color
