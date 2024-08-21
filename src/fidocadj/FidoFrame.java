@@ -435,6 +435,9 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.setRightToLeftColor(Color.decode(
                 preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+        
+        circuitPanel.setSelectedColor(Color.decode(
+                preferences.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
@@ -759,6 +762,9 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.setRightToLeftColor(Color.decode(
                 preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+        
+        circuitPanel.setSelectedColor(Color.decode(
+                preferences.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
         circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);

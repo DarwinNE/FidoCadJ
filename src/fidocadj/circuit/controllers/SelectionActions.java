@@ -120,7 +120,7 @@ public class SelectionActions
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             if (g.getSelected()) {
                 if(hasFound) {
-                    isUnique = false;
+                    return false;
                 }
                 hasFound = true;
             }

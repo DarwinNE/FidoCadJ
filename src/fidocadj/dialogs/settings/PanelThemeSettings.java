@@ -342,7 +342,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         selectionLeftToRightColorPicker.setColor(Color.decode(
                 settingsManager.get("SELECTION_LTR_COLOR", "#008000")));
         selectedElementsColorPicker.setColor(Color.decode(settingsManager.get(
-                "SELECTED_ELEMENTS_COLOR", "#FFFF00")));
+                "SELECTED_ELEMENTS_COLOR", "#00FF00")));
     }
 
     @Override
