@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.util.*;
 
 import fidocadj.circuit.controllers.ElementsEdtActions;
+import fidocadj.globals.SettingsManager;
 
 
 /** SWING VERSION.
@@ -73,12 +74,14 @@ public final class ToolbarTools extends JToolBar
     private final JToggleButton pcbpad;
     private final JLabel fileName;
 
-    private final String base;
+    private String base;
     private final boolean showText;
 
     private final ButtonGroup group;
     private final List<JToggleButton> toolButtonsList;
     private final Map<JToggleButton, Integer> circuitPanelConstants;
+    
+    private SettingsManager settingsManager;
 
     /** On some operating systems, namely MacOS, the filename is shown in the
         toolbar.
@@ -137,7 +140,19 @@ public final class ToolbarTools extends JToolBar
     */
     public ToolbarTools (boolean showText, boolean smallIcons)
     {
-        base = smallIcons ? "icons16/" : "icons32/";
+        base = smallIcons ? "/icons/light_mode/icons16/" : 
+                            "/icons/light_mode/icons32/";
+
+        settingsManager = new SettingsManager();
+        String currentTheme = settingsManager.get("THEME", "light");
+        
+        
+        if (currentTheme.equals("dark")) {
+            base = smallIcons ? "/icons/dark_mode/icons16/" : 
+                                "/icons/dark_mode/icons32/";
+        }
+        
+        
         this.showText = showText;
 
         putClientProperty("Quaqua.ToolBar.style", "title");
