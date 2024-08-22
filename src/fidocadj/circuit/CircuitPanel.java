@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.util.*;
 
 import fidocadj.dialogs.controls.LayerInfo;
+import fidocadj.dialogs.controls.TypedParameter;
 import fidocadj.dialogs.controls.ParameterDescription;
 import fidocadj.dialogs.DialogParameters;
 import fidocadj.primitives.GraphicPrimitive;
@@ -35,6 +36,8 @@ import fidocadj.geom.MapCoordinates;
 import fidocadj.geom.DrawingSize;
 import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
+import fidocadj.graphic.FontG;
+import fidocadj.primitives.PrimitiveAdvText;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most
  * important components, as it is responsible of all editing actions.
@@ -906,10 +909,18 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         return handleActions;
     }
 
+    /**
+     NOTE: This method is not optimized and needs to be revised to work in a more
+     dynamic manner. Achieving this will require a thorough review and
+     potentially significant refactoring of the entire parameter management
+     system.
 
-    /** Shows a dialog which allows the user modify the parameters of a given
-     * primitive. If more than one primitive is selected, modify only the
-     * layer of all selected primitives.
+     Shows a dialog which allows the user to modify the parameters of a given
+     primitive. If only one primitive is selected, all its parameters can be
+     modified. If multiple primitives are selected, only the common parameters
+     such as the layer can be modified for all selected primitives. If multiple
+     texts are selected, shared text-specific parameters can be edited
+     collectively.
      */
     @Override
     public void setPropertiesForPrimitive()
@@ -918,40 +929,188 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         if (gp == null) {
             return;
         }
+
+        java.util.List<PrimitiveAdvText> selectedAdvText = new ArrayList<>();
         java.util.List<ParameterDescription> v;
+        boolean isMultipleTextSelected = false;
+        
+        String strParamMisc = 
+            "** " + Globals.messages.getString("param_misc") + " **";
+        
+        java.util.Map<String, TypedParameter> commonParameters
+                                        = new java.util.LinkedHashMap<>(); 
+
         if (selectionActions.isUniquePrimitiveSelected()) {
             v = gp.getControls();
         } else {
-            // If more than a primitive is selected,
-            v = new Vector<ParameterDescription>(1);
-            ParameterDescription pd = new ParameterDescription();
-            pd.parameter = new LayerInfo(gp.getLayer());
-            pd.description = Globals.messages.getString("ctrl_layer");
-            v.add(pd);
+            java.util.List<GraphicPrimitive> selectedPrimitives
+                            = selectionActions.getSelectedPrimitives();
+
+            for (GraphicPrimitive atxt : selectedPrimitives) {
+                if (atxt instanceof PrimitiveAdvText) {
+                    selectedAdvText.add((PrimitiveAdvText) atxt);
+                }
+            }
+
+            v = new java.util.Vector<>(1);
+
+            if (selectedPrimitives.size() == selectedAdvText.size()) {
+                isMultipleTextSelected = true;
+                boolean isFirst = true;
+
+                for (PrimitiveAdvText t : selectedAdvText) {
+                    java.util.List<ParameterDescription> controls
+                                                         = t.getControls();
+
+                    if (isFirst) {
+                        for (ParameterDescription param : controls) {
+                            commonParameters.put(param.description,
+                                    new TypedParameter(param.parameter,
+                                            param.parameter));
+                        }
+                        isFirst = false;
+                    } else {
+                        for (ParameterDescription param : controls) {
+                            String key = param.description;
+                            Object value = param.parameter;
+                            TypedParameter existing
+                                           = commonParameters.get(key);
+
+                            if (existing != null) {
+                                if (!(value instanceof LayerInfo)
+                                        && !(value instanceof FontG)
+                                        && !(value instanceof Boolean)) {
+                                    if (!value.equals(
+                                            existing.getOriginalValue())) {
+                                        existing.setDisplayValue(strParamMisc);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                v = new java.util.Vector<>();
+                for (ParameterDescription control
+                     : selectedAdvText.get(0).getControls()) {
+                    String key = control.description;
+                    TypedParameter typedParam = commonParameters.get(key);
+
+                    ParameterDescription paramDesc
+                                         = new ParameterDescription();
+                    paramDesc.description = key;
+                    paramDesc.parameter = typedParam.getDisplayValue();
+                    // Maintain the correct type
+
+                    v.add(paramDesc);
+                }
+            } else {
+                v = new Vector<>(1);
+                ParameterDescription pd = new ParameterDescription();
+                pd.parameter = new LayerInfo(gp.getLayer());
+                pd.description = Globals.messages.getString("ctrl_layer");
+                v.add(pd);
+            }
         }
+
         DialogParameters dp = new DialogParameters(
                 (JFrame) Globals.activeWindow,
                 v, extStrict,
                 drawingModel.getLayers());
         dp.setVisible(true);
+
         if (dp.active) {
             if (selectionActions.isUniquePrimitiveSelected()) {
                 gp.setControls(dp.getCharacteristics());
             } else {
-                ParameterDescription pd = (ParameterDescription) v.get(0);
-                dp.getCharacteristics();
-                if (pd.parameter instanceof LayerInfo) {
-                    int l = ((LayerInfo) pd.parameter).getLayer();
-                    editorActions.setLayerForSelectedPrimitives(l);
+                if (isMultipleTextSelected) {
+                    java.util.Map<String, Object> updatedValues
+                                    = new java.util.LinkedHashMap<>();
+                    for (ParameterDescription param : dp.getCharacteristics()) {
+                        // Retrieve the TypedParameter to apply the correct values
+                        TypedParameter originalParam
+                                       = commonParameters.get(param.description);
+
+                        Object finalValue;
+                        if (originalParam != null) {
+                            if (strParamMisc.equals(param.parameter)) {
+                                // Do not modify the value, 
+                                // leave it as "strParamMisc"
+                                finalValue = strParamMisc;
+                            } else {
+                                // If the parameter has been modified, 
+                                // convert it to the original type
+                                if (originalParam.getOriginalValue() 
+                                        instanceof Integer) {
+                                    try {
+                                        finalValue = Integer.parseInt(
+                                                param.parameter.toString());
+                                        // Convert to Integer
+                                    } catch (NumberFormatException e) {
+                                        // Handle the error if conversion fails
+                                        System.err.println(
+                                                "Failed to convert the value to "
+                                                + "Integer: " + param.parameter);
+                                        finalValue = originalParam
+                                                .getOriginalValue();
+                                        // Fallback to the original value
+                                    }
+                                } else {
+                                    // Keep the new value if no specific 
+                                    // conversion is required
+                                    finalValue = param.parameter;
+                                }
+                            }
+                            updatedValues.put(param.description, finalValue);
+                        }
+                    }
+                    // Apply the updated values to the selected PrimitiveAdvText 
+                    // objects
+                    for (PrimitiveAdvText t : selectedAdvText) {
+                        java.util.List<ParameterDescription> originalControls
+                                                             = t.getControls();
+                        
+                        java.util.List<ParameterDescription> newControls
+                                       = new java.util.ArrayList<>();
+
+                        for (ParameterDescription originalParam
+                             : originalControls) {
+                            String key = originalParam.description;
+                            Object newValue = updatedValues.get(key);
+
+                            ParameterDescription newParam
+                                                 = new ParameterDescription();
+                            newParam.description = key;
+
+                            // Apply only if the new value is not "strParamMisc"
+                            if (newValue != null
+                                    && !strParamMisc.equals(newValue)) {
+                                newParam.parameter = newValue;
+                            } else {
+                                // Keep the original value
+                                newParam.parameter = originalParam.parameter;
+                            }
+
+                            newControls.add(newParam);
+                        }
+                        t.setControls(newControls);
+                    }
                 } else {
-                    System.out.println(
-                            "Warning: unexpected parameter! (layer)");
+                    ParameterDescription pd
+                                         = (ParameterDescription) v.get(0);
+                    if (pd.parameter instanceof LayerInfo layerInfo) {
+                        int l = layerInfo.getLayer();
+                        editorActions.setLayerForSelectedPrimitives(l);
+                    } else {
+                        System.out.println(
+                                "Warning: unexpected parameter! (layer)");
+                    }
                 }
             }
             drawingModel.setChanged(true);
 
             // We need to check and sort the layers, since the user can
-            // change the layer associated to a given primitive thanks to
+            // change the layer associated with a given primitive thanks to
             // the dialog window which has been shown.
             drawingModel.sortPrimitiveLayers();
             undoActions.saveUndoState();

@@ -106,6 +106,24 @@ public class SelectionActions
             g.setSelected(v.get(i++).booleanValue());
         }
     }
+    
+    /**
+     Obtains a list containing all selected graphic primitives.
+
+     @return a list containing all selected graphical objects.
+     */
+    public List<GraphicPrimitive> getSelectedPrimitives()
+    {
+        List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
+
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                selectedPrimitives.add(g);
+            }
+        }
+
+        return selectedPrimitives;
+    }
 
     /** Determine if only one primitive has been selected
         @return true if only one primitive is selected, false otherwise (which
