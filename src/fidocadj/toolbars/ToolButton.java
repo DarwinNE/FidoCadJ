@@ -67,9 +67,16 @@ public class ToolButton
 
         URL url = ToolbarTools.class.getResource(base+image);
 
-        toolButton = new JToggleButton(showText?Globals.messages.
+        if(url!=null) {
+            toolButton = new JToggleButton(showText?Globals.messages.
                                         getString(toolText):"",
                                        new ImageIcon(url));
+        } else {
+            toolButton = new JToggleButton(showText?Globals.messages.
+                                        getString(toolText):"");
+            System.err.println("Could not find icon: "+base+image);
+        }
+
 
         toolButton.setActionCommand(actionCommand);
         toolButton.setToolTipText(Globals.messages.getString(toolTip));
