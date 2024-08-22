@@ -399,20 +399,19 @@ class CreateSwingInterface implements Runnable
     @Override
     public void run()
     {
-        SettingsManager settingsManager = new SettingsManager();
         boolean enableThemesSupport =
-            settingsManager.get("ENABLE_CUSTOM_THEMES",
+            SettingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");
-        String theme = settingsManager.get("THEME", "light");
+        String theme = SettingsManager.get("THEME", "light");
         boolean isLightTheme = theme.equals("light");
         boolean isDarkTheme = theme.equals("dark");
-        boolean isCustomTheme = settingsManager.get("PERSONALIZED_THEME",
+        boolean isCustomTheme = SettingsManager.get("PERSONALIZED_THEME",
                 "false").equals("true");
         String customThemePath = null;
         boolean flatLafNotFound = false;
 
         if (isCustomTheme && enableThemesSupport) {
-            customThemePath = settingsManager.get("CUSTOM_THEME_PATH", "");
+            customThemePath = SettingsManager.get("CUSTOM_THEME_PATH", "");
         }
 
         try {

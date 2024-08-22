@@ -102,7 +102,6 @@ public final class FidoFrame extends JFrame implements
 
     // Libraries properties
     public String libDirectory;
-    public SettingsManager preferences;
 
     // Toolbar properties
     // The toolbar dedicated to the available tools (the first one under
@@ -160,22 +159,18 @@ public final class FidoFrame extends JFrame implements
 
         setIconForApplication();
 
-        if (runsAsApplication) {
-            // Prepare the preferences associated to the FidoFrame class
-            preferences = new SettingsManager();
-        } else {
+        if (!runsAsApplication) {
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
             libDirectory = System.getProperty("user.home");
             smallIconsToolbar = false;
             textToolbar = true;
-            preferences=null;
         }
-        exportTools = new ExportTools(preferences);
+        exportTools = new ExportTools();
         printTools = new PrintTools();
         menuTools = new MenuTools();
         new DragDropTools(this);
-        fileTools = new FileTools(this, preferences);
+        fileTools = new FileTools(this);
 
         readPreferences();
         // In practice, we need to restore the size of the open current window
@@ -222,11 +217,11 @@ public final class FidoFrame extends JFrame implements
         int w = (int)r.getWidth();
         int h = (int)r.getHeight();
 
-        preferences.put("FRAME_POSITION_X", "" + x);
-        preferences.put("FRAME_POSITION_Y", "" + y);
-        preferences.put("FRAME_WIDTH", "" + w);
-        preferences.put("FRAME_HEIGHT", "" + h);
-        preferences.put("FRAME_STATE", ""+state);
+        SettingsManager.put("FRAME_POSITION_X", "" + x);
+        SettingsManager.put("FRAME_POSITION_Y", "" + y);
+        SettingsManager.put("FRAME_WIDTH", "" + w);
+        SettingsManager.put("FRAME_HEIGHT", "" + h);
+        SettingsManager.put("FRAME_STATE", ""+state);
     }
 
     /** Restore location & size of UI
@@ -238,11 +233,17 @@ public final class FidoFrame extends JFrame implements
         }
 
         try{
-            int x = Integer.parseInt(preferences.get("FRAME_POSITION_X","no"));
-            int y = Integer.parseInt(preferences.get("FRAME_POSITION_Y","no"));
-            int w = Integer.parseInt(preferences.get("FRAME_WIDTH","no"));
-            int h = Integer.parseInt(preferences.get("FRAME_HEIGHT","no"));
-            int state=Integer.parseInt(preferences.get("FRAME_STATE","no"));
+            int x = Integer.parseInt(
+                    SettingsManager.get("FRAME_POSITION_X","no"));
+            int y = Integer.parseInt(
+                    SettingsManager.get("FRAME_POSITION_Y","no"));
+            int w = Integer.parseInt(
+                    SettingsManager.get("FRAME_WIDTH","no"));
+            int h = Integer.parseInt(
+                    SettingsManager.get("FRAME_HEIGHT","no"));
+            int state=Integer.parseInt(
+                    SettingsManager.get("FRAME_STATE","no"));
+            
             if((state & MAXIMIZED_HORIZ)!=0 ||
                 (state & MAXIMIZED_VERT)!=0)
             {
@@ -366,18 +367,14 @@ public final class FidoFrame extends JFrame implements
     */
     public void readPreferences()
     {
-        if (preferences == null) {
-            return;
-        }
-
         // The library directory
-        libDirectory = preferences.getString("DIR_LIBS", "");
+        libDirectory = SettingsManager.getString("DIR_LIBS", "");
 
         // The icon size
         String defaultSize = "false";
-        smallIconsToolbar = preferences.getBoolean("SMALL_ICON_TOOLBAR",
+        smallIconsToolbar = SettingsManager.getBoolean("SMALL_ICON_TOOLBAR",
                 Boolean.parseBoolean(defaultSize));
-        textToolbar = preferences.getBoolean("TEXT_TOOLBAR", true);
+        textToolbar = SettingsManager.getBoolean("TEXT_TOOLBAR", true);
 
         // Read export preferences
         exportTools.readPrefs();
@@ -385,11 +382,12 @@ public final class FidoFrame extends JFrame implements
         fileTools.readPrefs();
 
         // Element sizes
-        Globals.lineWidth = preferences.getDouble("STROKE_SIZE_STRAIGHT", 0.5);
-        Globals.lineWidthCircles = preferences.getDouble("STROKE_SIZE_OVAL",
-                0.35);
-        Globals.diameterConnection = preferences.getDouble("CONNECTION_SIZE",
-                2.0);
+        Globals.lineWidth = 
+                SettingsManager.getDouble("STROKE_SIZE_STRAIGHT", 0.5);
+        Globals.lineWidthCircles = 
+                SettingsManager.getDouble("STROKE_SIZE_OVAL", 0.35);
+        Globals.diameterConnection = 
+                SettingsManager.getDouble("CONNECTION_SIZE", 2.0);
     }
 
     /** Load the saved configuration for the grid.
@@ -397,10 +395,10 @@ public final class FidoFrame extends JFrame implements
     public void readGridSettings()
     {
         circuitPanel.getMapCoordinates().setXGridStep(
-                Integer.parseInt(preferences.get("GRID_SIZE", "5")));
+                Integer.parseInt(SettingsManager.get("GRID_SIZE", "5")));
 
         circuitPanel.getMapCoordinates().setYGridStep(
-                Integer.parseInt(preferences.get("GRID_SIZE", "5")));
+                Integer.parseInt(SettingsManager.get("GRID_SIZE", "5")));
     }
 
     /** Load the saved configuration for the drawing primitives and zoom.
@@ -411,36 +409,41 @@ public final class FidoFrame extends JFrame implements
 
         // Shift elements when copy/pasting them.
         cpa.setShiftCopyPaste("true".
-            equals(preferences.get("SHIFT_CP","true")));
+            equals(SettingsManager.get("SHIFT_CP","true")));
         AddElements ae=circuitPanel.getContinuosMoveActions().getAddElements();
 
         // Default PCB sizes (pad/line)
-        ae.pcbPadSizeX=Integer.parseInt(preferences.get("PCB_pad_sizex","10"));
-        ae.pcbPadSizeY=Integer.parseInt(preferences.get("PCB_pad_sizey","10"));
-        ae.pcbPadStyle=Integer.parseInt(preferences.get("PCB_pad_style","0"));
-        ae.pcbPadDrill=Integer.parseInt(preferences.get("PCB_pad_drill","5"));
-        ae.pcbThickness=Integer.parseInt(preferences.get("PCB_thickness","5"));
+        ae.pcbPadSizeX=Integer.parseInt(
+                SettingsManager.get("PCB_pad_sizex","10"));
+        ae.pcbPadSizeY=Integer.parseInt(
+                SettingsManager.get("PCB_pad_sizey","10"));
+        ae.pcbPadStyle=Integer.parseInt(
+                SettingsManager.get("PCB_pad_style","0"));
+        ae.pcbPadDrill=Integer.parseInt(
+                SettingsManager.get("PCB_pad_drill","5"));
+        ae.pcbThickness=Integer.parseInt(
+                SettingsManager.get("PCB_thickness","5"));
 
-        circuitPanel.setBackground(Color.decode(preferences.get(
+        circuitPanel.setBackground(Color.decode(SettingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
 
-        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+        circuitPanel.setDotsGridColor(Color.decode(SettingsManager.get(
                 "GRID_DOTS_COLOR", "#000000")));
 
-        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+        circuitPanel.setLinesGridColor(Color.decode(SettingsManager.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
 
         circuitPanel.setLeftToRightColor(Color.decode(
-                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+                SettingsManager.get("SELECTION_LTR_COLOR", "#008000")));
 
         circuitPanel.setRightToLeftColor(Color.decode(
-                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+                SettingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
         
         circuitPanel.setSelectedColor(Color.decode(
-                preferences.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
+                SettingsManager.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
         MapCoordinates mc=circuitPanel.getMapCoordinates();
-        double z=Double.parseDouble(preferences.get("CURRENT_ZOOM","4.0"));
+        double z=Double.parseDouble(SettingsManager.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
     }
 
@@ -515,9 +518,9 @@ public final class FidoFrame extends JFrame implements
         // compatibility.
         if (runsAsApplication)  {
             circuitPanel.getDrawingModel().setTextFont(
-                    preferences.getString("MACRO_FONT",
+                    SettingsManager.getString("MACRO_FONT",
                     Globals.defaultTextFont),
-                    preferences.getInt("MACRO_SIZE", 3),
+                    SettingsManager.getInt("MACRO_SIZE", 3),
                     circuitPanel.getUndoActions());
 
             readGridSettings();
@@ -653,12 +656,12 @@ public final class FidoFrame extends JFrame implements
         circuitPanel.getUndoActions().setModified(false);
         if(runsAsApplication) {
             // Show the library tab or not.
-            boolean s="true".equals(preferences.get("SHOW_LIBS","true"));
+            boolean s="true".equals(SettingsManager.get("SHOW_LIBS","true"));
             showLibs(s);
-            s="true".equals(preferences.get("SHOW_GRID","true"));
+            s="true".equals(SettingsManager.get("SHOW_GRID","true"));
             circuitPanel.setGridVisibility(s);
             toolZoom.setShowGrid(s);
-            s="true".equals(preferences.get("SNAP_GRID","true"));
+            s="true".equals(SettingsManager.get("SNAP_GRID","true"));
             circuitPanel.setSnapState(s);
             toolZoom.setSnapGrid(s);
         }
@@ -676,23 +679,23 @@ public final class FidoFrame extends JFrame implements
         // Save the zoom factor. There is no reason to save the other
         // coordinate mapping data as this will be used for an empty drawing.
         MapCoordinates mc=circuitPanel.getMapCoordinates();
-        preferences.put("CURRENT_ZOOM",""+mc.getXMagnitude());
+        SettingsManager.put("CURRENT_ZOOM",""+mc.getXMagnitude());
         if(areLibsVisible()) {
-            preferences.put("SHOW_LIBS","true");
+            SettingsManager.put("SHOW_LIBS","true");
         } else {
-            preferences.put("SHOW_LIBS","false");
+            SettingsManager.put("SHOW_LIBS","false");
         }
 
         if(circuitPanel.getGridVisibility()) {
-            preferences.put("SHOW_GRID","true");
+            SettingsManager.put("SHOW_GRID","true");
         } else {
-            preferences.put("SHOW_GRID","false");
+            SettingsManager.put("SHOW_GRID","false");
         }
 
         if(circuitPanel.getSnapState()) {
-            preferences.put("SNAP_GRID","true");
+            SettingsManager.put("SNAP_GRID","true");
         } else {
-            preferences.put("SNAP_GRID","false");
+            SettingsManager.put("SNAP_GRID","false");
         }
 
         dispose();
@@ -744,74 +747,75 @@ public final class FidoFrame extends JFrame implements
         AddElements ae = eea.getAddElements();
 
         // Create and display the settings dialog window
-        DialogSettings options = new DialogSettings(this, preferences);
+        DialogSettings options = new DialogSettings(this);
         options.showDialog();
 
         // Update properties based on the new settings
-        circuitPanel.setBackground(Color.decode(preferences.get(
+        circuitPanel.setBackground(Color.decode(SettingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
 
-        circuitPanel.setDotsGridColor(Color.decode(preferences.get(
+        circuitPanel.setDotsGridColor(Color.decode(SettingsManager.get(
                 "GRID_DOTS_COLOR", "#000000")));
 
-        circuitPanel.setLinesGridColor(Color.decode(preferences.get(
+        circuitPanel.setLinesGridColor(Color.decode(SettingsManager.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
 
         circuitPanel.setLeftToRightColor(Color.decode(
-                preferences.get("SELECTION_LTR_COLOR", "#008000")));
+                SettingsManager.get("SELECTION_LTR_COLOR", "#008000")));
 
         circuitPanel.setRightToLeftColor(Color.decode(
-                preferences.get("SELECTION_RTL_COLOR", "#0000FF")));
+                SettingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
         
         circuitPanel.setSelectedColor(Color.decode(
-                preferences.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
+                SettingsManager.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
-        circuitPanel.profileTime = preferences.getBoolean("PROFILE_TIME",
+        circuitPanel.profileTime = SettingsManager.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);
-        circuitPanel.antiAlias = preferences.getBoolean("ANTIALIAS",
+        circuitPanel.antiAlias = SettingsManager.getBoolean("ANTIALIAS",
                 circuitPanel.antiAlias);
-        textToolbar = preferences.getBoolean("TEXT_TOOLBAR", textToolbar);
-        smallIconsToolbar = preferences.getBoolean("SMALL_ICON_TOOLBAR",
+        textToolbar = SettingsManager.getBoolean("TEXT_TOOLBAR", textToolbar);
+        smallIconsToolbar = SettingsManager.getBoolean("SMALL_ICON_TOOLBAR",
                 smallIconsToolbar);
 
-        circuitPanel.getMapCoordinates().setMagnitudes(preferences.getDouble(
-                "ZOOM_VALUE", circuitPanel.getMapCoordinates().getXMagnitude()),
-                preferences.getDouble("ZOOM_VALUE",
+        circuitPanel.getMapCoordinates().setMagnitudes(
+                SettingsManager.getDouble("ZOOM_VALUE", 
+                        circuitPanel.getMapCoordinates().getXMagnitude()),
+                SettingsManager.getDouble("ZOOM_VALUE",
                         circuitPanel.getMapCoordinates().getYMagnitude()));
-        circuitPanel.getMapCoordinates().setXGridStep(preferences.getInt(
+        circuitPanel.getMapCoordinates().setXGridStep(SettingsManager.getInt(
                 "GRID_SIZE", circuitPanel.getMapCoordinates().getXGridStep()));
-        circuitPanel.getMapCoordinates().setYGridStep(preferences.getInt(
+        circuitPanel.getMapCoordinates().setYGridStep(SettingsManager.getInt(
                 "GRID_SIZE", circuitPanel.getMapCoordinates().getYGridStep()));
 
-        ae.setPcbThickness(preferences.getInt("PCB_LINEWIDTH",
+        ae.setPcbThickness(SettingsManager.getInt("PCB_LINEWIDTH",
                 ae.getPcbThickness()));
-        ae.setPcbPadSizeX(preferences.getInt("PCB_PAD_WIDTH",
+        ae.setPcbPadSizeX(SettingsManager.getInt("PCB_PAD_WIDTH",
                 ae.getPcbPadSizeX()));
-        ae.setPcbPadSizeY(preferences.getInt("PCB_PAD_HEIGHT",
+        ae.setPcbPadSizeY(SettingsManager.getInt("PCB_PAD_HEIGHT",
                 ae.getPcbPadSizeY()));
-        ae.setPcbPadDrill(preferences.getInt("PCB_PAD_DRILL",
+        ae.setPcbPadDrill(SettingsManager.getInt("PCB_PAD_DRILL",
                 ae.getPcbPadDrill()));
 
-        circuitPanel.getDrawingModel().setTextFont(preferences.getString(
+        circuitPanel.getDrawingModel().setTextFont(SettingsManager.getString(
                 "MACRO_FONT", circuitPanel.getDrawingModel().getTextFont()),
-                preferences.getInt("MACRO_SIZE",
+                SettingsManager.getInt("MACRO_SIZE",
                         circuitPanel.getDrawingModel().getTextFontSize()),
                 circuitPanel.getUndoActions());
 
-        circuitPanel.setStrictCompatibility(preferences.getBoolean(
+        circuitPanel.setStrictCompatibility(SettingsManager.getBoolean(
                 "STRICT_COMPATIBILITY", circuitPanel.getStrictCompatibility()));
         toolBar.setStrictCompatibility(circuitPanel.getStrictCompatibility());
-        cpa.setShiftCopyPaste(preferences.getBoolean("SHIFT_CP",
+        cpa.setShiftCopyPaste(SettingsManager.getBoolean("SHIFT_CP",
                 cpa.getShiftCopyPaste()));
 
-        libDirectory = preferences.getString("DIR_LIBS", libDirectory);
+        libDirectory = SettingsManager.getString("DIR_LIBS", libDirectory);
 
-        Globals.lineWidth = preferences.getDouble("STROKE_SIZE_STRAIGHT",
-                Globals.lineWidth);
-        Globals.lineWidthCircles = preferences.getDouble("STROKE_SIZE_OVAL",
-                Globals.lineWidthCircles);
-        Globals.diameterConnection = preferences.getDouble("CONNECTION_SIZE",
-                Globals.diameterConnection);
+        Globals.lineWidth = SettingsManager.getDouble(
+                    "STROKE_SIZE_STRAIGHT", Globals.lineWidth);
+        Globals.lineWidthCircles = SettingsManager.getDouble(
+                    "STROKE_SIZE_OVAL", Globals.lineWidthCircles);
+        Globals.diameterConnection = SettingsManager.getDouble(
+                    "CONNECTION_SIZE", Globals.diameterConnection);
 
         if (!libDirectory.equals(oldDirectory)) {
             loadLibraries();

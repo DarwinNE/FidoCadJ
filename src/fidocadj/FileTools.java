@@ -39,7 +39,6 @@ public class FileTools
 {
 
     final private FidoFrame fff;
-    final private SettingsManager prefs;
 
     // Open/save default properties
     public String openFileDirectory;
@@ -50,10 +49,9 @@ public class FileTools
      * @param p the preferences where to read/write settings (or null if
      * they should not be saved).
      */
-    public FileTools(FidoFrame f, SettingsManager p)
+    public FileTools(FidoFrame f)
     {
         fff = f;
-        prefs = p;
         openFileDirectory = "";
     }
 
@@ -62,10 +60,7 @@ public class FileTools
      */
     public void readPrefs()
     {
-        // The open file directory
-        if (prefs != null) {
-            openFileDirectory = prefs.get("OPEN_DIR", "");
-        }
+        openFileDirectory = SettingsManager.get("OPEN_DIR", "");
     }
 
     /** Ask the user if the current file should be saved and do it if yes.
@@ -246,9 +241,7 @@ public class FileTools
                     fff.circuitPanel.getParserActions().openFileName,
                     Globals.DEFAULT_EXTENSION);
 
-            if (prefs != null) {
-                prefs.put("OPEN_DIR", din);
-            }
+            SettingsManager.put("OPEN_DIR", din);
 
             openFileDirectory = din;
 

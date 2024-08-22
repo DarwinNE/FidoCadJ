@@ -58,18 +58,14 @@ public class ExportTools implements ClipboardOwner
     private int exportYsize;
     private boolean exportResolutionBased;
     private boolean splitLayers;
-    final private SettingsManager prefs;
     private ChangeCoordinatesListener coordL;
 
     /** Standard constructor.
-        @param p the preferences object which will be used to save or
-        retrieve the settings. If null, preferences will not be stored.
     */
-    public ExportTools(SettingsManager p)
+    public ExportTools()
     {
         exportFilename="";
         exportMagnification=1.0;
-        prefs=p;
         exportBlackWhite=false;
         exportFormat = "";
         splitLayers=false;
@@ -79,23 +75,21 @@ public class ExportTools implements ClipboardOwner
     */
     public void readPrefs()
     {
-        if(prefs!=null) {
-            exportFormat = prefs.get("EXPORT_FORMAT", "png");
-            exportUnitPerPixel= Double.parseDouble(
-                prefs.get("EXPORT_UNITPERPIXEL", "1"));
-            exportMagnification = Double.parseDouble(
-                prefs.get("EXPORT_MAGNIFICATION", "1"));
-            exportBlackWhite = "true".equals(prefs.get("EXPORT_BW", "false"));
+        exportFormat = SettingsManager.get("EXPORT_FORMAT", "png");
+        exportUnitPerPixel= Double.parseDouble(
+            SettingsManager.get("EXPORT_UNITPERPIXEL", "1"));
+        exportMagnification = Double.parseDouble(
+            SettingsManager.get("EXPORT_MAGNIFICATION", "1"));
+        exportBlackWhite = "true".equals(SettingsManager.get("EXPORT_BW", "false"));
 
-            exportXsize = Integer.parseInt(
-                prefs.get("EXPORT_XSIZE", "800"));
-            exportYsize = Integer.parseInt(
-                prefs.get("EXPORT_YSIZE", "600"));
-            exportResolutionBased = "true".equals(
-                prefs.get("EXPORT_RESOLUTION_BASED","false"));
-            splitLayers = "true".equals(prefs.get("EXPORT_SPLIT_LAYERS",
-                "false"));
-        }
+        exportXsize = Integer.parseInt(
+            SettingsManager.get("EXPORT_XSIZE", "800"));
+        exportYsize = Integer.parseInt(
+            SettingsManager.get("EXPORT_YSIZE", "600"));
+        exportResolutionBased = "true".equals(
+            SettingsManager.get("EXPORT_RESOLUTION_BASED","false"));
+        splitLayers = "true".equals(SettingsManager.get("EXPORT_SPLIT_LAYERS",
+            "false"));
     }
 
     /** Show a dialog for exporting the current drawing in the clipboard.
@@ -153,15 +147,13 @@ public class ExportTools implements ClipboardOwner
             } catch (IOException eE) {
                 System.err.println("Issues reading image: "+eE);
             }
-            if(prefs!=null) {
-                prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
-                prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
-                prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
-                prefs.put("EXPORT_RESOLUTION_BASED",
-                    exportResolutionBased?"true":"false");
-                prefs.put("EXPORT_XSIZE", ""+exportXsize);
-                prefs.put("EXPORT_YSIZE", ""+exportYsize);
-            }
+            SettingsManager.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+            SettingsManager.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+            SettingsManager.put("EXPORT_BW", exportBlackWhite?"true":"false");
+            SettingsManager.put("EXPORT_RESOLUTION_BASED",
+                exportResolutionBased?"true":"false");
+            SettingsManager.put("EXPORT_XSIZE", ""+exportXsize);
+            SettingsManager.put("EXPORT_YSIZE", ""+exportYsize);
         }
     }
 
@@ -283,17 +275,17 @@ public class ExportTools implements ClipboardOwner
 
             SwingUtilities.invokeLater(doExport);
 
-            if(prefs!=null) {
-                prefs.put("EXPORT_FORMAT", exportFormat);
-                prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
-                prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
-                prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
-                prefs.put("EXPORT_RESOLUTION_BASED",
+            SettingsManager.put("EXPORT_FORMAT", exportFormat);
+            SettingsManager.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+            SettingsManager.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+            SettingsManager.put("EXPORT_BW", exportBlackWhite?"true":"false");
+            SettingsManager.put("EXPORT_RESOLUTION_BASED",
                     exportResolutionBased?"true":"false");
-                prefs.put("EXPORT_XSIZE", ""+exportXsize);
-                prefs.put("EXPORT_YSIZE", ""+exportYsize);
-                prefs.put("EXPORT_SPLIT_LAYERS", splitLayers?"true":"false");
-            }
+            SettingsManager.put("EXPORT_XSIZE", ""+exportXsize);
+            SettingsManager.put("EXPORT_YSIZE", ""+exportYsize);
+            SettingsManager.put("EXPORT_SPLIT_LAYERS", 
+                    splitLayers?"true":"false");
+            
             /*
                 The following code would require a thread safe implementation
                 of some of the inner classes (such as CircuitModel), which is
