@@ -5,6 +5,7 @@ import java.awt.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 /**
  PanelDrawingSettings is responsible for managing the drawing settings

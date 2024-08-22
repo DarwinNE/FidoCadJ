@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 /**
  PanelGeneralSettings is responsible for managing the general settings

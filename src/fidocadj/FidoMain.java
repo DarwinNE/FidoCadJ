@@ -10,10 +10,9 @@ import fidocadj.circuit.model.DrawingModel;
 import fidocadj.export.ExportGraphic;
 import fidocadj.geom.DrawingSize;
 import fidocadj.globals.Globals;
-import fidocadj.globals.AccessResources;
 import fidocadj.globals.FileUtils;
 import fidocadj.globals.OSValidator;
-import fidocadj.dialogs.settings.SettingsManager;
+import fidocadj.globals.SettingsManager;
 import fidocadj.layers.StandardLayers;
 import fidocadj.timer.MyTimer;
 import fidocadj.graphic.PointG;
@@ -400,7 +399,7 @@ class CreateSwingInterface implements Runnable
     @Override
     public void run()
     {
-        SettingsManager settingsManager = new SettingsManager(this.getClass());
+        SettingsManager settingsManager = new SettingsManager();
         boolean enableThemesSupport =
             settingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");

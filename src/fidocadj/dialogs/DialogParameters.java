@@ -269,17 +269,11 @@ public final class DialogParameters extends JDialog
                 jtf[tc].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof FontG) {
-                GraphicsEnvironment gE;
-                gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                String[] s = gE.getAvailableFontFamilyNames();
                 jco[co] = new JComboBox();
-
-                for (int i = 0; i < s.length; ++i) {
-                    jco[co].addItem(s[i]);
-                    if (s[i].equals(((FontG) pd.parameter).getFamily())) {
-                        jco[co].setSelectedIndex(i);
-                    }
-                }
+                String selectedFont = ((FontG) pd.parameter).getFamily();
+                loadFontsInBackground((JComboBox<String>) jco[co], 
+                                                            selectedFont);
+                
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -523,5 +517,30 @@ public final class DialogParameters extends JDialog
     public java.util.List<ParameterDescription> getCharacteristics()
     {
         return v;
+    }
+    
+    /**
+     Load the list of available fonts in the background to avoid UI freezing.
+     The fonts are loaded into the provided JComboBox.
+
+     @param comboBox The JComboBox to populate with the available font families.
+     @param selectedFont The font family name to select in the comboBox.
+     */
+    private void loadFontsInBackground(JComboBox<String> comboBox,
+            String selectedFont)
+    {
+        new Thread(() -> {
+            GraphicsEnvironment gE = 
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+            String[] fontFamilies = gE.getAvailableFontFamilyNames();
+            SwingUtilities.invokeLater(() -> {
+                for (String font : fontFamilies) {
+                    comboBox.addItem(font);
+                    if (font.equals(selectedFont)) {
+                        comboBox.setSelectedItem(font);
+                    }
+                }
+            });
+        }).start();
     }
 }

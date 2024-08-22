@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 /**
  DialogSettings is the main dialog that contains various settings panels.

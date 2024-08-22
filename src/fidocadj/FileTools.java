@@ -8,7 +8,7 @@ import java.util.Locale;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.globals.Globals;
 import fidocadj.export.ExportGraphic;
-import fidocadj.dialogs.settings.SettingsManager;
+import fidocadj.globals.SettingsManager;
 
 /** FileTools.java
  * Class performing high level user interface operation involving files.

@@ -23,7 +23,7 @@ import fidocadj.globals.Globals;
 import fidocadj.globals.AccessResources;
 import fidocadj.globals.Utf8ResourceBundle;
 import fidocadj.globals.LibUtils;
-import fidocadj.dialogs.settings.SettingsManager;
+import fidocadj.globals.SettingsManager;
 import fidocadj.circuit.HasChangedListener;
 import fidocadj.circuit.CircuitPanel;
 import fidocadj.circuit.controllers.CopyPasteActions;
@@ -162,7 +162,7 @@ public final class FidoFrame extends JFrame implements
 
         if (runsAsApplication) {
             // Prepare the preferences associated to the FidoFrame class
-            preferences = new SettingsManager(this.getClass());
+            preferences = new SettingsManager();
         } else {
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.

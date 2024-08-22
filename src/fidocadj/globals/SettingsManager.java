@@ -1,4 +1,4 @@
-package fidocadj.dialogs.settings;
+package fidocadj.globals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,12 +40,10 @@ public class SettingsManager
     /**
      Constructs a new SettingsManager associated with a specific class.
      The Preferences API uses this class for storing and retrieving settings.
-
-     @param clazz the class for which the preferences node is created.
      */
-    public SettingsManager(Class<?> clazz)
+    public SettingsManager()
     {
-        this.preferences = Preferences.userNodeForPackage(clazz);
+        this.preferences = Preferences.userNodeForPackage(this.getClass());
         this.settings = new HashMap<>();
     }
 
