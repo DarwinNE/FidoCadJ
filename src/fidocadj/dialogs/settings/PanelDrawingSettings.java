@@ -35,8 +35,6 @@ import fidocadj.globals.SettingsManager;
  */
 public class PanelDrawingSettings extends JPanel implements SettingsPanel
 {
-
-    private final SettingsManager settingsManager;
     private JTextField gridWidthField;
     private JTextField connectionSizeField;
     private JTextField strokeSizeStraightField;
@@ -48,13 +46,9 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
 
     /**
      Constructor for PanelDrawingSettings.
-
-     @param settingsManager the settings manager to handle the ..
-                            application settings.
      */
-    public PanelDrawingSettings(SettingsManager settingsManager)
+    public PanelDrawingSettings()
     {
-        this.settingsManager = settingsManager;
         setupUI();
         loadSettings(); // Load settings during initialization
     }
@@ -204,7 +198,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
                     comboFont.addItem(font);
                 }
                 // Set default font after loading
-                comboFont.setSelectedItem(settingsManager.get("MACRO_FONT",
+                comboFont.setSelectedItem(SettingsManager.get("MACRO_FONT",
                         "Monospaced"));
             });
         }).start();
@@ -217,19 +211,19 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
     public void loadSettings()
     {
         if (Globals.isBeta) {
-            profileCheckBox.setSelected(settingsManager.get("PROFILE_TIME",
+            profileCheckBox.setSelected(SettingsManager.get("PROFILE_TIME",
                     "false").equals("true"));
         }
-        gridWidthField.setText(settingsManager.get("GRID_SIZE", "5"));
+        gridWidthField.setText(SettingsManager.get("GRID_SIZE", "5"));
         connectionSizeField.setText(
-                settingsManager.get("CONNECTION_SIZE", "2.0"));
-        strokeSizeStraightField.setText(settingsManager.get(
+                SettingsManager.get("CONNECTION_SIZE", "2.0"));
+        strokeSizeStraightField.setText(SettingsManager.get(
                 "STROKE_SIZE_STRAIGHT", "0.5"));
-        macroSizeField.setText(settingsManager.get("MACRO_SIZE", "3"));
+        macroSizeField.setText(SettingsManager.get("MACRO_SIZE", "3"));
         antiAliasCheckBox.setSelected(
-                settingsManager.get("ANTIALIAS", "false").equals("true"));
+                SettingsManager.get("ANTIALIAS", "false").equals("true"));
         shiftCPCheckBox.setSelected(
-                settingsManager.get("SHIFT_CP", "false").equals("true"));
+                SettingsManager.get("SHIFT_CP", "false").equals("true"));
     }
 
     /**
@@ -239,18 +233,18 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
     public void saveSettings()
     {
         if (Globals.isBeta) {
-            settingsManager.put("PROFILE_TIME",
+            SettingsManager.put("PROFILE_TIME",
                     profileCheckBox.isSelected() ? "true" : "false");
         }
-        settingsManager.put("GRID_SIZE", gridWidthField.getText());
-        settingsManager.put("CONNECTION_SIZE", connectionSizeField.getText());
-        settingsManager.put("STROKE_SIZE_STRAIGHT",
+        SettingsManager.put("GRID_SIZE", gridWidthField.getText());
+        SettingsManager.put("CONNECTION_SIZE", connectionSizeField.getText());
+        SettingsManager.put("STROKE_SIZE_STRAIGHT",
                 strokeSizeStraightField.getText());
-        settingsManager.put("MACRO_FONT", (String) comboFont.getSelectedItem());
-        settingsManager.put("MACRO_SIZE", macroSizeField.getText());
-        settingsManager.put("ANTIALIAS",
+        SettingsManager.put("MACRO_FONT", (String) comboFont.getSelectedItem());
+        SettingsManager.put("MACRO_SIZE", macroSizeField.getText());
+        SettingsManager.put("ANTIALIAS",
                 antiAliasCheckBox.isSelected() ? "true" : "false");
-        settingsManager.put("SHIFT_CP",
+        SettingsManager.put("SHIFT_CP",
                 shiftCPCheckBox.isSelected() ? "true" : "false");
     }
 }

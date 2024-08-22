@@ -37,8 +37,6 @@ import fidocadj.globals.SettingsManager;
 
 public class DialogSettings extends MinimumSizeDialog
 {
-
-    private final SettingsManager settingsManager;
     private final PanelGeneralSettings panelGeneralSettings;
     private final PanelDrawingSettings panelDrawingSettings;
     private final PanelPCBSettings panelPCBSettings;
@@ -48,20 +46,17 @@ public class DialogSettings extends MinimumSizeDialog
      Constructor for DialogOptions.
 
      @param parentFrame the parent frame.
-     @param settingsManager the settings manager that handles application
-        settings.
      */
-    public DialogSettings(JFrame parentFrame, SettingsManager settingsManager)
+    public DialogSettings(JFrame parentFrame)
     {
         super(600, 450, parentFrame, Globals.messages.getString("Cir_opt_t"),
                 true);
-        this.settingsManager = settingsManager;
 
         // Initialize the panels
-        panelGeneralSettings = new PanelGeneralSettings(settingsManager);
-        panelDrawingSettings = new PanelDrawingSettings(settingsManager);
-        panelPCBSettings = new PanelPCBSettings(settingsManager);
-        panelThemeSettings = new PanelThemeSettings(settingsManager);
+        panelGeneralSettings = new PanelGeneralSettings();
+        panelDrawingSettings = new PanelDrawingSettings();
+        panelPCBSettings = new PanelPCBSettings();
+        panelThemeSettings = new PanelThemeSettings();
 
         setupUI();
     }

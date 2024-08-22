@@ -80,8 +80,6 @@ public final class ToolbarTools extends JToolBar
     private final ButtonGroup group;
     private final List<JToggleButton> toolButtonsList;
     private final Map<JToggleButton, Integer> circuitPanelConstants;
-    
-    private SettingsManager settingsManager;
 
     /** On some operating systems, namely MacOS, the filename is shown in the
         toolbar.
@@ -143,8 +141,7 @@ public final class ToolbarTools extends JToolBar
         base = smallIcons ? "/icons/light_mode/icons16/" : 
                             "/icons/light_mode/icons32/";
 
-        settingsManager = new SettingsManager();
-        String currentTheme = settingsManager.get("THEME", "light");
+        String currentTheme = SettingsManager.get("THEME", "light");
         
         
         if (currentTheme.equals("dark")) {

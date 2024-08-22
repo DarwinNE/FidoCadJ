@@ -37,8 +37,6 @@ import fidocadj.globals.SettingsManager;
  */
 public final class PanelGeneralSettings extends JPanel implements SettingsPanel
 {
-
-    private final SettingsManager settingsManager;
     private JTextField libDirectoryField;
     private JCheckBox textToolbarCheckBox;
     private JCheckBox smallIconsCheckBox;
@@ -46,12 +44,9 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
 
     /**
      Constructor for PanelGeneralSettings.
-
-     @param settingsManager settings manager to handle the application settings.
      */
-    public PanelGeneralSettings(SettingsManager settingsManager)
+    public PanelGeneralSettings()
     {
-        this.settingsManager = settingsManager;
         setupUI();
         loadSettings(); // Load settings during initialization
     }
@@ -150,12 +145,12 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
     @Override
     public void loadSettings()
     {
-        libDirectoryField.setText(settingsManager.get("DIR_LIBS", ""));
-        textToolbarCheckBox.setSelected(settingsManager.get("TEXT_TOOLBAR",
+        libDirectoryField.setText(SettingsManager.get("DIR_LIBS", ""));
+        textToolbarCheckBox.setSelected(SettingsManager.get("TEXT_TOOLBAR",
                 "true").equals("true"));
-        smallIconsCheckBox.setSelected(settingsManager.get("SMALL_ICON_TOOLBAR",
+        smallIconsCheckBox.setSelected(SettingsManager.get("SMALL_ICON_TOOLBAR",
                 "false").equals("true"));
-        extStrict_CB.setSelected(settingsManager.get("STRICT_COMPATIBILITY",
+        extStrict_CB.setSelected(SettingsManager.get("STRICT_COMPATIBILITY",
                 "false").equals("true"));
     }
 
@@ -165,12 +160,12 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
     @Override
     public void saveSettings()
     {
-        settingsManager.put("DIR_LIBS", libDirectoryField.getText());
-        settingsManager.put("TEXT_TOOLBAR",
+        SettingsManager.put("DIR_LIBS", libDirectoryField.getText());
+        SettingsManager.put("TEXT_TOOLBAR",
                 textToolbarCheckBox.isSelected() ? "true" : "false");
-        settingsManager.put("SMALL_ICON_TOOLBAR",
+        SettingsManager.put("SMALL_ICON_TOOLBAR",
                 smallIconsCheckBox.isSelected() ? "true" : "false");
-        settingsManager.put("STRICT_COMPATIBILITY",
+        SettingsManager.put("STRICT_COMPATIBILITY",
                 extStrict_CB.isSelected() ? "true" : "false");
     }
 }

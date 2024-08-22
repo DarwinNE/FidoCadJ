@@ -166,8 +166,7 @@ public final class LibUtils
     */
     public static String getLibDir() throws FileNotFoundException
     {
-        SettingsManager prefs = new SettingsManager();
-        String s = prefs.get("DIR_LIBS", "");
+        String s = SettingsManager.get("DIR_LIBS", "");
         if (s == null || s.length()==0) {
             throw new FileNotFoundException();
         }

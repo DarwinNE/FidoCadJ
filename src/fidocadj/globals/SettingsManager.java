@@ -1,17 +1,24 @@
 package fidocadj.globals;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
+
 /**
- The SettingsManager class is responsible for managing application settings
- in a centralized way. It provides methods to store and retrieve various
- types of settings (e.g., integers, doubles, booleans, strings) and handles
- saving/loading these settings using the Java Preferences API.
+ The SettingsManager class is responsible for managing application
+ settings in a centralized and thread-safe manner.
+ This class is designed as a Singleton to ensure that there is only one
+ instance managing the settings throughout the application.
+ The settings can be stored and retrieved as various data types (e.g.,
+ integers, doubles, booleans, strings) and are persisted using the
+ Java Preferences API.
 
  <pre>
-
  This file is part of FidoCadJ.
 
  FidoCadJ is free software: you can redistribute it and/or modify
@@ -30,21 +37,36 @@ import java.util.prefs.Preferences;
 
  Copyright 2007-2024 by Davide Bucci, Manuel Finessi
  </pre>
+
  */
 public class SettingsManager
 {
 
+    // Singleton instance
+    private static final SettingsManager INSTANCE = new SettingsManager();
+
     private final Preferences preferences;
     private final Map<String, Object> settings;
+    private static final Stack<Map<String, Object>> backupStack = new Stack<>();
+    private static final List<SettingsChangeListener> listeners = new ArrayList<>();
 
     /**
-     Constructs a new SettingsManager associated with a specific class.
-     The Preferences API uses this class for storing and retrieving settings.
+     Private constructor to prevent instantiation from outside the class.
      */
-    public SettingsManager()
+    private SettingsManager()
     {
         this.preferences = Preferences.userNodeForPackage(this.getClass());
         this.settings = new HashMap<>();
+    }
+
+    /**
+     Returns the singleton instance of the {@code SettingsManager}.
+
+     @return the singleton instance of the {@code SettingsManager}.
+     */
+    public static SettingsManager getInstance()
+    {
+        return INSTANCE;
     }
 
     /**
@@ -53,10 +75,11 @@ public class SettingsManager
      @param key the key identifying the setting.
      @param value the value of the setting to store.
      */
-    public void set(String key, Object value)
+    public static void set(String key, Object value)
     {
-        settings.put(key, value);
-        saveToPreferences(key, value);
+        INSTANCE.settings.put(key, value);
+        INSTANCE.saveToPreferences(key, value);
+        notifyListeners(key, value);
     }
 
     /**
@@ -67,54 +90,54 @@ public class SettingsManager
 
      @return the value of the setting, or null if not found.
      */
-    public Object get(String key)
+    public static Object get(String key)
     {
-        return settings.get(key);
+        return INSTANCE.settings.get(key);
     }
 
     /**
-     Retrieves a setting from the Preferences store with a ..
-     specified default value.
-     This method overloads the existing get method to match the ..
-     signature used in older code.
+     Retrieves a setting from the manager or Preferences store with ..
+     a specified default value.
+     This method overloads the existing get method to match the signature ..
+     used in older code.
 
      @param key the key identifying the setting.
      @param defaultValue default value to return if the setting is not found.
 
      @return the value of the setting as a String.
      */
-    public String get(String key, String defaultValue)
+    public static String get(String key, String defaultValue)
     {
-        if (settings.containsKey(key)) {
-            Object value = settings.get(key);
+        if (INSTANCE.settings.containsKey(key)) {
+            Object value = INSTANCE.settings.get(key);
             return value != null ? value.toString() : defaultValue;
         }
-        return preferences.get(key, defaultValue);
+        return INSTANCE.preferences.get(key, defaultValue);
     }
 
     /**
-     Stores a setting in the Preferences store.
-     This method overloads the existing set method to allow storing ..
-     settings as strings to maintain compatibility with older code.
+     Stores a setting in the manager and Preferences store as a String.
+     This method overloads the set method to allow storing settings as strings.
 
      @param key the key identifying the setting.
      @param value the value of the setting to store as a String.
      */
-    public void put(String key, String value)
+    public static void put(String key, String value)
     {
-        settings.put(key, value);
-        preferences.put(key, value);
+        INSTANCE.settings.put(key, value);
+        INSTANCE.preferences.put(key, value);
+        notifyListeners(key, value);
     }
 
     /**
-     Gets an integer setting from the manager or preferences store.
+     Gets an integer setting from the manager or Preferences store.
 
      @param key the key identifying the setting.
      @param defaultValue default value to return if the setting is not found.
 
      @return the integer value of the setting.
      */
-    public int getInt(String key, int defaultValue)
+    public static int getInt(String key, int defaultValue)
     {
         String value = get(key, String.valueOf(defaultValue));
         try {
@@ -125,77 +148,77 @@ public class SettingsManager
     }
 
     /**
-     Gets a double setting from the manager or preferences store.
+     Gets a double setting from the manager or Preferences store.
 
      @param key the key identifying the setting.
      @param defaultValue default value to return if the setting is not found.
 
      @return the double value of the setting.
      */
-    public double getDouble(String key, double defaultValue)
+    public static double getDouble(String key, double defaultValue)
     {
         String value = get(key, String.valueOf(defaultValue));
         try {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            // If the conversion fails, it returns the default value.
             return defaultValue;
         }
     }
 
     /**
-     Gets a boolean setting from the manager or preferences store.
+     Gets a boolean setting from the manager or Preferences store.
 
      @param key the key identifying the setting.
      @param defaultValue default value to return if the setting is not found.
 
      @return the boolean value of the setting.
      */
-    public boolean getBoolean(String key, boolean defaultValue)
+    public static boolean getBoolean(String key, boolean defaultValue)
     {
         String value = get(key, String.valueOf(defaultValue));
         return Boolean.parseBoolean(value);
     }
 
     /**
-     Gets a string setting from the manager or preferences store.
+     Gets a string setting from the manager or Preferences store.
 
      @param key the key identifying the setting.
      @param defaultValue default value to return if the setting is not found.
 
      @return the string value of the setting.
      */
-    public String getString(String key, String defaultValue)
+    public static String getString(String key, String defaultValue)
     {
-        if (settings.containsKey(key)) {
-            return (String) settings.get(key);
+        if (INSTANCE.settings.containsKey(key)) {
+            return (String) INSTANCE.settings.get(key);
         }
-        return preferences.get(key, defaultValue);
+        return INSTANCE.preferences.get(key, defaultValue);
     }
 
     /**
-     Loads a setting from the Preferences store into the SettingsManager's
-     internal map.
+     Loads a setting from the Preferences store into the ..
+     SettingsManager's internal map.
 
      @param key the key identifying the setting.
-     @param defaultValue the default value to use if the setting is not..
-     found in Preferences.
+     @param defaultValue the default value to use if the setting ..
+     is not found in Preferences.
      */
-    public void loadFromPreferences(String key, Object defaultValue)
+    public static void loadFromPreferences(String key, Object defaultValue)
     {
         if (defaultValue instanceof Integer) {
-            settings.put(key, preferences.getInt(key, (Integer) defaultValue));
+            INSTANCE.settings.put(key, INSTANCE.preferences.getInt(key,
+                    (Integer) defaultValue));
         } else {
             if (defaultValue instanceof Double) {
-                settings.put(key, preferences.getDouble(key,
+                INSTANCE.settings.put(key, INSTANCE.preferences.getDouble(key,
                         (Double) defaultValue));
             } else {
                 if (defaultValue instanceof Boolean) {
-                    settings.put(key, preferences.getBoolean(key,
-                            (Boolean) defaultValue));
+                    INSTANCE.settings.put(key, INSTANCE.preferences.getBoolean(
+                            key, (Boolean) defaultValue));
                 } else {
                     if (defaultValue instanceof String) {
-                        settings.put(key, preferences.get(key,
+                        INSTANCE.settings.put(key, INSTANCE.preferences.get(key,
                                 (String) defaultValue));
                     }
                 }
@@ -226,7 +249,19 @@ public class SettingsManager
                 }
             }
         }
-        // Additional types can be added as needed.
+    }
+
+    /**
+     Notifies all registered listeners that a setting has changed.
+
+     @param key the key of the setting that changed.
+     @param newValue the new value of the setting.
+     */
+    private static void notifyListeners(String key, Object newValue)
+    {
+        for (SettingsChangeListener listener : listeners) {
+            listener.onSettingChanged(key, newValue);
+        }
     }
 
     /**
@@ -234,22 +269,123 @@ public class SettingsManager
 
      @param key the key identifying the setting to remove.
      */
-    public void remove(String key)
+    public static void remove(String key)
     {
-        settings.remove(key);
-        preferences.remove(key);
+        INSTANCE.settings.remove(key);
+        INSTANCE.preferences.remove(key);
+        notifyListeners(key, null);
     }
 
     /**
      Clears all settings from the manager and the Preferences store.
      */
-    public void clear()
+    public static void clear()
     {
-        settings.clear();
+        INSTANCE.settings.clear();
         try {
-            preferences.clear();
+            INSTANCE.preferences.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     Resets a specific setting to its default value.
+
+     @param key the name of the setting to reset.
+     @param defaultValue the default value to reset the setting to.
+     */
+    public static void resetSetting(String key, Object defaultValue)
+    {
+        set(key, defaultValue);
+        INSTANCE.saveToPreferences(key, defaultValue);
+    }
+
+    /**
+     Checks if a specific setting exists.
+
+     @param key the name of the setting to check.
+
+     @return true if the setting exists, otherwise false.
+     */
+    public static boolean containsSetting(String key)
+    {
+        return INSTANCE.settings.containsKey(key);
+    }
+
+    /**
+     Returns all saved setting keys.
+
+     @return a set containing all keys.
+     */
+    public static Set<String> getAllKeys()
+    {
+        return INSTANCE.settings.keySet();
+    }
+
+    /**
+     Returns all saved settings as a map.
+
+     @return a map containing all key-value pairs of settings.
+     */
+    public static Map<String, Object> getAllSettings()
+    {
+        return new HashMap<>(INSTANCE.settings);
+    }
+
+    /**
+     Adds a listener that will be notified when a setting changes.
+
+     @param listener the listener to add.
+     */
+    public static void addSettingsChangeListener(
+            SettingsChangeListener listener)
+    {
+        listeners.add(listener);
+    }
+
+    /**
+     Removes a previously added listener.
+
+     @param listener the listener to remove.
+     */
+    public static void removeSettingsChangeListener(
+            SettingsChangeListener listener)
+    {
+        listeners.remove(listener);
+    }
+
+    /**
+     Performs a backup of the current settings.
+     */
+    public static void backupSettings()
+    {
+        backupStack.push(new HashMap<>(INSTANCE.settings));
+    }
+
+    /**
+     Restores the settings from the last backup.
+     */
+    public static void restoreSettings()
+    {
+        if (!backupStack.isEmpty()) {
+            INSTANCE.settings.clear();
+            INSTANCE.settings.putAll(backupStack.pop());
+        }
+    }
+
+    /**
+     Interface for listening to settings changes.
+     */
+    public interface SettingsChangeListener
+    {
+
+        /**
+         Called when a setting changes.
+
+         @param key the key of the setting that changed.
+         @param newValue the new value of the setting.
+         */
+        void onSettingChanged(String key, Object newValue);
     }
 }

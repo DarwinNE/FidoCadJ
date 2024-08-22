@@ -40,7 +40,6 @@ import fidocadj.globals.SettingsManager;
  */
 public class PanelThemeSettings extends JPanel implements SettingsPanel
 {
-    private SettingsManager settingsManager;
     private JRadioButton lightThemeRadioButton;
     private JRadioButton darkThemeRadioButton;
     private JCheckBox personalizedThemeCheckBox;
@@ -60,9 +59,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
      @param settingsManager settings manager to handle the application settings.
      */
-    public PanelThemeSettings(SettingsManager settingsManager)
+    public PanelThemeSettings()
     {
-        this.settingsManager = settingsManager;
         setupUI();
         loadSettings(); // Load settings during initialization
     }
@@ -313,7 +311,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     @Override
     public void loadSettings()
     {
-        String theme = settingsManager.get("THEME", "light");
+        String theme = SettingsManager.get("THEME", "light");
         if ("dark".equals(theme)) {
             darkThemeRadioButton.setSelected(true);
         } else {
@@ -321,28 +319,28 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         }
 
         customThemePathField.setText(
-                settingsManager.get("CUSTOM_THEME_PATH", ""));
-        boolean enableCustomThemes = settingsManager.get("ENABLE_CUSTOM_THEMES",
+                SettingsManager.get("CUSTOM_THEME_PATH", ""));
+        boolean enableCustomThemes = SettingsManager.get("ENABLE_CUSTOM_THEMES",
                 "false").equals("true");
         enableThemesSupportCheckBox.setSelected(enableCustomThemes);
 
-        boolean isCustomThemeEnabled = settingsManager.get("PERSONALIZED_THEME",
+        boolean isCustomThemeEnabled = SettingsManager.get("PERSONALIZED_THEME",
                                                         "false").equals("true");
         personalizedThemeCheckBox.setSelected(isCustomThemeEnabled);
         customThemePathField.setEnabled(isCustomThemeEnabled);
         browseCustomThemeButton.setEnabled(isCustomThemeEnabled);
 
-        backgroundColorPicker.setColor(Color.decode(settingsManager.get(
+        backgroundColorPicker.setColor(Color.decode(SettingsManager.get(
                 "BACKGROUND_COLOR", "#FFFFFF")));
-        gridDotsColorPicker.setColor(Color.decode(settingsManager.get(
+        gridDotsColorPicker.setColor(Color.decode(SettingsManager.get(
                 "GRID_DOTS_COLOR", "#000000")));
-        gridLinesColorPicker.setColor(Color.decode(settingsManager.get(
+        gridLinesColorPicker.setColor(Color.decode(SettingsManager.get(
                 "GRID_LINES_COLOR", "#D3D3D3")));
         selectionRightToLeftColorPicker.setColor(Color.decode(
-                settingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
+                SettingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
         selectionLeftToRightColorPicker.setColor(Color.decode(
-                settingsManager.get("SELECTION_LTR_COLOR", "#008000")));
-        selectedElementsColorPicker.setColor(Color.decode(settingsManager.get(
+                SettingsManager.get("SELECTION_LTR_COLOR", "#008000")));
+        selectedElementsColorPicker.setColor(Color.decode(SettingsManager.get(
                 "SELECTED_ELEMENTS_COLOR", "#00FF00")));
     }
 
@@ -350,27 +348,27 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
     public void saveSettings()
     {
         String theme = lightThemeRadioButton.isSelected() ? "light" : "dark";
-        settingsManager.put("THEME", theme);
-        settingsManager.put("CUSTOM_THEME_PATH",
+        SettingsManager.put("THEME", theme);
+        SettingsManager.put("CUSTOM_THEME_PATH",
             customThemePathField.getText());
-        settingsManager.put("ENABLE_CUSTOM_THEMES",
+        SettingsManager.put("ENABLE_CUSTOM_THEMES",
                 enableThemesSupportCheckBox.isSelected() ? "true" : "false");
-        settingsManager.put("PERSONALIZED_THEME",
+        SettingsManager.put("PERSONALIZED_THEME",
                 personalizedThemeCheckBox.isSelected() ? "true" : "false");
 
-        settingsManager.put("BACKGROUND_COLOR", String.format("#%06X",
+        SettingsManager.put("BACKGROUND_COLOR", String.format("#%06X",
                 (0xFFFFFF & backgroundColorPicker.getColor().getRGB())));
-        settingsManager.put("GRID_DOTS_COLOR", String.format("#%06X",
+        SettingsManager.put("GRID_DOTS_COLOR", String.format("#%06X",
                 (0xFFFFFF & gridDotsColorPicker.getColor().getRGB())));
-        settingsManager.put("GRID_LINES_COLOR", String.format("#%06X",
+        SettingsManager.put("GRID_LINES_COLOR", String.format("#%06X",
                 (0xFFFFFF & gridLinesColorPicker.getColor().getRGB())));
-        settingsManager.put("SELECTION_RTL_COLOR", String.format("#%06X",
+        SettingsManager.put("SELECTION_RTL_COLOR", String.format("#%06X",
                 (0xFFFFFF &
                     selectionRightToLeftColorPicker.getColor().getRGB())));
-        settingsManager.put("SELECTION_LTR_COLOR", String.format("#%06X",
+        SettingsManager.put("SELECTION_LTR_COLOR", String.format("#%06X",
                 (0xFFFFFF &
                     selectionLeftToRightColorPicker.getColor().getRGB())));
-        settingsManager.put("SELECTED_ELEMENTS_COLOR", String.format("#%06X",
+        SettingsManager.put("SELECTED_ELEMENTS_COLOR", String.format("#%06X",
                 (0xFFFFFF & selectedElementsColorPicker.getColor().getRGB())));
     }
 }

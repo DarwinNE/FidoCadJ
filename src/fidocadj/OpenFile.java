@@ -3,6 +3,7 @@ package fidocadj;
 import javax.swing.*;
 
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 import java.io.*;
 import java.awt.*;
@@ -156,7 +157,7 @@ class OpenFile implements Runnable
                 popFrame.circuitPanel.getParserActions().openFileName=
                     Globals.createCompleteFileName(din, fin);
                 if (parent.runsAsApplication) {
-                    parent.preferences.put("OPEN_DIR", din);
+                    SettingsManager.put("OPEN_DIR", din);
                 }
 
                 popFrame.getFileTools().openFileDirectory=din;

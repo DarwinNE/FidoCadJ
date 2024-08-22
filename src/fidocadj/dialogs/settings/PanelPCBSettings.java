@@ -36,8 +36,6 @@ import fidocadj.globals.SettingsManager;
  */
 public class PanelPCBSettings extends JPanel implements SettingsPanel
 {
-
-    private final SettingsManager settingsManager;
     private JTextField pcbLineWidthField;
     private JTextField pcbPadWidthField;
     private JTextField pcbPadHeightField;
@@ -45,13 +43,9 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
 
     /**
      Constructor for PanelPCBSettings.
-
-     @param settingsManager the settings manager to handle the ..
-                            application settings.
      */
-    public PanelPCBSettings(SettingsManager settingsManager)
+    public PanelPCBSettings()
     {
-        this.settingsManager = settingsManager;
         setupUI();
         loadSettings(); // Load settings during initialization
     }
@@ -146,10 +140,10 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
     @Override
     public void loadSettings()
     {
-        pcbLineWidthField.setText(settingsManager.get("PCB_LINE_WIDTH", "10"));
-        pcbPadWidthField.setText(settingsManager.get("PCB_PAD_WIDTH", "10"));
-        pcbPadHeightField.setText(settingsManager.get("PCB_PAD_HEIGHT", "10"));
-        pcbPadHoleDiameterField.setText(settingsManager.get(
+        pcbLineWidthField.setText(SettingsManager.get("PCB_LINE_WIDTH", "10"));
+        pcbPadWidthField.setText(SettingsManager.get("PCB_PAD_WIDTH", "10"));
+        pcbPadHeightField.setText(SettingsManager.get("PCB_PAD_HEIGHT", "10"));
+        pcbPadHoleDiameterField.setText(SettingsManager.get(
                 "PCB_PAD_HOLE_DIAMETER", "5"));
     }
 
@@ -159,10 +153,10 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
     @Override
     public void saveSettings()
     {
-        settingsManager.put("PCB_LINE_WIDTH", pcbLineWidthField.getText());
-        settingsManager.put("PCB_PAD_WIDTH", pcbPadWidthField.getText());
-        settingsManager.put("PCB_PAD_HEIGHT", pcbPadHeightField.getText());
-        settingsManager.put("PCB_PAD_HOLE_DIAMETER",
+        SettingsManager.put("PCB_LINE_WIDTH", pcbLineWidthField.getText());
+        SettingsManager.put("PCB_PAD_WIDTH", pcbPadWidthField.getText());
+        SettingsManager.put("PCB_PAD_HEIGHT", pcbPadHeightField.getText());
+        SettingsManager.put("PCB_PAD_HOLE_DIAMETER",
                 pcbPadHoleDiameterField.getText());
     }
 }
