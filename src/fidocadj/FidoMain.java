@@ -20,6 +20,8 @@ import fidocadj.graphic.DimensionG;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import fidocadj.dialogs.controls.ErrorDialog;
+import java.lang.reflect.InvocationTargetException;
 
 
 
@@ -66,6 +68,34 @@ public final class FidoMain
      */
     public static void main(String... args)
     {
+        // Sets a global exception handler for all non-EDT threads
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            handleUncaughtException(thread, throwable);
+        });
+
+        // Sets an exception handler for the EDT (Event Dispatch Thread)
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                Thread.currentThread().setUncaughtExceptionHandler(
+                        (thread, throwable) -> {
+                            handleUncaughtException(thread, throwable);
+                        });
+            });
+        } catch (InterruptedException | InvocationTargetException e) {
+            SwingUtilities.invokeLater(() -> {
+                JFrame parentFrame = null;
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                String exceptionText = sw.toString();
+
+                ErrorDialog errorDialog = new ErrorDialog(parentFrame,
+                        "Error setting the exception handler for the EDT:\n" + 
+                                exceptionText);
+                errorDialog.setVisible(true);
+            });
+        }
+        
         clp = new CommandLineParser();
 
         if (args.length >= 1) {
@@ -121,6 +151,39 @@ public final class FidoMain
                     clp.getLibDirectory(),
                     clp.getLoadFileName(), clp.getWantedLocale()));
         }
+    }
+    
+    /**
+     Handles uncaught exceptions by logging the error and displaying ..
+     an error dialog.
+
+     @param thread the thread where the uncaught exception occurred.
+     @param throwable the uncaught exception.
+     */
+    private static void handleUncaughtException(Thread thread,
+            Throwable throwable)
+    {
+        // Log the exception
+        System.err.println(
+                "Uncaught exception in thread " + 
+                        thread.getName() + ": " + 
+                        throwable.getMessage());
+        
+        throwable.printStackTrace();
+
+        // Create a string containing the exception message and stack trace
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        throwable.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        // Show a dialog with the exception text
+        SwingUtilities.invokeLater(() -> {
+            JFrame parentFrame = null;
+            ErrorDialog errorDialog = 
+                    new ErrorDialog(parentFrame, exceptionText);
+            errorDialog.setVisible(true);
+        });
     }
 
     /** Apply optimisation settings which are platform-dependent.
