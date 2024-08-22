@@ -15,8 +15,8 @@ import java.util.Locale;
 
 import fidocadj.primitives.MacroDesc;
 import fidocadj.undo.UndoActorListener;
-import fidocadj.dialogs.settings.SettingsManager;
-import fidocadj.FidoMain;
+import fidocadj.globals.SettingsManager;
+
 
 /** Class to handle library files and databases.
 
@@ -166,7 +166,7 @@ public final class LibUtils
     */
     public static String getLibDir() throws FileNotFoundException
     {
-        SettingsManager prefs = new SettingsManager(FidoMain.class);
+        SettingsManager prefs = new SettingsManager();
         String s = prefs.get("DIR_LIBS", "");
         if (s == null || s.length()==0) {
             throw new FileNotFoundException();

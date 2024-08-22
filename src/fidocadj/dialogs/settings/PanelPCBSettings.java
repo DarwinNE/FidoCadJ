@@ -5,6 +5,7 @@ import java.awt.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 /**
  PanelPCBSettings is responsible for managing the PCB settings in the

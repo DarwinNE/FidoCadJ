@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import fidocadj.dialogs.controls.ColorPicker;
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.globals.Globals;
+import fidocadj.globals.SettingsManager;
 
 /**
  PanelThemeSettings is responsible for managing the theme and color settings
