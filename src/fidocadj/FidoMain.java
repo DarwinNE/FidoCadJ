@@ -68,6 +68,10 @@ public final class FidoMain
      */
     public static void main(String... args)
     {
+        clp = new CommandLineParser();
+
+        applyOptimizationSettings(clp);
+
         // Sets a global exception handler for all non-EDT threads
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             handleUncaughtException(thread, throwable);
@@ -96,13 +100,10 @@ public final class FidoMain
             });
         }
         
-        clp = new CommandLineParser();
 
         if (args.length >= 1) {
             clp.processArguments(args);
         }
-
-        applyOptimizationSettings(clp);
 
         // Now we proceed with all the operations: opening files, converting...
         if (clp.getHeadlessMode()) {
