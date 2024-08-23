@@ -328,6 +328,18 @@ public class MenuTools implements MenuListener
         alignVerticalCenterSelected.setIcon(new ImageIcon(
                 getClass().getResource(
                         "/icons/menu_icons/align_vertical_center.png")));
+        
+        JMenuItem distributeHorizontallySelected = new JMenuItem(
+                Globals.messages.getString("distributeHorizontallySelected"));
+        distributeHorizontallySelected.setIcon(new ImageIcon(
+                getClass().getResource(
+                        "/icons/menu_icons/horizonta_distribute.png")));
+
+        JMenuItem distributeVerticallySelected = new JMenuItem(
+                Globals.messages.getString("distributeVerticallySelected"));
+        distributeVerticallySelected.setIcon(new ImageIcon(
+                getClass().getResource(
+                        "/icons/menu_icons/vertical_distribute.png")));
 
         editUndo.addActionListener(al);
         editRedo.addActionListener(al);
@@ -349,6 +361,8 @@ public class MenuTools implements MenuListener
         alignBottomSelected.addActionListener(al);
         alignHorizontalCenterSelected.addActionListener(al);
         alignVerticalCenterSelected.addActionListener(al);
+        distributeHorizontallySelected.addActionListener(al);
+        distributeVerticallySelected.addActionListener(al);
 
         editMenu.add(editUndo);
         editMenu.add(editRedo);
@@ -377,6 +391,9 @@ public class MenuTools implements MenuListener
         editMenu.add(alignBottomSelected);
         editMenu.add(alignHorizontalCenterSelected);
         editMenu.add(alignVerticalCenterSelected);
+        editMenu.addSeparator();
+        editMenu.add(distributeHorizontallySelected);
+        editMenu.add(distributeVerticallySelected);
 
         return editMenu;
     }
@@ -655,6 +672,14 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(
                 Globals.messages.getString("alignVerticalCenterSelected"))) {
             edt.alignVerticalCenterSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("distributeHorizontallySelected"))) {
+            edt.distributeHorizontallySelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("distributeVerticallySelected"))) {
+            edt.distributeVerticallySelected();
             fff.repaint();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.

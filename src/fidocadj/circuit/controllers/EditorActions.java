@@ -542,4 +542,107 @@ public class EditorActions
             ua.saveUndoState();
         }
     }
+    
+    /**
+     Distribute all selected primitives evenly between the leftmost ..
+     and rightmost primitives.
+     This method finds the leftmost and rightmost primitives among all ..
+     selected primitives and distributes all other selected primitives ..
+     evenly between them.
+     */
+    public void distributeHorizontallySelected()
+    {
+        List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
+
+        // Find all selected primitives
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                selectedPrimitives.add(g);
+            }
+        }
+
+        // If less than 3 primitives are selected, distribution is not possible
+        if (selectedPrimitives.size() < 3) {
+            return;
+        }
+
+        // Sort primitives by their x position
+        selectedPrimitives.sort(
+                Comparator.comparingInt(g -> g.getPosition().x));
+
+        // Calculate the total distance between ..
+        // the leftmost and rightmost primitives
+        int leftmostX = selectedPrimitives.get(0).getPosition().x;
+        int rightmostX = selectedPrimitives.get(
+                selectedPrimitives.size() - 1).getPosition().x;
+        
+        int totalSpace = rightmostX - leftmostX;
+
+        // Calculate the spacing between each primitive
+        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+
+        // Move the primitives to distribute them evenly
+        for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
+            int targetX = leftmostX + i * spacing;
+            GraphicPrimitive g = selectedPrimitives.get(i);
+            int dx = targetX - g.getPosition().x;
+            g.movePrimitive(dx, 0);
+        }
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Distribute all selected primitives evenly between the topmost ..
+     and bottommost primitives.
+     This method finds the topmost and bottommost primitives among ..
+     all selected primitives and distributes all other selected ..
+     primitives evenly between them.
+     */
+    public void distributeVerticallySelected()
+    {
+        List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
+
+        // Find all selected primitives
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                selectedPrimitives.add(g);
+            }
+        }
+
+        // If less than 3 primitives are selected, distribution is not possible
+        if (selectedPrimitives.size() < 3) {
+            return;
+        }
+
+        // Sort primitives by their y position
+        selectedPrimitives.sort(
+                Comparator.comparingInt(g -> g.getPosition().y));
+
+        // Calculate the total distance between the topmost and bottommost primitives
+        int topmostY = selectedPrimitives.get(0).getPosition().y;
+        int bottommostY = selectedPrimitives.get(
+                selectedPrimitives.size() - 1).getPosition().y;
+        
+        int totalSpace = bottommostY - topmostY;
+
+        // Calculate the spacing between each primitive
+        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+
+        // Move the primitives to distribute them evenly
+        for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
+            int targetY = topmostY + i * spacing;
+            GraphicPrimitive g = selectedPrimitives.get(i);
+            int dy = targetY - g.getPosition().y;
+            g.movePrimitive(0, dy);
+        }
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
 }
