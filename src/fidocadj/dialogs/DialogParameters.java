@@ -246,32 +246,24 @@ public final class DialogParameters extends JDialog
                 jcb[cc].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jcb[cc++], constraints);
             } else if (pd.parameter instanceof Integer) {
+                constraints.weightx = 100;
+                constraints.weighty = 100;
+                constraints.gridx = 2;
+                constraints.gridy = ycount;
+                constraints.gridwidth = 2;
+                constraints.gridheight = 1;
+                constraints.insets = new Insets(top, 0, 0, 20);
+                constraints.fill = GridBagConstraints.HORIZONTAL;
+                pads.setEnabled(!(pd.isExtension && extStrict));
+                
                 if (pd.description.equals(
                         Globals.messages.getString("ctrl_pad_style"))) {
                     pads.setSelectedIndex((Integer) pd.parameter);
-                    constraints.weightx = 100;
-                    constraints.weighty = 100;
-                    constraints.gridx = 2;
-                    constraints.gridy = ycount;
-                    constraints.gridwidth = 2;
-                    constraints.gridheight = 1;
-                    constraints.insets = new Insets(top, 0, 0, 20);
-                    constraints.fill = GridBagConstraints.HORIZONTAL;
-                    pads.setEnabled(!(pd.isExtension && extStrict));
                     contentPane.add(pads, constraints);
                 } else {
                     jtf[tc] = new JTextField(24);
                     jtf[tc].setPreferredSize(new Dimension(150, 20));
                     jtf[tc].setText(((Integer) pd.parameter).toString());
-                    constraints.weightx = 100;
-                    constraints.weighty = 100;
-                    constraints.gridx = 2;
-                    constraints.gridy = ycount;
-                    constraints.gridwidth = 2;
-                    constraints.gridheight = 1;
-                    constraints.insets = new Insets(top, 0, 0, 20);
-                    constraints.fill = GridBagConstraints.HORIZONTAL;
-                    jtf[tc].setEnabled(!(pd.isExtension && extStrict));
                     contentPane.add(jtf[tc++], constraints);
                 }
 
