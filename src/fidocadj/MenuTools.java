@@ -223,14 +223,12 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
         editUndo.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/undo.png")));
-        //editUndo.setEnabled(false);
         JMenuItem editRedo = new
             JMenuItem(Globals.messages.getString("Redo"));
         editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
             Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
         editRedo.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/redo.png")));
-        //editRedo.setEnabled(false);
         JMenuItem editCut = new
             JMenuItem(Globals.messages.getString("Cut"));
         editCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
@@ -297,6 +295,40 @@ public class MenuTools implements MenuListener
         editMirror.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/mirror.png")));
 
+        JMenuItem alignLeftSelected = new
+            JMenuItem(Globals.messages.getString("alignLeftSelected"));
+        alignLeftSelected.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/align_left.png")));
+
+        JMenuItem alignRightSelected = new
+            JMenuItem(Globals.messages.getString("alignRightSelected"));
+        alignRightSelected.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/align_right.png")));
+
+        JMenuItem alignTopSelected = new
+            JMenuItem(Globals.messages.getString("alignTopSelected"));
+        alignTopSelected.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/align_top.png")));
+
+        JMenuItem alignBottomSelected = new
+            JMenuItem(Globals.messages.getString("alignBottomSelected"));
+        alignBottomSelected.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/align_bottom.png")));
+
+        JMenuItem alignHorizontalCenterSelected = new
+            JMenuItem(Globals.messages.getString(
+                                "alignHorizontalCenterSelected"));
+        alignHorizontalCenterSelected.setIcon(new ImageIcon(
+                getClass().getResource(
+                        "/icons/menu_icons/align_horizontal_center.png")));
+
+        JMenuItem alignVerticalCenterSelected = new
+            JMenuItem(Globals.messages.getString(
+                            "alignVerticalCenterSelected"));
+        alignVerticalCenterSelected.setIcon(new ImageIcon(
+                getClass().getResource(
+                        "/icons/menu_icons/align_vertical_center.png")));
+
         editUndo.addActionListener(al);
         editRedo.addActionListener(al);
         editCut.addActionListener(al);
@@ -309,6 +341,14 @@ public class MenuTools implements MenuListener
         editMirror.addActionListener(al);
         editRotate.addActionListener(al);
         clipboardCircuit.addActionListener(al);
+
+        // Add action listeners for alignment items
+        alignLeftSelected.addActionListener(al);
+        alignRightSelected.addActionListener(al);
+        alignTopSelected.addActionListener(al);
+        alignBottomSelected.addActionListener(al);
+        alignHorizontalCenterSelected.addActionListener(al);
+        alignVerticalCenterSelected.addActionListener(al);
 
         editMenu.add(editUndo);
         editMenu.add(editRedo);
@@ -329,8 +369,18 @@ public class MenuTools implements MenuListener
         editMenu.add(editRotate);
         editMenu.add(editMirror);
 
+        // Add a separator and then the Alignment menu
+        editMenu.addSeparator();
+        editMenu.add(alignLeftSelected);
+        editMenu.add(alignRightSelected);
+        editMenu.add(alignTopSelected);
+        editMenu.add(alignBottomSelected);
+        editMenu.add(alignHorizontalCenterSelected);
+        editMenu.add(alignVerticalCenterSelected);
+
         return editMenu;
     }
+
 
     /** Define the main View menu.
         @param al the action listener to associate to the menu.
@@ -582,6 +632,30 @@ public class MenuTools implements MenuListener
                 return;
             }
             fff.closeThisFrame();
+        } else if (arg.equals(
+                Globals.messages.getString("alignLeftSelected"))) {
+            edt.alignLeftSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("alignRightSelected"))) {
+            edt.alignRightSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("alignTopSelected"))) {
+            edt.alignTopSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("alignBottomSelected"))) {
+            edt.alignBottomSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("alignHorizontalCenterSelected"))) {
+            edt.alignHorizontalCenterSelected();
+            fff.repaint();
+        } else if (arg.equals(
+                Globals.messages.getString("alignVerticalCenterSelected"))) {
+            edt.alignVerticalCenterSelected();
+            fff.repaint();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.
             ImageAsCanvas ii=fff.circuitPanel.getAttachedImage();
