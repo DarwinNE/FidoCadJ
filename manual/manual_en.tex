@@ -31,7 +31,7 @@
     morecomment=[s]{[}{]},
     morecomment=[s][\color{blue}]{\{}{\}},
     morecomment=[l][\color{violet}]{*},
-    moredelim=[il][\color{violet}]{£},
+    moredelim=[il][\color{violet}]{*},
 }
 
 \lstset{language=FIDOCAD,%
@@ -84,8 +84,6 @@
 \maketitle
 
 \clearpage
-\pdfbookmark[1]{Licence}{Licence}
-
 
 \clearpage{} \pdfbookmark[1]{Licence}{Licence} This manual is covered
 by the Creative Commons Public License version 2.5 or more recent.
@@ -114,10 +112,7 @@ by their owners.
 %\let\cleardoublepage\relax
 
 
-
-\chapter*{Abstract}
-
-\pdfbookmark[1]{Abstract}{Abstract}
+\chapter*{\pdfbookmark[1]{Abstract}{Abstract}Abstract}
 
 This document is the FidoCadJ user manual. After a short
 introduction describing the history and the birth of this software, we
@@ -129,9 +124,7 @@ This document presents only the program itself and the file format. It does not 
 \endgroup
 
 
-\chapter*{Acknowledgements}
-
-\pdfbookmark[1]{Aknowledgements}{Aknowledgements}
+\chapter*{\pdfbookmark[1]{Aknowledgements}{Aknowledgements}Acknowledgements}
 
 A number of people used this software since its first versions and
 helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
@@ -156,15 +149,14 @@ Werner has also given useful advices about FidoCadJ's user interface: thanks for
 Part of this manual has been translated to English by ``Pasu''. I would like to thank him for his hard work. I would like to thank Miles ``qhg007'' as well, for the careful check and very useful remarks.
 
 In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It now silently runs on the server and it automagically converts drawings posted on the forum.
-I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all users of this site. They gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced that deserves to be fully explored. FidoCadJ is also adopted on \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to the efforts of Arniek, Sstrix and Stan. Many kudos to them!
+I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolo` Martini and to all users of this site. They gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced that deserves to be fully explored. FidoCadJ is also adopted on \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to the efforts of Arniek, Sstrix and Stan. Many kudos to them!
 
 Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Baggetta. Sergio Juanez also greatly contributed to it, improving technical aspects and organization.
 
-\chapter*{FidoCadJ License}
+\chapter*{\pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
+FidoCadJ License}
 
-\pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
-
-Copyright \copyright\ 2007-2020 the FidoCadJ development team.
+Copyright \copyright\ 2007-2022 the FidoCadJ development team.
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -241,9 +233,9 @@ for me to look at them and I wanted to try to do something to solve
 this problem. \marginpar{By the way, I think that it is better to
 actively work at a solution rather than whining, because an operating system different from Windows lacks a particular software.}
 
-The first thing I did towards the end of 2006 was to study the file format used by FidoCAD\index{FidoCAD} and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ}. It was able to parse the circuit and show it in a web page. Internet was different back then! To do that, I searched more or less everywhere (old posts, web pages), and did a lot of reverse engineering from existing FidoCAD files. I downloaded and studied the FidoCAD sources, too, written in a pretty clear C++ by Lorenzo Lutti.
+The first thing I did towards the end of 2006 was to study the file format used by FidoCAD\index{FidoCAD} and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ}. It was able to parse the circuit and show it in a web page. The internet was different back then! To do that, I searched more or less everywhere (old posts, web pages), and did a lot of reverse engineering from existing FidoCAD files. I downloaded and studied the FidoCAD sources, too, written in a pretty clear C++ by Lorenzo Lutti.
 
-I wrote the core of the applet about in March 2007. A few moths later,
+I wrote the core of the applet about in March 2007. A few months later,
 the applet was on line and being tested by part of the community
 gravitating around it.hobby.elettronica\index{it.hobby.elettronica}
 and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
@@ -259,7 +251,7 @@ is not a port of FidoCAD for Windows, but it is
 a new program, rewritten from scratch.
 
 The choice of using Java\index{Java} is due to the fact that I currently use many different operating systems. Spending time
-and energies on something that is not completely portable does not
+and energy on something that is not completely portable does not
 appeal to me anymore. The effort of learning the Cocoa framework would
 have probably given a better result on macOS, but it would have
 made FidoCadJ completely non-portable. I am not a computer guy. The
@@ -267,9 +259,9 @@ time I spend to program is time taken away from my electronics interests.
 In fact, especially at the beginning, the FidoCadJ code source showed that
 I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
 purist and several solutions were
-more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ has been quite successfully compared to other Open Source projects at least in one occasion\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
+more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ.  It has been quite successfully compared to other Open Source projects at least in one occasion\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been utilized to suggest where to refactor and improve the code organization.
 
-What matters is impressions of who exploits the program, much
+What matters are the impressions of those who use the program, much
 more than the choice of a particular language. For this reason, I
 am always listening to your suggestions, in order to understand how
 to further develop this project. Java\index{Java}
@@ -289,7 +281,7 @@ A deep refactoring of the existing code has been done by Kohta Ozaki and myself 
 
 If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the manuals in a new language, check carefully the documentation for inconsistencies, typos and errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese}, Greek\index{Greek}, Czech\index{Czech} and Dutch\index{Dutch}. Some translations may not be up-to-date anymore and require some work from the community. Search among the Issues on GitHub (with the ``translation'' tag) to see what is needed.
 It is quite easy to translate menus and commands, so if you would
-like to see FidoCadJ in your native language, please manifest yourself opening a new Issue on GitHub!
+like to see FidoCadJ in your native language, please create a new Issue on GitHub!
 
 There is also work to be done to check the libraries (at least
 the standard ones) and of course this manual.%
@@ -301,7 +293,7 @@ On GitHub\index{GitHub}, you can participate to the discussions, as well as sugg
 
 \section{FidoCadJ and the future}
 
-In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. Piercarlo Boletti proposed there to integrate a schematic capture tool directly inside the forum, as something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I created an account to write to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and the system was ready: a simple copy and paste of the FidoCadJ code and a couple of tags. The forum runs automatically FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code always remains available. This way, who is reading the discussion does not need to have anything installed, but if one desires to change something, the code can be obtained with a few clicks.
+In April 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. Piercarlo Boletti proposed there to integrate a schematic capture tool directly inside the forum, as something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I created an account to write to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and the system was ready: a simple copy and paste of the FidoCadJ code and a couple of tags. The forum runs automatically FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code always remains available. This way, who is reading the discussion does not need to have anything installed, but if one desires to change something, the code can be obtained with a few clicks.
 
 Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \href{http://www.electroyou.it}{www.electroyou.it}. This system is so powerful and flexible that I have been the first to be astonished of the enthusiasm demonstrated by the users!\footnote{If you read Italian, here is an article I wrote:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}  } FidoCadJ has shown to be useful also for drawings not directly related to electronics (see appendix \ref{chap_fidocadj_art} to see what I mean).
 
@@ -318,7 +310,7 @@ The FidoReadPHP project is open source and it is available on SourceForge:
 
 \href{https://sourceforge.net/projects/fidoreadphp/}{https://sourceforge.net/projects/fidoreadphp/}
 
-but it is unfortunately not actively maintained at the moment I am writing those lines. The result is somewhat similar to what it has been obtained on \href{http://www.electroyou.it}{www.electroyou.it}, even if the graphical capabilities of PHP are quite limited with respect to Java\footnote{Once again, if you read Italian, here is an article:\\
+but it is unfortunately not currently actively maintained. The result is somewhat similar to what it has been obtained on \href{http://www.electroyou.it}{www.electroyou.it}, even if the graphical capabilities of PHP are quite limited with respect to Java\footnote{Once again, if you read Italian, here is an article:\\
 \href{http://www.grix.it/viewer.php?page=9335}{http://www.grix.it/viewer.php?page=9335}}.
 Figure~\ref{fig_fidocadj_grix3} shows an example of a drawing obtained with FidoReadPHP.
 
@@ -336,9 +328,7 @@ Using FidoCadJ should be quite intuitive for who already
 used a vector drawing application\index{vector drawing}. A
 screenshot of the program running on macOS\index{macOS} is shown in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
-different when running on other operating systems (for example
-Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
-on Oracle\index{Oracle}), as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
+different when running on other operating systems, as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
 \begin{figure}
 \includegraphics[width=0.95 \textwidth]{fidocadj_macosx.png}
 \caption{A FidoCadJ 0.24.8 session running on macOS 10.13 High Sierra\index{macOS}.
@@ -346,22 +336,19 @@ Appendix~\ref{specifics} describes the peculiarities of the version for Macintos
 \label{fig_fidocadj}
 \end{figure}
 
+\section{Drawing Tools}
 %
 \begin{figure}
-\includegraphics[width=0.95\textwidth]{fidocadj_metal.png}
-
-\caption{An old preliminary version of FidoCadJ, with the Look and Feel Metal\index{Metal}.}
-
-\label{fig_metal}
+\includegraphics[width=0.95\textwidth]{menu_tool_drawing_bars.png}
+\caption{The top portion of the FidoCadJ window, showing the menu, tool and drawing bars.}
+\label{fig_menu_tool_drawing_bars}
 \end{figure}
 
-\section{Drawing Tools}
-
-In the toolbar\index{toolbar} at the top of the window, we can
+In the toolbar\index{toolbar} at the top of the window (as shown in figure \ref{fig_menu_tool_drawing_bars}), you can
 find the most used features for the creation and the editing
 of a drawing. Table~\ref{tab_comandi} shows a brief summary of the
-functionalities, the commands and describes the possible actions.
-You will notice that once a button in the first line is depressed, it remains in that position until another function from the toolbar is selected.\marginpar{This
+functions, the commands and describes the corresponding actions.
+You will notice that once you depress a button in the first line, it remains in that position until you select another function from the toolbar.\marginpar{This
 behavior in user interfaces is usually called ``radio buttons'' and is inspired to the old vacuum tube radios and to the switches
 that were fashionable until 1970s.} From the toolbar, we can select which
 drawing primitive\index{primitive} will be used\footnote{For more information on the drawing elements, see~\ref{sec_primitive}.%
@@ -375,8 +362,8 @@ in two selectable formats. To change these settings we can select
 the menu ``File/Options''\footnote{Except on macOS, where this item is found in the FidoCadJ's menu
 and it is called ``Preferences''.%
 }. Such changes in the settings become effective after a restart of the
-application, since it is arguably something that we may want to change
-every day. Figures \ref{fig_fidocadj} and \ref{fig_metal} show the
+application, since it is arguably not something that we may want to change
+every day. Figures \ref{fig_fidocadj} and \ref{fig_menu_tool_drawing_bars} show the
 command bar (right below the window's title), configured to show text
 and icons in their smallest version. On the second row, starting from
 the left we can see the zoom settings and the buttons ``Fit,''
@@ -410,7 +397,7 @@ double-click to terminate the insertion
 \keyevidence{T}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/text}}
 \textsc{Text}\index{text}  & Insert a text string.\tabularnewline
 \keyevidence{B}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/bezier}}
-\textsc{Bézier}\index{Bézier}  & Draw a Bézier curve\tabularnewline
+\textsc{B\'ezier}\index{B\'ezier}  & Draw a B\'ezier curve\tabularnewline
 \keyevidence{P}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/polygon}}
 \textsc{Polyline}\index{polyline}  & Draw a polyline filled or empty. Double-click or press \keyevidence{Esc},
 to terminate the insertion of new vertices.\tabularnewline
@@ -482,7 +469,7 @@ the simple electrical schematic of figure~\ref{fig_schema}. %
 \end{figure}
 
 
-Once FidoCadJ is running, let us create a new drawing from the menu
+Once FidoCadJ is running, create a new drawing from the menu
 ``File/New''. We then start by placing in the drawing area the two transistors\index{transistor} around which our schematic
 is built. To do so, we need the symbols (aka ``macros'') contained in the standard library\index{standard library}, which is loaded by default and is
 found on the right-hand side of the window. The symbol that we
@@ -530,7 +517,7 @@ to the desired position.
 %
 \begin{figure}
 \includegraphics[width=1\textwidth,]{fidocadj_fase3}
-\caption{We are too close to the top edge of the sheet: let us select the whole
+\caption{We are too close to the top edge of the sheet: select the whole
 drawing and move it toward the centre.}
 
 \label{fig_fidocadj_fase3}
@@ -619,7 +606,7 @@ we are writing and the code is added automatically\index{code}.
 FidoCadJ usually applies a diagonal shift\index{diagonal shift} to the copied elements; the $x$ and $y$ width and height are equal to the grid pitch. The default behaviour is to proceed in such a way, in order to differentiate the pasted elements from the original ones. Since in some situations this can be problematic, this setting can be modified in program's options.
 
 \section{The layers}
-\label{sec_layer} A way to picture layers\index{layer} is thinking of a drawing made on superimposed acetate sheets. Every layer is characterized by a different color and can be visible or hidden. This approach is common to many CAD\index{CAD} packages, as it allows an easy representation and management of different parts of the drawing that are superposed, in a PCB design\index{PCB} for example.
+\label{sec_layer} A way to picture layers\index{layer} is thinking of a drawing made on superimposed acetate sheets. Every layer is characterized by a different color and can be visible or hidden. This approach is common in many CAD\index{CAD} packages, as it allows an easy representation and management of different parts of the drawing that are superposed, in a PCB design\index{PCB} for example.
 
 FidoCadJ allows up to 16 layers, numbered from 0 to 15. Conventionally,
 some of the layers have a specific purpose. Layer zero
@@ -875,9 +862,9 @@ When drawing a PCB, it is often useful to measure distances in the working area.
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Feel free to experiment!
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, B\'ezier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Feel free to experiment!
 
-A few stroke styles\index{stroke styles} are available too, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a dialog like the one shown in figure~\ref{fig_parametri_bezier}. You notice that the option box ``Arrow at start'' has been checked. FidoCadJ traces an arrowhead by taking care of his orientation.
+A few stroke styles\index{stroke styles} are available too, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a B\'ezier curve is also being used. By doing double-click on this element, FidoCadJ shows a dialog like the one shown in figure~\ref{fig_parametri_bezier}. You notice that the option box ``Arrow at start'' has been checked. FidoCadJ traces an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences. If the arrow length is negative, the arrow extends outside the length of the element, pointing towards it.
 
 \begin{figure}
@@ -888,7 +875,7 @@ There are several different drawing styles for the arrow\index{arrow styles} as 
 \begin{figure}
 \centering
 \includegraphics[width=.7\textwidth]{parametri_bezier}
-\caption{The parameter window of the Bézier curve shown used in the schematics of figure~\ref{fig_gyrator} (French locale).}
+\caption{The parameter window of the B\'ezier curve shown used in the schematics of figure~\ref{fig_gyrator} (French locale).}
 \label{fig_parametri_bezier}
 \end{figure}
 The possibility of choosing a dashing style and putting arrowheads was not comprised in the original FidoCAD format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCAD\index{FidoCAD} per Windows.
@@ -1078,7 +1065,7 @@ java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 \end{lstlisting}
 
 FidoCadJ runs without activating the GUI and exports in the png\index{PNG} format the file \lstinline!test1.fcd!. The output file will be called \lstinline!out1.png! and will have a 800x600 pixel size.
-There is an alternative version of the  \lstinline!-c! option, which allows to specify how many pixels should be used to convert one logical unit (we call this factor $r_\mathrm{p}$). FidoCadJ does not deal with half logical units (they are always integers), by choosing, let us say, $r_\mathrm{p}$ equal to two pixels per logical unit ensures that schematics is always understandable (even if probably a little bit small). The $r_\mathrm{p}$ factor can be non integer, as in the following example:
+There is an alternative version of the  \lstinline!-c! option, which allows to specify how many pixels should be used to convert one logical unit (we call this factor $r_\mathrm{p}$). FidoCadJ does not deal with half logical units (they are always integers), by choosing, let's say, $r_\mathrm{p}$ equal to two pixels per logical unit ensures that schematics is always understandable (even if probably a little bit small). The $r_\mathrm{p}$ factor can be non integer, as in the following example:
 
 \begin{lstlisting}
 java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
@@ -1248,7 +1235,7 @@ follows
 \item Advanced text\index{text}
 \item Filled or empty polyline\index{polyline}
 \item Filled or empty ellipse\index{ellipse}
-\item Bézier curve \index{Bézier}
+\item B\'ezier curve \index{B\'ezier}
 \item Natural cubic spline curve \index{spline}
 \item Electrical junction\index{connection}
 \item PCB pad\index{PCB pad}
@@ -1284,7 +1271,7 @@ where $a$ is an integer that represents the presence or not of the arrow heads a
 \begin{table}
 \centering
 
-\begin{tabular}{ccp{.7\textwidth}}
+\begin{tabular}{cp{.7\textwidth}}
 \toprule
 $a$ & Arrow head \\
 \midrule
@@ -1294,13 +1281,13 @@ $a$ & Arrow head \\
 3   & both sides\\
 \bottomrule
 \end{tabular}
-\caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or Bézier primitive.}
+\caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or B\'ezier primitive.}
 \label{tab_frecce_estremita}
 \end{table}
 
 \begin{table}
 \centering
-\begin{tabular}{ccp{.7\textwidth}}
+\begin{tabular}{cp{.7\textwidth}}
 \toprule
 $b$ & Arrow head style \\
 \midrule
@@ -1349,12 +1336,11 @@ when saving the file.
 
 The command is \lstinline!TE!\index{TE} and the format is as follows:
 \begin{lstlisting}
-TE x1 y1 £text to be written
+TE x1 y1 *text to be written
 \end{lstlisting}
 the point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. Notice that the layer information is missing.
 FidoCadJ treats this object as it was placed on layer zero (circuit\index{circuit}).
-
 
 \subsubsection{Advanced Text}
 
@@ -1368,7 +1354,7 @@ or mirrored\index{text!mirrored}), as well as dimensions along $x$
 and $y$ and the font used. Due to the quantity of information to
 provide, the resulting command string is quite complex:
 \begin{lstlisting}
-TY x1 y1 sy sx a s l f £text to be written
+TY x1 y1 sy sx a s l f *text to be written
 \end{lstlisting}
 The point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. The value of $s_{y}$ and $s_{x}$ indicates the
@@ -1386,28 +1372,23 @@ Text commands support subscripts: to obtain them, insert text between the unders
 
 
 \begin{table}
-\centering \begin{tabular}{llp{0.7\textwidth}}
+\centering \begin{tabular}{ccp{0.7\textwidth}}
 \toprule Bit  & Weight  & Behavior \tabularnewline
 \midrule 0  & 1  & text in bold\tabularnewline
+1  & 2  & text in italic\tabularnewline
 2  & 4  & mirrored text\tabularnewline
 \bottomrule  &  & \tabularnewline
 \end{tabular}
-
 \caption{Function of the bits in the text style term.}
-
-
 \label{tab_stile_testo}
 \end{table}
-
 
 The maximum length of the text\index{maximum length of text} is about
 80 words. The counting is done in words and not in characters because
 in the internal structure of the program the words (and command terms)
 are separated when a line is being interpreted.
 
-
 \subsubsection{Filled or Empty polyline}
-
 A polyline\index{poliline} filled or empty is indicated with the
 commands \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV}
 respectively, followed by the coordinates of the vertices that define
@@ -1452,9 +1433,9 @@ FCJ e nv
 where $e$ is an integer giving the dashing style. If $nv$ is equal to 1, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
 
-\subsubsection{Bézier curve}
+\subsubsection{B\'ezier curve}
 
-A Bézier\index{Bézier} curve segment, in its cubic variant, is identified
+A B\'ezier\index{B\'ezier} curve segment, in its cubic variant, is identified
 by four vertices, which are thus required by its associated command
 \lstinline!BE!\index{BE}:
 \begin{lstlisting}
@@ -1462,7 +1443,7 @@ BE x1 y1 x2 y2 x3 y3 x4 y4 l
 \end{lstlisting}
 where $P_{1}\equiv(x_{1},y_{1})$, $P_{2}\equiv(x_{2},y_{2})$,
 $P_{3}\equiv(x_{3},y_{3})$ e $P_{4}\equiv(x_{4},y_{4})$ are the
-four control points of the Bézier\index{Bézier} curve segment, while
+four control points of the B\'ezier\index{B\'ezier} curve segment, while
 $l$ is the layer, identified by a whole number between 0 and 15.
 Given the four points defined above, the curve segment is computed
 through the expression \begin{equation}
@@ -1568,7 +1549,7 @@ FCJ
 TY 50 35 4 3 0 0 0 * R1
 TY 50 40 4 3 0 0 0 * 47k
 \end{lstlisting}
-The presence of the \lstinline!FCJ! command indicates that the name and the value of the macro speficed in the first line are given by the two \lstinline!TY! commands that follow. Only the coordinates and the fonts are taken into account for the text rendering.
+The presence of the \lstinline!FCJ! command indicates that the name and the value of the macro specified in the first line are given by the two \lstinline!TY! commands that follow. Only the coordinates and the fonts are taken into account for the text rendering.
 
 FidoCadJ allows to activate a ``strict FidoCAD compatibility mode'', in which all extensions are disabled. This way, FidoCadJ is perfectly compatible with the original FidoCAD\index{FidoCAD}, except that FidoCadJ continues using the UTF-8\index{UTF-8} encoding\index{encoding} instead of the old CP-1252\index{CP-1252} used by FidoCAD\index{FidoCAD}.
 FidoCAD for Windows is unable to understand the additional informations carried by the \lstinline!FCJ!\index{FCJ} command. When reading with the original FidoCAD a FidoCadJ drawing containing some extension, the program prompts a few errors and gives a result that is different from the original FidoCadJ drawing.
@@ -1607,15 +1588,15 @@ FJC C aaaa
 where $aaaa$ is a double precision floating point value (positive) that gives the diameter of the electrical connection, in FidoCadJ logical units.
 
  \subsection{Stroke width}
- The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ adopts the command \lstinline!FJC A!\index{FJC A} to specify the stroke width of the lines, ovals, Bézier, splines, rectangles and polygons. The width can be a double precision constant.
+ The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ adopts the command \lstinline!FJC A!\index{FJC A} to specify the stroke width of the lines, ovals, B\'ezier, splines, rectangles and polygons. The width can be a double precision constant.
 \begin{lstlisting}
 FJC A aaaa
 \end{lstlisting}
-Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, Bézier). Since version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
+Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, B\'ezier). Since version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
 
 \section{Syntax errors tolerance}
 
-FidoCadJ is designed to tolerate errors\index{error tolerance} or
+FidoCadJ is designed to tolerate errors\index{error tolerance} and 
 or certain syntax errors in the commands passed to the program. Obviously,
 unless you have a crystal ball connected as a USB device\index{crystal ball},
 the program is not able to correct errors but simply
@@ -1786,7 +1767,7 @@ Alternatively, or if you are experiencing problems, you can download the file fr
 
 and save the file for example in your \lstinline!/home/[user_name]/Download! directory (many modern browsers do that by default).
 
-Let us create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
+Create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
 
 \begin{lstlisting}
 $ su
@@ -1800,7 +1781,7 @@ $ su
 # mv /home/[user_name]/Download/fidocadj-0.24.8.jar /usr/local/bin/fidocadj
 \end{lstlisting}
 
-Let us make the file an executable
+Make the file an executable
 
 \begin{lstlisting}
 # chmod +x /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
@@ -1820,12 +1801,12 @@ $ /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
 
 \subsection{On a graphical system}
 \label{inst_grafica}
-In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things do not change much for older or newer versions:
+In the example, we will be using Ubuntu\index{Ubuntu} 8.04, but things do not change much for older or newer versions:
 
 \begin{itemize}
-\item {Let us download the file from the browser, or with Gwget or similar tools.}
+\item {Download the file from the browser, or with Gwget or similar tools.}
 
-\item{We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the following directory:
+\item{Launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the following directory:
 \begin{lstlisting}
 /usr/local/bin/fidocadj
 \end{lstlisting}
@@ -1838,7 +1819,7 @@ and then move there the file we just downloaded, which is in many cases put in a
 \label{fig_permessi}
 \end{figure}
 
-\item {Let us do right click on the file, from the window we select the tab ``rights'', we add the check mark in front of the ``Allow the execution of the file as a program'', as shown in the figure~\ref{fig_permessi}}
+\item {Right click on the file, from the window we select the tab ``rights'', we add the check mark in front of the ``Allow the execution of the file as a program'', as shown in the figure~\ref{fig_permessi}}
 
 % Obsolete figure!!!
 %\begin{figure}
@@ -1848,9 +1829,9 @@ and then move there the file we just downloaded, which is in many cases put in a
 %\label{fig_java6}
 %\end{figure}
 
-\item {We can select the tab ``Open as'' and select ``OpenJDK Java 9 Runtime'' or ``Oracle Java 9 Runtime'' (or a successive version).}%, as it can be seen in figure~\ref{fig_java6}.}
+\item {Select the tab ``Open as'' and select ``OpenJDK Java 9 Runtime'' or ``Oracle Java 9 Runtime'' (or a successive version).}%, as it can be seen in figure~\ref{fig_java6}.}
 
-\item {Let us click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/local/bin/fidocadj/fidocadj-0.24.8.jar!.}
+\item {Click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/local/bin/fidocadj/fidocadj-0.24.8.jar!.}
 \end{itemize}
 
 \subsection{``Portable'' install}
@@ -1881,7 +1862,7 @@ Of course, you will need to adapt the Java version and the corresponding directo
 When FidoCadJ recognizes a Windows platform, it will try to use the native Look and Feel.
 
  \subsection{How to download and execute FidoCadJ}
-Very often, if you have Java installed, you just have to download the  \lstinline!fidocadj-0.24.8.jar! file and run it with a double click. If after the download your operating system sees it as a \lstinline!zip! archive, probably Java is not available on your computer. Oracle allows to freely download and install an up to date version of the Java runtime:
+Very often, if you have Java installed, you just have to download the  \lstinline!fidocadj-0.24.8.jar! file and run it with a double click. If after the download your operating system sees it as a \lstinline!zip! archive, probably Java is not available on your computer. Oracle allows to freely download and install current version of the Java runtime:
 
 \href{http://www.java.com/it/download/}{http://www.java.com/it/download/}
 
@@ -1914,7 +1895,7 @@ If you use Windows, you may find useful to use the \lstinline!winbuild.bat! scri
 \section{Android}
 A specific version of FidoCadJ for Android has been developed in 2015. It shares much of the source code with the PC version, but all the graphical user interface code had to be rewritten. It should work on a variety of devices with at least Android 4.0: smartphones as well as tablets. For example, figure~\ref{fig_fidocadj_s5} shows the appearance of FidoCadJ for Android with a Samsung S5 smartphone.
 
-There are some minor differences between the Android application and the PC application described in the manual. They of course are perfectly compatible for the file format and can exchange drawings.
+There are some minor differences between the Android application and the PC application described in the manual. They of course are perfectly compatible with the file format and can exchange drawings.
 \begin{figure}
 \centering
 \includegraphics[width=.8\textwidth]{fidocadj_s5}

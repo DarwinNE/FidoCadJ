@@ -2,3 +2,4 @@
 pdflatex manual_en
 makeindex manual_en
 bibtex manual_en
+# latex2html -split 2 -no_footnode manual_en

@@ -47,7 +47,8 @@ goto :END
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
   rem javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
-  javac  -g -O -sourcepath src -classpath bin ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
+	javac -g -sourcepath src -classpath bin;./jar/flatlaf-3.5.1.jar ./src/fidocadj/FidoMain.java -d bin
+
   rem javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
   rem javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
   exit /b
@@ -92,7 +93,7 @@ goto :END
   exit /b
 
 :RUN
-  java -classpath ./bin;./jar;./jar/quaqua.jar;./jar/ net.sourceforge.fidocadj.FidoMain
+  java -cp "bin;./jar/flatlaf-3.5.1.jar" fidocadj.FidoMain
   exit /b
 
 :END

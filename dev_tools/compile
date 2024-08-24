@@ -1,13 +1,13 @@
 #!/bin/bash
 
-JAVA_VERSION="1.9"
-JAVA_TARGET_VERSION="1.9"
+JAVA_VERSION="16"
+JAVA_TARGET_VERSION="16"
 SOURCE_PATH="src"
-CLASS_PATH="bin"
+CLASS_PATH="bin:./jar/flatlaf-3.5.1.jar"
 
 JAVAC_DEBUG_OPTIONS="-g -Xlint:unchecked"
 JAVAC_JAVAV_OPTIONS="-source $JAVA_VERSION -target $JAVA_TARGET_VERSION"
-JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d $CLASS_PATH"
+JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d bin"
 JAVAC_OPTIMIZATION_OPTIONS="-O"
 
 JAVAC_OPTIONS="$JAVAC_PATH_OPTIONS $JAVAC_JAVAV_OPTIONS $JAVAC_OPTIMIZATION_OPTIONS"
@@ -18,12 +18,9 @@ unamestr=`uname`
 
 if test "$unamestr" = 'Darwin'
 then
-  #echo "MacOSX detected: activated AppleSpecific classes."
-  #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
   echo "Copying VAqua7 library files in jar/ directory."
   cp OSes/mac/VAqua7/*.* jar
 fi
-
 
 ############## Arguments parsing ##############
 
@@ -36,8 +33,6 @@ do
             JAVAC_OPTIONS="$JAVAC_OPTIONS $JAVAC_DEBUG_OPTIONS"
                 ;;
         -mac)
-            #echo "MacOSX detected: activated AppleSpecific classes."
-            #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
             echo "Copying VAqua7 library files in jar/ directory."
             cp OSes/mac/VAqua7/*.* jar
                 ;;
@@ -58,16 +53,16 @@ done
 
 case $WHAT_COMPILE in
     applets)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     all)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     FidoCadJ)
-        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java
             ;;
 esac
 
