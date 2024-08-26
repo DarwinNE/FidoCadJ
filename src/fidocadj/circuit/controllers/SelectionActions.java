@@ -106,7 +106,7 @@ public class SelectionActions
             g.setSelected(v.get(i++).booleanValue());
         }
     }
-    
+
     /**
      Obtains a list containing all selected graphic primitives.
 

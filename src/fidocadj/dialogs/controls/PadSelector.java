@@ -68,7 +68,7 @@ public class PadSelector extends JPanel
         buttonGroup.add(radioButton3);
 
         // Set layout for the entire panel
-        setLayout(new GridLayout(1, 3)); 
+        setLayout(new GridLayout(1, 3));
 
         // Create a panel for each radio button and its corresponding label
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));

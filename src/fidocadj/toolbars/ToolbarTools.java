@@ -138,18 +138,18 @@ public final class ToolbarTools extends JToolBar
     */
     public ToolbarTools (boolean showText, boolean smallIcons)
     {
-        base = smallIcons ? "/icons/light_mode/icons16/" : 
+        base = smallIcons ? "/icons/light_mode/icons16/" :
                             "/icons/light_mode/icons32/";
 
         String currentTheme = SettingsManager.get("THEME", "light");
-        
-        
+
+
         if (currentTheme.equals("dark")) {
-            base = smallIcons ? "/icons/dark_mode/icons16/" : 
+            base = smallIcons ? "/icons/dark_mode/icons16/" :
                                 "/icons/dark_mode/icons32/";
         }
-        
-        
+
+
         this.showText = showText;
 
         putClientProperty("Quaqua.ToolBar.style", "title");

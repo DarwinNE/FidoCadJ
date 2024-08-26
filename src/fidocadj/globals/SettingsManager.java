@@ -48,7 +48,8 @@ public class SettingsManager
     private final Preferences preferences;
     private final Map<String, Object> settings;
     private static final Stack<Map<String, Object>> backupStack = new Stack<>();
-    private static final List<SettingsChangeListener> listeners = new ArrayList<>();
+    private static final List<SettingsChangeListener> listeners =
+        new ArrayList<>();
 
     /**
      Private constructor to prevent instantiation from outside the class.
