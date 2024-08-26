@@ -86,14 +86,14 @@ public class ErrorDialog extends MinimumSizeDialog
         // Add the "Copy" button
         JButton copyButton = new JButton("Copy Error");
         copyButton.setPreferredSize(new Dimension(
-                copyButton.getPreferredSize().width, 50)); 
+                copyButton.getPreferredSize().width, 50));
         copyButton.addActionListener(e -> copyToClipboard());
         buttonPanel.add(copyButton);
 
         // Add the "Close" button
         JButton closeButton = new JButton("Close");
         closeButton.setPreferredSize(new Dimension(
-                closeButton.getPreferredSize().width, 50)); 
+                closeButton.getPreferredSize().width, 50));
         closeButton.addActionListener(e -> dispose());
         buttonPanel.add(closeButton);
 

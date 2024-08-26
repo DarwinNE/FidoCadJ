@@ -569,7 +569,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     {
         gridDotsColor = new ColorSwing(color);
     }
-    
+
     /**
      Sets the current color of selected item
 
@@ -910,8 +910,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     }
 
     /**
-     NOTE: This method is not optimized and needs to be revised to work in a more
-     dynamic manner. Achieving this will require a thorough review and
+     NOTE: This method is not optimized and needs to be revised to work in a
+     more dynamic manner. Achieving this will require a thorough review and
      potentially significant refactoring of the entire parameter management
      system.
 
@@ -933,12 +933,12 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         java.util.List<PrimitiveAdvText> selectedAdvText = new ArrayList<>();
         java.util.List<ParameterDescription> v;
         boolean isMultipleTextSelected = false;
-        
-        String strParamMisc = 
+
+        String strParamMisc =
             "** " + Globals.messages.getString("param_misc") + " **";
-        
+
         java.util.Map<String, TypedParameter> commonParameters
-                                        = new java.util.LinkedHashMap<>(); 
+                                        = new java.util.LinkedHashMap<>();
 
         if (selectionActions.isUniquePrimitiveSelected()) {
             v = gp.getControls();
@@ -979,9 +979,11 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                             if (existing != null) {
                                 if (!(value instanceof LayerInfo)
                                         && !(value instanceof FontG)
-                                        && !(value instanceof Boolean)) {
+                                        && !(value instanceof Boolean))
+                                {
                                     if (!value.equals(
-                                            existing.getOriginalValue())) {
+                                            existing.getOriginalValue()))
+                                    {
                                         existing.setDisplayValue(strParamMisc);
                                     }
                                 }
@@ -1027,21 +1029,23 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                     java.util.Map<String, Object> updatedValues
                                     = new java.util.LinkedHashMap<>();
                     for (ParameterDescription param : dp.getCharacteristics()) {
-                        // Retrieve the TypedParameter to apply the correct values
+                        // Retrieve the TypedParameter to apply the correct
+                        // values
                         TypedParameter originalParam
-                                       = commonParameters.get(param.description);
+                            = commonParameters.get(param.description);
 
                         Object finalValue;
                         if (originalParam != null) {
                             if (strParamMisc.equals(param.parameter)) {
-                                // Do not modify the value, 
+                                // Do not modify the value,
                                 // leave it as "strParamMisc"
                                 finalValue = strParamMisc;
                             } else {
-                                // If the parameter has been modified, 
+                                // If the parameter has been modified,
                                 // convert it to the original type
-                                if (originalParam.getOriginalValue() 
-                                        instanceof Integer) {
+                                if (originalParam.getOriginalValue()
+                                        instanceof Integer)
+                                {
                                     try {
                                         finalValue = Integer.parseInt(
                                                 param.parameter.toString());
@@ -1049,14 +1053,15 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                                     } catch (NumberFormatException e) {
                                         // Handle the error if conversion fails
                                         System.err.println(
-                                                "Failed to convert the value to "
-                                                + "Integer: " + param.parameter);
+                                            "Failed to convert the value to "
+                                                + "Integer: " +
+                                                 param.parameter);
                                         finalValue = originalParam
                                                 .getOriginalValue();
                                         // Fallback to the original value
                                     }
                                 } else {
-                                    // Keep the new value if no specific 
+                                    // Keep the new value if no specific
                                     // conversion is required
                                     finalValue = param.parameter;
                                 }
@@ -1064,12 +1069,12 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
                             updatedValues.put(param.description, finalValue);
                         }
                     }
-                    // Apply the updated values to the selected PrimitiveAdvText 
+                    // Apply the updated values to the selected PrimitiveAdvText
                     // objects
                     for (PrimitiveAdvText t : selectedAdvText) {
                         java.util.List<ParameterDescription> originalControls
                                                              = t.getControls();
-                        
+
                         java.util.List<ParameterDescription> newControls
                                        = new java.util.ArrayList<>();
 
@@ -1084,7 +1089,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
                             // Apply only if the new value is not "strParamMisc"
                             if (newValue != null
-                                    && !strParamMisc.equals(newValue)) {
+                                    && !strParamMisc.equals(newValue))
+                            {
                                 newParam.parameter = newValue;
                             } else {
                                 // Keep the original value

@@ -74,7 +74,7 @@ public final class DialogParameters extends JDialog
     private int co; // NOPMD this field can NOT be final! It is a counter.
 
     private final java.util.List<ParameterDescription> v;
-    
+
     private PadSelector pads;
 
     OSKeybPanel keyb1;
@@ -128,7 +128,7 @@ public final class DialogParameters extends JDialog
         jtf = new JTextField[MAX_ELEMENTS];
         jcb = new JCheckBox[MAX_ELEMENTS];
         jco = new JComboBox[MAX_ELEMENTS];
-        
+
         pads = new PadSelector(0);
 
         active = false;
@@ -260,9 +260,10 @@ public final class DialogParameters extends JDialog
                 constraints.insets = new Insets(top, 0, 0, 20);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 pads.setEnabled(!(pd.isExtension && extStrict));
-                
+
                 if (pd.description.equals(
-                        Globals.messages.getString("ctrl_pad_style"))) {
+                        Globals.messages.getString("ctrl_pad_style")))
+                {
                     pads.setSelectedIndex((Integer) pd.parameter);
                     contentPane.add(pads, constraints);
                 } else {
@@ -291,9 +292,9 @@ public final class DialogParameters extends JDialog
             } else if (pd.parameter instanceof FontG) {
                 jco[co] = new JComboBox();
                 String selectedFont = ((FontG) pd.parameter).getFamily();
-                loadFontsInBackground((JComboBox<String>) jco[co], 
+                loadFontsInBackground((JComboBox<String>) jco[co],
                                                             selectedFont);
-                
+
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -454,14 +455,14 @@ public final class DialogParameters extends JDialog
                                 jcb[cc++].isSelected());
                         } else if (pd.parameter instanceof Integer) {
                             if (pd.description.equals(
-                               Globals.messages.getString("ctrl_pad_style"))) {
-                                    pd.parameter = pads.getSelectedIndex();
-                                } else {
-                                    pd.parameter = Integer.valueOf(Integer
-                                            .parseInt(jtf[tc++].getText()));
-                                }
-                            } else
-                                if (pd.parameter instanceof Float) {
+                                Globals.messages.getString("ctrl_pad_style")))
+                            {
+                                pd.parameter = pads.getSelectedIndex();
+                            } else {
+                                pd.parameter = Integer.valueOf(Integer
+                                    .parseInt(jtf[tc++].getText()));
+                            }
+                        } else if (pd.parameter instanceof Float) {
                             pd.parameter = Float.valueOf(Float
                                     .parseFloat(jtf[tc++].getText()));
                         } else if (pd.parameter instanceof FontG) {
@@ -544,7 +545,7 @@ public final class DialogParameters extends JDialog
     {
         return v;
     }
-    
+
     /**
      Load the list of available fonts in the background to avoid UI freezing.
      The fonts are loaded into the provided JComboBox.
@@ -556,7 +557,7 @@ public final class DialogParameters extends JDialog
             String selectedFont)
     {
         new Thread(() -> {
-            GraphicsEnvironment gE = 
+            GraphicsEnvironment gE =
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
             String[] fontFamilies = gE.getAvailableFontFamilyNames();
             SwingUtilities.invokeLater(() -> {

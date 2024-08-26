@@ -404,8 +404,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 Globals.messages.getString("SnapToGridOrigin"));
         snapToGrid.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-        constraints = DialogUtil.createConst(1, 6, 2, 1, 1.0, 0.1, 
-                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+        constraints = DialogUtil.createConst(1, 6, 2, 1, 1.0, 0.1,
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(8, 0, 0, 0));
         panel.add(snapToGrid, constraints);
 

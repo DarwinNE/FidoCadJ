@@ -328,7 +328,7 @@ public class MenuTools implements MenuListener
         alignVerticalCenterSelected.setIcon(new ImageIcon(
                 getClass().getResource(
                         "/icons/menu_icons/align_vertical_center.png")));
-        
+
         JMenuItem distributeHorizontallySelected = new JMenuItem(
                 Globals.messages.getString("distributeHorizontallySelected"));
         distributeHorizontallySelected.setIcon(new ImageIcon(
@@ -650,35 +650,43 @@ public class MenuTools implements MenuListener
             }
             fff.closeThisFrame();
         } else if (arg.equals(
-                Globals.messages.getString("alignLeftSelected"))) {
+                Globals.messages.getString("alignLeftSelected")))
+        {
             edt.alignLeftSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("alignRightSelected"))) {
+                Globals.messages.getString("alignRightSelected")))
+        {
             edt.alignRightSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("alignTopSelected"))) {
+                Globals.messages.getString("alignTopSelected")))
+        {
             edt.alignTopSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("alignBottomSelected"))) {
+                Globals.messages.getString("alignBottomSelected")))
+        {
             edt.alignBottomSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("alignHorizontalCenterSelected"))) {
+                Globals.messages.getString("alignHorizontalCenterSelected")))
+        {
             edt.alignHorizontalCenterSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("alignVerticalCenterSelected"))) {
+                Globals.messages.getString("alignVerticalCenterSelected")))
+        {
             edt.alignVerticalCenterSelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("distributeHorizontallySelected"))) {
+                Globals.messages.getString("distributeHorizontallySelected")))
+        {
             edt.distributeHorizontallySelected();
             fff.repaint();
         } else if (arg.equals(
-                Globals.messages.getString("distributeVerticallySelected"))) {
+                Globals.messages.getString("distributeVerticallySelected")))
+        {
             edt.distributeVerticallySelected();
             fff.repaint();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){

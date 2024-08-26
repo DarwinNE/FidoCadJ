@@ -94,12 +94,12 @@ public final class FidoMain
                 String exceptionText = sw.toString();
 
                 ErrorDialog errorDialog = new ErrorDialog(parentFrame,
-                        "Error setting the exception handler for the EDT:\n" + 
+                        "Error setting the exception handler for the EDT:\n" +
                                 exceptionText);
                 errorDialog.setVisible(true);
             });
         }
-        
+
 
         if (args.length >= 1) {
             clp.processArguments(args);
@@ -153,7 +153,7 @@ public final class FidoMain
                     clp.getLoadFileName(), clp.getWantedLocale()));
         }
     }
-    
+
     /**
      Handles uncaught exceptions by logging the error and displaying ..
      an error dialog.
@@ -166,10 +166,10 @@ public final class FidoMain
     {
         // Log the exception
         System.err.println(
-                "Uncaught exception in thread " + 
-                        thread.getName() + ": " + 
+                "Uncaught exception in thread " +
+                        thread.getName() + ": " +
                         throwable.getMessage());
-        
+
         throwable.printStackTrace();
 
         // Create a string containing the exception message and stack trace
@@ -181,7 +181,7 @@ public final class FidoMain
         // Show a dialog with the exception text
         SwingUtilities.invokeLater(() -> {
             JFrame parentFrame = null;
-            ErrorDialog errorDialog = 
+            ErrorDialog errorDialog =
                     new ErrorDialog(parentFrame, exceptionText);
             errorDialog.setVisible(true);
         });
@@ -210,7 +210,7 @@ public final class FidoMain
             // Important tweaks to the appearance.
             System.setProperty( "apple.awt.application.name", "FidoCadJ" );
             System.setProperty( "apple.awt.application.appearance", "system" );
-        
+
         }
 
         /* if(!clp.getStripOptimization() &&
@@ -502,11 +502,11 @@ class CreateSwingInterface implements Runnable
          *****************************************************************
          PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
          ******************************************************************
-         
+
          NOTE: this is executed AFTER the AWT/Swing is initialized.
                see applyOptimizationSettings if you need to setup things
                before that happens.
-         
+
          */
         if (OSValidator.isMac()) {
             System.setProperty("com.apple.macos.useScreenMenuBar", "true");

@@ -46,8 +46,6 @@ public class FileTools
     /** Standard constructor.
      *
      * @param f the frame which should be associated to those file operations.
-     * @param p the preferences where to read/write settings (or null if
-     * they should not be saved).
      */
     public FileTools(FidoFrame f)
     {

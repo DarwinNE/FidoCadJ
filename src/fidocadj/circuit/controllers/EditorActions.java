@@ -372,7 +372,7 @@ public class EditorActions
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dx = finalRightmost - 
+                int dx = finalRightmost -
                         (g.getPosition().x + g.getSize().width);
                 g.movePrimitive(dx, 0);
             }
@@ -443,7 +443,7 @@ public class EditorActions
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dy = finalBottommost - 
+                int dy = finalBottommost -
                         (g.getPosition().y + g.getSize().height);
                 g.movePrimitive(0, dy);
             }
@@ -486,7 +486,7 @@ public class EditorActions
         {
             public void doAction(GraphicPrimitive g)
             {
-                int currentCenterY = 
+                int currentCenterY =
                         g.getPosition().y + (g.getSize().height / 2);
                 int dy = verticalCenter - currentCenterY;
                 g.movePrimitive(0, dy);
@@ -530,7 +530,7 @@ public class EditorActions
         {
             public void doAction(GraphicPrimitive g)
             {
-                int currentCenterX = 
+                int currentCenterX =
                         g.getPosition().x + (g.getSize().width / 2);
                 int dx = horizontalCenter - currentCenterX;
                 g.movePrimitive(dx, 0);
@@ -542,7 +542,7 @@ public class EditorActions
             ua.saveUndoState();
         }
     }
-    
+
     /**
      Distribute all selected primitives evenly between the leftmost ..
      and rightmost primitives.
@@ -575,7 +575,7 @@ public class EditorActions
         int leftmostX = selectedPrimitives.get(0).getPosition().x;
         int rightmostX = selectedPrimitives.get(
                 selectedPrimitives.size() - 1).getPosition().x;
-        
+
         int totalSpace = rightmostX - leftmostX;
 
         // Calculate the spacing between each primitive
@@ -622,11 +622,12 @@ public class EditorActions
         selectedPrimitives.sort(
                 Comparator.comparingInt(g -> g.getPosition().y));
 
-        // Calculate the total distance between the topmost and bottommost primitives
+        // Calculate the total distance between the topmost and bottommost
+        // primitives
         int topmostY = selectedPrimitives.get(0).getPosition().y;
         int bottommostY = selectedPrimitives.get(
                 selectedPrimitives.size() - 1).getPosition().y;
-        
+
         int totalSpace = bottommostY - topmostY;
 
         // Calculate the spacing between each primitive

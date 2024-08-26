@@ -67,7 +67,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
 
     private double zoom;
     private double actualZoom;
-    
+
     private Color selectedColor;
 
     /*  Strategy in 0.24.7:
@@ -246,7 +246,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         ColorSwing cc = (ColorSwing) c;
         g.setColor(cc.getColorSwing());
     }
-    
+
     /** Sets the current color of selected item
         @param color the color to be set.
     */

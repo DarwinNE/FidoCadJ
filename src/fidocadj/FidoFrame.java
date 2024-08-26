@@ -243,7 +243,7 @@ public final class FidoFrame extends JFrame implements
                     SettingsManager.get("FRAME_HEIGHT","no"));
             int state=Integer.parseInt(
                     SettingsManager.get("FRAME_STATE","no"));
-            
+
             if((state & MAXIMIZED_HORIZ)!=0 ||
                 (state & MAXIMIZED_VERT)!=0)
             {
@@ -382,11 +382,11 @@ public final class FidoFrame extends JFrame implements
         fileTools.readPrefs();
 
         // Element sizes
-        Globals.lineWidth = 
+        Globals.lineWidth =
                 SettingsManager.getDouble("STROKE_SIZE_STRAIGHT", 0.5);
-        Globals.lineWidthCircles = 
+        Globals.lineWidthCircles =
                 SettingsManager.getDouble("STROKE_SIZE_OVAL", 0.35);
-        Globals.diameterConnection = 
+        Globals.diameterConnection =
                 SettingsManager.getDouble("CONNECTION_SIZE", 2.0);
     }
 
@@ -438,7 +438,7 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.setRightToLeftColor(Color.decode(
                 SettingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
-        
+
         circuitPanel.setSelectedColor(Color.decode(
                 SettingsManager.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
@@ -765,7 +765,7 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.setRightToLeftColor(Color.decode(
                 SettingsManager.get("SELECTION_RTL_COLOR", "#0000FF")));
-        
+
         circuitPanel.setSelectedColor(Color.decode(
                 SettingsManager.get("SELECTED_ELEMENTS_COLOR", "#00FF00")));
 
@@ -778,7 +778,7 @@ public final class FidoFrame extends JFrame implements
                 smallIconsToolbar);
 
         circuitPanel.getMapCoordinates().setMagnitudes(
-                SettingsManager.getDouble("ZOOM_VALUE", 
+                SettingsManager.getDouble("ZOOM_VALUE",
                         circuitPanel.getMapCoordinates().getXMagnitude()),
                 SettingsManager.getDouble("ZOOM_VALUE",
                         circuitPanel.getMapCoordinates().getYMagnitude()));

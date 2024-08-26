@@ -80,7 +80,8 @@ public class ExportTools implements ClipboardOwner
             SettingsManager.get("EXPORT_UNITPERPIXEL", "1"));
         exportMagnification = Double.parseDouble(
             SettingsManager.get("EXPORT_MAGNIFICATION", "1"));
-        exportBlackWhite = "true".equals(SettingsManager.get("EXPORT_BW", "false"));
+        exportBlackWhite = "true".equals(SettingsManager.get("EXPORT_BW",
+             "false"));
 
         exportXsize = Integer.parseInt(
             SettingsManager.get("EXPORT_XSIZE", "800"));
@@ -283,9 +284,9 @@ public class ExportTools implements ClipboardOwner
                     exportResolutionBased?"true":"false");
             SettingsManager.put("EXPORT_XSIZE", ""+exportXsize);
             SettingsManager.put("EXPORT_YSIZE", ""+exportYsize);
-            SettingsManager.put("EXPORT_SPLIT_LAYERS", 
+            SettingsManager.put("EXPORT_SPLIT_LAYERS",
                     splitLayers?"true":"false");
-            
+
             /*
                 The following code would require a thread safe implementation
                 of some of the inner classes (such as CircuitModel), which is

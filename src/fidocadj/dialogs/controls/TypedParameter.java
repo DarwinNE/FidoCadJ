@@ -34,10 +34,11 @@ public class TypedParameter
     private Object displayValue;
 
     /**
-     Constructs a new TypedParameter with the specified original and display values.
-
+     Constructs a new TypedParameter with the specified original and display
+     values.
      @param originalValue The original value of the parameter.
-     @param displayValue The display value of the parameter, which may be the same as the original value.
+     @param displayValue The display value of the parameter, which may be the
+            same as the original value.
      */
     public TypedParameter(Object originalValue, Object displayValue)
     {
