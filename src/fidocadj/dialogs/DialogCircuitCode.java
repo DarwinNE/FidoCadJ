@@ -1,13 +1,13 @@
-package fidocadj.dialogs.controls;
+package fidocadj.dialogs;
+
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
 
 import fidocadj.globals.Globals;
+import fidocadj.dialogs.controls.DialogUtil;
 
-/** EnterCircuitFrame.java
+/** DialogCircuitCode.java
 
     This file is part of FidoCadJ.
 
@@ -36,7 +36,7 @@ import fidocadj.globals.Globals;
 
 
 */
-public final class EnterCircuitFrame extends JDialog
+public final class DialogCircuitCode extends JDialog
     implements ComponentListener
 {
     private static final int MIN_WIDTH=400;
@@ -115,7 +115,7 @@ public final class EnterCircuitFrame extends JDialog
         @param parent the parent frame
         @param circuit the circuit Fidocad code
     */
-    public EnterCircuitFrame (JFrame parent, String circuit)
+    public DialogCircuitCode (JFrame parent, String circuit)
     {
         super(parent, Globals.messages.getString("Enter_code"), true);
         addComponentListener(this);
