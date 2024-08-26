@@ -1,13 +1,14 @@
-package fidocadj.dialogs.controls;
+package fidocadj.dialogs;
+
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
 
 import fidocadj.globals.Globals;
+import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
-/** EnterCircuitFrame.java
+/** DialogCircuitCode.java
 
     This file is part of FidoCadJ.
 
@@ -36,7 +37,7 @@ import fidocadj.globals.Globals;
 
 
 */
-public final class EnterCircuitFrame extends JDialog
+public final class DialogCircuitCode extends JDialog
     implements ComponentListener
 {
     private static final int MIN_WIDTH=400;
@@ -115,7 +116,7 @@ public final class EnterCircuitFrame extends JDialog
         @param parent the parent frame
         @param circuit the circuit Fidocad code
     */
-    public EnterCircuitFrame (JFrame parent, String circuit)
+    public DialogCircuitCode (JFrame parent, String circuit)
     {
         super(parent, Globals.messages.getString("Enter_code"), true);
         addComponentListener(this);
@@ -135,6 +136,7 @@ public final class EnterCircuitFrame extends JDialog
 
         stringCircuit="[FIDOCAD]\n"+circuit;
         textArea=new JTextArea(stringCircuit,2,10);
+        TextPopupMenu.addPopupToText(textArea);
         JScrollPane scrollPane=new JScrollPane(textArea);
 
         constraints = DialogUtil.createConst(0,0,1,1,100,100,

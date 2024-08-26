@@ -62,6 +62,7 @@ public class ErrorDialog extends MinimumSizeDialog
 
         // Create a JTextArea to display the error message
         textArea = new JTextArea();
+        TextPopupMenu.addPopupToText(textArea);
         textArea.setText(errorMessage);
         textArea.setEditable(false); // Make it read-only
         textArea.setLineWrap(false); // Disable line wrapping

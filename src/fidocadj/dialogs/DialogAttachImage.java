@@ -11,6 +11,7 @@ import javax.swing.event.*;
 import fidocadj.globals.Globals;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 
 /** The class DialogAttachImage allows to determine which image has to be
@@ -334,6 +335,13 @@ public final class DialogAttachImage extends MinimumSizeDialog
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
+
+        TextPopupMenu.addPopupToText(fileName);
+        TextPopupMenu.addPopupToText(resolution);
+        TextPopupMenu.addPopupToText(xcoord);
+        TextPopupMenu.addPopupToText(ycoord);
+        TextPopupMenu.addPopupToText(xsize);
+        TextPopupMenu.addPopupToText(ysize);
     }
 
     /** Calculate the relations between size and resolution of the image.

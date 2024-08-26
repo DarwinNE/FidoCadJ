@@ -13,6 +13,7 @@ import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.geom.DrawingSize;
 import fidocadj.circuit.views.Export;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -239,6 +240,11 @@ public final class DialogExport extends MinimumSizeDialog
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
+
+        TextPopupMenu.addPopupToText(fileName);
+        TextPopupMenu.addPopupToText(multiplySizes);
+        TextPopupMenu.addPopupToText(xsizePixel);
+        TextPopupMenu.addPopupToText(ysizePixel);
     }
 
     /** By implementing writeObject method,

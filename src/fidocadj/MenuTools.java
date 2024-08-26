@@ -16,7 +16,7 @@ import fidocadj.circuit.CircuitPanel;
 import fidocadj.dialogs.DialogAttachImage;
 import fidocadj.dialogs.DialogAbout;
 import fidocadj.dialogs.DialogLayer;
-import fidocadj.dialogs.controls.EnterCircuitFrame;
+import fidocadj.dialogs.DialogCircuitCode;
 import fidocadj.clipboard.TextTransfer;
 import fidocadj.geom.ChangeCoordinatesListener;
 
@@ -514,7 +514,7 @@ public class MenuTools implements MenuListener
 
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
-            EnterCircuitFrame circuitDialog=new EnterCircuitFrame(fff,
+            DialogCircuitCode circuitDialog=new DialogCircuitCode(fff,
                 cc.getParserActions().getText(!cc.extStrict).toString());
             circuitDialog.setVisible(true);
 

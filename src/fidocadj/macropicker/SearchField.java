@@ -1,5 +1,6 @@
 package fidocadj.macropicker;
 
+import fidocadj.dialogs.controls.TextPopupMenu;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.LineMetrics;
@@ -44,6 +45,8 @@ public final class SearchField extends JTextField implements FocusListener
         initBorder();
         initKeyListener();
         addFocusListener(this);
+        
+        TextPopupMenu.addPopupToText(this);
     }
 
     /** Standard constructor. The placeholder text will be "Search".

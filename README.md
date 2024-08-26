@@ -660,7 +660,7 @@ https://github.com/DarwinNE/FidoCadJ/issues
 ===================
 
 Code
-:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80
+:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80, Manuel Finessi
 
 Beta testers
 :   Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,
@@ -683,6 +683,9 @@ Libraries
 
 Website
 :   Davide Bucci, Federica Garin, Emanuele Baggetta, Sergio Juanez
+
+Icons used in FidoCadJ
+: https://pictogrammers.com/libraries/
 
 Code snippets included in FidoCadJ
 :   - http://www.centerkey.com/java/browser/
