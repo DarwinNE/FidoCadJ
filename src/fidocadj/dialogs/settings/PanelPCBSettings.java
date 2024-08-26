@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 import fidocadj.globals.Globals;
 import fidocadj.globals.SettingsManager;
 
@@ -72,6 +73,7 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
         add(pcbLineWidthLabel, constraints);
 
         pcbLineWidthField = new JTextField(10);
+        TextPopupMenu.addPopupToText(pcbLineWidthField);
         pcbLineWidthField.setPreferredSize(new Dimension(150,
                 pcbLineWidthField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 0, 1, 1, 0.01, 0.01,
@@ -88,6 +90,7 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
         add(pcbPadWidthLabel, constraints);
 
         pcbPadWidthField = new JTextField(10);
+        TextPopupMenu.addPopupToText(pcbPadWidthField);
         pcbPadWidthField.setPreferredSize(new Dimension(150,
                 pcbPadWidthField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 1, 1, 1, 0.01, 0.01,
@@ -104,6 +107,7 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
         add(pcbPadHeightLabel, constraints);
 
         pcbPadHeightField = new JTextField(10);
+        TextPopupMenu.addPopupToText(pcbPadHeightField);
         pcbPadHeightField.setPreferredSize(new Dimension(150,
                 pcbPadHeightField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 2, 1, 1, 0.01, 0.01,
@@ -120,6 +124,7 @@ public class PanelPCBSettings extends JPanel implements SettingsPanel
         add(pcbPadHoleDiameterLabel, constraints);
 
         pcbPadHoleDiameterField = new JTextField(10);
+        TextPopupMenu.addPopupToText(pcbPadHoleDiameterField);
         pcbPadHoleDiameterField.setPreferredSize(new Dimension(150,
                 pcbPadHoleDiameterField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 3, 1, 1, 0.01, 0.01,

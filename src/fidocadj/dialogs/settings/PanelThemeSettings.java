@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import fidocadj.dialogs.controls.ColorPicker;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 import fidocadj.globals.Globals;
 import fidocadj.globals.SettingsManager;
 
@@ -142,6 +143,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         personalizedThemeCheckBox = new JCheckBox(
                 Globals.messages.getString("FlatLaf_custom"));
         customThemePathField = new JTextField(20);
+        TextPopupMenu.addPopupToText(customThemePathField);
         browseCustomThemeButton = new JButton(
                 Globals.messages.getString("Browse"));
 

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 import fidocadj.globals.Globals;
 import fidocadj.globals.SettingsManager;
 
@@ -88,6 +89,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
         add(gridWidthLabel, constraints);
 
         gridWidthField = new JTextField(10);
+        TextPopupMenu.addPopupToText(gridWidthField);
         gridWidthField.setPreferredSize(new Dimension(col2Width,
                 gridWidthField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 1, 1, 1, 1.0, 0.0,
@@ -104,6 +106,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
         add(connectionSizeLabel, constraints);
 
         connectionSizeField = new JTextField(10);
+        TextPopupMenu.addPopupToText(connectionSizeField);
         connectionSizeField.setPreferredSize(new Dimension(col2Width,
                 connectionSizeField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 2, 1, 1, 1.0, 0.0,
@@ -120,6 +123,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
         add(strokeSizeStraightLabel, constraints);
 
         strokeSizeStraightField = new JTextField(10);
+        TextPopupMenu.addPopupToText(strokeSizeStraightField);
         strokeSizeStraightField.setPreferredSize(new Dimension(col2Width,
                 strokeSizeStraightField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 3, 1, 1, 1.0, 0.0,
@@ -155,6 +159,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
         add(macroSizeLabel, constraints);
 
         macroSizeField = new JTextField(10);
+        TextPopupMenu.addPopupToText(macroSizeField);
         macroSizeField.setPreferredSize(new Dimension(col2Width,
                 macroSizeField.getPreferredSize().height));
         constraints = DialogUtil.createConst(1, 5, 1, 1, 1.0, 0.0,

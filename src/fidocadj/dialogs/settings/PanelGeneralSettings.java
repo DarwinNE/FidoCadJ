@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 import fidocadj.globals.Globals;
 import fidocadj.globals.SettingsManager;
 
@@ -69,6 +70,7 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
 
         // Text field for the library directory path
         libDirectoryField = new JTextField(20);
+        TextPopupMenu.addPopupToText(libDirectoryField);
         constraints = DialogUtil.createConst(0, 1, 3, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 40, 6, 20));

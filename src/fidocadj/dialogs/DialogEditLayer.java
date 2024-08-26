@@ -10,6 +10,7 @@ import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.swing.ColorSwing;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 /** The class DialogEditLayer allows to choose the style, visibility and
     description of the current layer.
@@ -81,6 +82,7 @@ public final class DialogEditLayer extends MinimumSizeDialog
         contentPane.add(descrLabel, constraints);
 
         description=new JTextField();
+        TextPopupMenu.addPopupToText(description);
         description.setText(l.getDescription());
         constraints = DialogUtil.createConst(2,1,1,1,100,0,
             GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,

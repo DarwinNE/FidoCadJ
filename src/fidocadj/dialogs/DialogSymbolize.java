@@ -27,6 +27,7 @@ import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.MacroDesc;
 import fidocadj.dialogs.controls.MinimumSizeDialog;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -182,6 +183,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         panel.add(libraryNameLabel, constraints);
 
         libName = new JTextField();
+        TextPopupMenu.addPopupToText(libName);
         constraints = DialogUtil.createConst(2,1,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(8,0,0,0));
@@ -316,6 +318,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         panel.add(nameLabel, constraints);
 
         name=new JTextField();
+        TextPopupMenu.addPopupToText(name);
         name.setText(
             Globals.messages.getString("Name").
                 toLowerCase(Locale.getDefault()));
@@ -334,7 +337,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
         panel.add(nameLabel1, constraints);
 
         key=new JTextField();
-
+        TextPopupMenu.addPopupToText(key);
+        
         long t=System.nanoTime();
         long h=0;
         for(int i=0; t>0; ++i) {

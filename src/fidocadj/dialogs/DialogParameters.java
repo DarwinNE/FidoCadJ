@@ -17,6 +17,7 @@ import fidocadj.dialogs.controls.ArrowCellRenderer;
 import fidocadj.dialogs.controls.OSKeybPanel.KEYBMODES;
 import fidocadj.dialogs.controls.DialogUtil;
 import fidocadj.dialogs.controls.PadSelector;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
@@ -106,6 +107,7 @@ public final class DialogParameters extends JDialog
         JPanel hints = new JPanel();
         JTextArea hintsL = new JTextArea(
             Globals.messages.getString("text_hints"),6,40);
+        TextPopupMenu.addPopupToText(hintsL);
         hintsL.setLineWrap(true);
         hintsL.setWrapStyleWord(true);
         hintsL.setEditable(false);
@@ -186,6 +188,7 @@ public final class DialogParameters extends JDialog
             // elements and we populate the dialog.
             if (pd.parameter instanceof PointG) {
                 jtf[tc] = new JTextField(10);
+                TextPopupMenu.addPopupToText(jtf[tc]);
                 jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText("" + ((PointG) pd.parameter).x);
                 constraints.weightx = 100;
@@ -200,6 +203,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
 
                 jtf[tc] = new JTextField(10);
+                TextPopupMenu.addPopupToText(jtf[tc]);
                 jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText("" + ((PointG) pd.parameter).y);
                 constraints.weightx = 100;
@@ -214,6 +218,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof String) {
                 jtf[tc] = new JTextField(24);
+                TextPopupMenu.addPopupToText(jtf[tc]);
                 jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText((String) pd.parameter);
                 // If we have a String text field in the first position, its
@@ -262,6 +267,7 @@ public final class DialogParameters extends JDialog
                     contentPane.add(pads, constraints);
                 } else {
                     jtf[tc] = new JTextField(24);
+                    TextPopupMenu.addPopupToText(jtf[tc]);
                     jtf[tc].setPreferredSize(new Dimension(150, 20));
                     jtf[tc].setText(((Integer) pd.parameter).toString());
                     contentPane.add(jtf[tc++], constraints);
@@ -269,6 +275,7 @@ public final class DialogParameters extends JDialog
 
             } else if (pd.parameter instanceof Float) {
                 jtf[tc] = new JTextField(24);
+                TextPopupMenu.addPopupToText(jtf[tc]);
                 jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText(""+pd.parameter);
                 constraints.weightx = 100;

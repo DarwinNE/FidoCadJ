@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 import fidocadj.globals.Globals;
 import fidocadj.dialogs.controls.DialogUtil;
+import fidocadj.dialogs.controls.TextPopupMenu;
 
 /** DialogCircuitCode.java
 
@@ -135,6 +136,7 @@ public final class DialogCircuitCode extends JDialog
 
         stringCircuit="[FIDOCAD]\n"+circuit;
         textArea=new JTextArea(stringCircuit,2,10);
+        TextPopupMenu.addPopupToText(textArea);
         JScrollPane scrollPane=new JScrollPane(textArea);
 
         constraints = DialogUtil.createConst(0,0,1,1,100,100,
