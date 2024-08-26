@@ -183,7 +183,7 @@ public final class DialogCopyAsImage extends MinimumSizeDialog implements
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
-        
+
         TextPopupMenu.addPopupToText(xsizePixel);
         TextPopupMenu.addPopupToText(ysizePixel);
     }

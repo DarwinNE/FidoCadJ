@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.text.JTextComponent;
 
 /**
- A class that creates a popup menu with Cut, Copy, Paste, 
+ A class that creates a popup menu with Cut, Copy, Paste,
  and Select All options for any JTextComponent (e.g., JTextArea, JTextField).
 
  <pre>
@@ -42,17 +42,17 @@ public class TextPopupMenu extends JPopupMenu
                 Globals.messages.getString("Cut"));
         cutMenuItem.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/cut.png")));
-        
+
         JMenuItem copyMenuItem = new JMenuItem(
                 Globals.messages.getString("Copy"));
         copyMenuItem.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/copy.png")));
-        
+
         JMenuItem pasteMenuItem = new JMenuItem(
                 Globals.messages.getString("Paste"));
         pasteMenuItem.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/paste.png")));
-        
+
         JMenuItem selectAllMenuItem = new JMenuItem(
                 Globals.messages.getString("SelectAll"));
         selectAllMenuItem.setIcon(new ImageIcon(
@@ -105,7 +105,8 @@ public class TextPopupMenu extends JPopupMenu
     /**
      Adds the TextPopupMenu to a specified JTextComponent.
 
-     @param textComponent the JTextComponent to which the popup menu will be added
+     @param textComponent the JTextComponent to which the popup menu will be
+         added
      */
     public static void addPopupToText(JTextComponent textComponent)
     {

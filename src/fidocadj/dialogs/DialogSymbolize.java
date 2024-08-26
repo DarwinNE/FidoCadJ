@@ -338,7 +338,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
 
         key=new JTextField();
         TextPopupMenu.addPopupToText(key);
-        
+
         long t=System.nanoTime();
         long h=0;
         for(int i=0; t>0; ++i) {
