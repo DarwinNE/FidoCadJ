@@ -396,13 +396,13 @@ public final class DialogSymbolize extends MinimumSizeDialog
         while(isKeyInvalid()) {
             key.setText(String.valueOf(h++));
         }
-        snapToGrid=new JCheckBox(
-            Globals.messages.getString("SnapToGridOrigin"));
+        snapToGrid = new JCheckBox(
+                Globals.messages.getString("SnapToGridOrigin"));
         snapToGrid.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-        constraints = DialogUtil.createConst(2,6,2,1,0.1,0.1,
-            GridBagConstraints.WEST, GridBagConstraints.NONE,
-            new Insets(8,0,0,0));
+        constraints = DialogUtil.createConst(1, 6, 2, 1, 1.0, 0.1, 
+                GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+                new Insets(8, 0, 0, 0));
         panel.add(snapToGrid, constraints);
 
         // Keep in mind the last edited library and group

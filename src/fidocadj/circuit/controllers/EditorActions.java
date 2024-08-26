@@ -312,4 +312,337 @@ public class EditorActions
         }
         return s;
     }
+
+    /**
+     Align all selected primitives to the leftmost position.
+     This method finds the leftmost x coordinate among all selected primitives
+     and aligns all selected primitives to that x coordinate.
+     */
+    public void alignLeftSelected()
+    {
+        // Find the leftmost x coordinate among selected primitives
+        int leftmost = Integer.MAX_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int x = g.getPosition().x;
+                if (x < leftmost) {
+                    leftmost = x;
+                }
+            }
+        }
+
+        // Move all selected primitives to the leftmost x coordinate
+        final int finalLeftmost = leftmost;
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int dx = finalLeftmost - g.getPosition().x;
+                g.movePrimitive(dx, 0);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Align all selected primitives to the rightmost position.
+     This method finds the rightmost x coordinate among all selected primitives
+     and aligns all selected primitives to that x coordinate.
+     */
+    public void alignRightSelected()
+    {
+        // Find the rightmost x coordinate among selected primitives
+        int rightmost = Integer.MIN_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int x = g.getPosition().x + g.getSize().width;
+                if (x > rightmost) {
+                    rightmost = x;
+                }
+            }
+        }
+
+        // Move all selected primitives to the rightmost x coordinate
+        final int finalRightmost = rightmost;
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int dx = finalRightmost - 
+                        (g.getPosition().x + g.getSize().width);
+                g.movePrimitive(dx, 0);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Align all selected primitives to the topmost position.
+     This method finds the topmost y coordinate among all selected primitives
+     and aligns all selected primitives to that y coordinate.
+     */
+    public void alignTopSelected()
+    {
+        // Find the topmost y coordinate among selected primitives
+        int topmost = Integer.MAX_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int y = g.getPosition().y;
+                if (y < topmost) {
+                    topmost = y;
+                }
+            }
+        }
+
+        // Move all selected primitives to the topmost y coordinate
+        final int finalTopmost = topmost;
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int dy = finalTopmost - g.getPosition().y;
+                g.movePrimitive(0, dy);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Align all selected primitives to the bottommost position.
+     This method finds the bottommost y coordinate among all selected primitives
+     and aligns all selected primitives to that y coordinate.
+     */
+    public void alignBottomSelected()
+    {
+        // Find the bottommost y coordinate among selected primitives
+        int bottommost = Integer.MIN_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int y = g.getPosition().y + g.getSize().height;
+                if (y > bottommost) {
+                    bottommost = y;
+                }
+            }
+        }
+
+        // Move all selected primitives to the bottommost y coordinate
+        final int finalBottommost = bottommost;
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int dy = finalBottommost - 
+                        (g.getPosition().y + g.getSize().height);
+                g.movePrimitive(0, dy);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Align all selected primitives to the horizontal center.
+     This method finds the horizontal center among all selected primitives
+     and aligns all selected primitives to that y coordinate.
+     */
+    public void alignHorizontalCenterSelected()
+    {
+        // Find the minimum and maximum y coordinates among selected primitives
+        int topmost = Integer.MAX_VALUE;
+        int bottommost = Integer.MIN_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int yTop = g.getPosition().y;
+                int yBottom = g.getPosition().y + g.getSize().height;
+                if (yTop < topmost) {
+                    topmost = yTop;
+                }
+                if (yBottom > bottommost) {
+                    bottommost = yBottom;
+                }
+            }
+        }
+
+        // Calculate the vertical center
+        final int verticalCenter = (topmost + bottommost) / 2;
+
+        // Move all selected primitives to align with the vertical center
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int currentCenterY = 
+                        g.getPosition().y + (g.getSize().height / 2);
+                int dy = verticalCenter - currentCenterY;
+                g.movePrimitive(0, dy);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Align all selected primitives to the vertical center.
+     This method finds the vertical center among all selected primitives
+     and aligns all selected primitives to that x coordinate.
+     */
+    public void alignVerticalCenterSelected()
+    {
+        // Find the minimum and maximum x coordinates among selected primitives
+        int leftmost = Integer.MAX_VALUE;
+        int rightmost = Integer.MIN_VALUE;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                int xLeft = g.getPosition().x;
+                int xRight = g.getPosition().x + g.getSize().width;
+                if (xLeft < leftmost) {
+                    leftmost = xLeft;
+                }
+                if (xRight > rightmost) {
+                    rightmost = xRight;
+                }
+            }
+        }
+
+        // Calculate the horizontal center
+        final int horizontalCenter = (leftmost + rightmost) / 2;
+
+        // Move all selected primitives to align with the horizontal center
+        sa.applyToSelectedElements(new ProcessElementsInterface()
+        {
+            public void doAction(GraphicPrimitive g)
+            {
+                int currentCenterX = 
+                        g.getPosition().x + (g.getSize().width / 2);
+                int dx = horizontalCenter - currentCenterX;
+                g.movePrimitive(dx, 0);
+            }
+        });
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+    
+    /**
+     Distribute all selected primitives evenly between the leftmost ..
+     and rightmost primitives.
+     This method finds the leftmost and rightmost primitives among all ..
+     selected primitives and distributes all other selected primitives ..
+     evenly between them.
+     */
+    public void distributeHorizontallySelected()
+    {
+        List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
+
+        // Find all selected primitives
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                selectedPrimitives.add(g);
+            }
+        }
+
+        // If less than 3 primitives are selected, distribution is not possible
+        if (selectedPrimitives.size() < 3) {
+            return;
+        }
+
+        // Sort primitives by their x position
+        selectedPrimitives.sort(
+                Comparator.comparingInt(g -> g.getPosition().x));
+
+        // Calculate the total distance between ..
+        // the leftmost and rightmost primitives
+        int leftmostX = selectedPrimitives.get(0).getPosition().x;
+        int rightmostX = selectedPrimitives.get(
+                selectedPrimitives.size() - 1).getPosition().x;
+        
+        int totalSpace = rightmostX - leftmostX;
+
+        // Calculate the spacing between each primitive
+        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+
+        // Move the primitives to distribute them evenly
+        for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
+            int targetX = leftmostX + i * spacing;
+            GraphicPrimitive g = selectedPrimitives.get(i);
+            int dx = targetX - g.getPosition().x;
+            g.movePrimitive(dx, 0);
+        }
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /**
+     Distribute all selected primitives evenly between the topmost ..
+     and bottommost primitives.
+     This method finds the topmost and bottommost primitives among ..
+     all selected primitives and distributes all other selected ..
+     primitives evenly between them.
+     */
+    public void distributeVerticallySelected()
+    {
+        List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
+
+        // Find all selected primitives
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                selectedPrimitives.add(g);
+            }
+        }
+
+        // If less than 3 primitives are selected, distribution is not possible
+        if (selectedPrimitives.size() < 3) {
+            return;
+        }
+
+        // Sort primitives by their y position
+        selectedPrimitives.sort(
+                Comparator.comparingInt(g -> g.getPosition().y));
+
+        // Calculate the total distance between the topmost and bottommost primitives
+        int topmostY = selectedPrimitives.get(0).getPosition().y;
+        int bottommostY = selectedPrimitives.get(
+                selectedPrimitives.size() - 1).getPosition().y;
+        
+        int totalSpace = bottommostY - topmostY;
+
+        // Calculate the spacing between each primitive
+        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+
+        // Move the primitives to distribute them evenly
+        for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
+            int targetY = topmostY + i * spacing;
+            GraphicPrimitive g = selectedPrimitives.get(i);
+            int dy = targetY - g.getPosition().y;
+            g.movePrimitive(0, dy);
+        }
+
+        // Save the state for the undo operation
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
 }
