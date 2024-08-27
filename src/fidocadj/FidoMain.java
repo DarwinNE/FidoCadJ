@@ -77,30 +77,6 @@ public final class FidoMain
             handleUncaughtException(thread, throwable);
         });
 
-        // Sets an exception handler for the EDT (Event Dispatch Thread)
-        try {
-            SwingUtilities.invokeAndWait(() -> {
-                Thread.currentThread().setUncaughtExceptionHandler(
-                        (thread, throwable) -> {
-                            handleUncaughtException(thread, throwable);
-                        });
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            SwingUtilities.invokeLater(() -> {
-                JFrame parentFrame = null;
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                e.printStackTrace(pw);
-                String exceptionText = sw.toString();
-
-                ErrorDialog errorDialog = new ErrorDialog(parentFrame,
-                        "Error setting the exception handler for the EDT:\n" +
-                                exceptionText);
-                errorDialog.setVisible(true);
-            });
-        }
-
-
         if (args.length >= 1) {
             clp.processArguments(args);
         }
@@ -151,6 +127,29 @@ public final class FidoMain
             SwingUtilities.invokeLater(new CreateSwingInterface(
                     clp.getLibDirectory(),
                     clp.getLoadFileName(), clp.getWantedLocale()));
+            // Sets an exception handler for the EDT (Event Dispatch Thread)
+            try {
+                SwingUtilities.invokeAndWait(() -> {
+                    Thread.currentThread().setUncaughtExceptionHandler(
+                            (thread, throwable) -> {
+                                handleUncaughtException(thread, throwable);
+                            });
+                });
+            } catch (InterruptedException | InvocationTargetException e) {
+                SwingUtilities.invokeLater(() -> {
+                    JFrame parentFrame = null;
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e.printStackTrace(pw);
+                    String exceptionText = sw.toString();
+    
+                    ErrorDialog errorDialog = new ErrorDialog(parentFrame,
+                            "Error setting the exception handler for the EDT:\n" +
+                                    exceptionText);
+                    errorDialog.setVisible(true);
+                });
+            }
+
         }
     }
 
