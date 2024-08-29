@@ -824,32 +824,41 @@ public final class FidoFrame extends JFrame implements
         repaint();
     }
 
-    /** Set the current zoom to fit
-    */
+    /**
+     Adjusts the zoom level of the drawing to fit the entire content within ..
+     the visible area.
+     Before applying the zoom, it checks if there are any primitives with ..
+     negative coordinates and translates them if necessary to ensure the ..
+     entire drawing is visible.
+     */
     public void zoomToFit()
     {
-        // If the drawing is empty, there's no need to go further.
-        if(circuitPanel.getDrawingModel().isEmpty())
+        // If the drawing is empty, there is no need to proceed further
+        if (circuitPanel.getDrawingModel().isEmpty()) {
             return;
-        //double oldz=cc.getMapCoordinates().getXMagnitude();
+        }
+        
+        // Check if there are any primitives with negative coordinates ..
+        // and translate them if needed
+        circuitPanel.normalizeCoordinates();
 
-        // We calculate the zoom to fit factor here.
-        MapCoordinates m=DrawingSize.calculateZoomToFit(
+        // Calculate the zoom level needed to fit the drawing ..
+        // within the viewport
+        MapCoordinates m = DrawingSize.calculateZoomToFit(
                 circuitPanel.getDrawingModel(),
-                scrollPane.getViewport().getExtentSize().width-35,
-                scrollPane.getViewport().getExtentSize().height-35,
+                scrollPane.getViewport().getExtentSize().width - 35,
+                scrollPane.getViewport().getExtentSize().height - 35,
                 true);
 
-        double z=m.getXMagnitude();
+        double z = m.getXMagnitude();
 
-        // We apply the zoom factor to the coordinate transform
+        // Apply the calculated zoom level to the coordinate transformation
         circuitPanel.getMapCoordinates().setMagnitudes(z, z);
 
-        // We make the scroll pane show the interesting part of
-        // the drawing.
-        Rectangle r= new Rectangle((int)m.getXCenter(), (int)m.getYCenter(),
-            scrollPane.getViewport().getExtentSize().width,
-            scrollPane.getViewport().getExtentSize().height);
+        // Adjust the scroll pane to center on the area of interest
+        Rectangle r = new Rectangle((int) m.getXCenter(), (int) m.getYCenter(),
+                scrollPane.getViewport().getExtentSize().width,
+                scrollPane.getViewport().getExtentSize().height);
 
         circuitPanel.updateSizeOfScrollBars(r);
     }
