@@ -39,7 +39,7 @@ public class LayerDesc
     private ColorInterface layerColor;
 
     // isVisible is true if the layer should be drawn:
-    public boolean isVisible;
+    private boolean isVisible;
 
     // is Modified is true if a redraw is needed:
     private boolean isModified;
@@ -99,7 +99,7 @@ public class LayerDesc
 
         @return a boolean value indicating if the layer should be drawn
     */
-    final public boolean getVisible()
+    final public boolean isVisible()
     {
         return isVisible;
     }
@@ -108,7 +108,7 @@ public class LayerDesc
 
         @return a boolean value indicating that the layer has been modified
     */
-    final public boolean getModified()
+    final public boolean isModified()
     {
         return isModified;
     }

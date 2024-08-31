@@ -382,7 +382,7 @@ public class PrintTools implements Printable
         java.util.List<LayerDesc> ol=cc.getDrawingModel().getLayers();
         // Check if only one layer should be printed.
         if(currentLayerSelected>=0) {
-            cc.getDrawingModel().drawOnlyLayer=currentLayerSelected;
+            cc.getDrawingModel().setDrawOnlyLayer(currentLayerSelected);
         }
         // Check if the drawing should be black and white
         if(printBlackWhite) {
@@ -394,7 +394,7 @@ public class PrintTools implements Printable
 
             for (int i=0; i<LayerDesc.MAX_LAYERS;++i) {
                 v.add(new LayerDesc(new ColorSwing(Color.black),
-                    ((LayerDesc)ol.get(i)).getVisible(),
+                    ((LayerDesc)ol.get(i)).isVisible(),
                      "B/W",((LayerDesc)ol.get(i)).getAlpha()));
             }
             cc.getDrawingModel().setLayers(v);
@@ -408,7 +408,7 @@ public class PrintTools implements Printable
             cc.getDrawingModel().setDrawOnlyPads(true);
             cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
             cc.getDrawingModel().setDrawOnlyPads(false);
-            cc.getDrawingModel().drawOnlyLayer=-1;
+            cc.getDrawingModel().setDrawOnlyLayer(-1);
         }
         cc.getDrawingModel().setLayers(ol);
         g2d.setTransform(oldTransform);

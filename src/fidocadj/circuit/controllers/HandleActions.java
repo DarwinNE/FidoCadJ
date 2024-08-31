@@ -135,7 +135,7 @@ public class HandleActions
         // First, check if all primitives can move without going out of bounds
         boolean canMoveAll = true;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 for (int j = 0; j < g.getControlPointNumber(); ++j) {
                     int newX = g.virtualPoint[j].x + dx;
                     int newY = g.virtualPoint[j].y + dy;
@@ -156,7 +156,7 @@ public class HandleActions
         // If all primitives can move, apply the move to all of them
         if (canMoveAll) {
             for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-                if (g.getSelected()) {
+                if (g.isSelected()) {
                     for (int j = 0; j < g.getControlPointNumber(); ++j) {
                         g.virtualPoint[j].x += dx;
                         g.virtualPoint[j].y += dy;
@@ -209,13 +209,13 @@ public class HandleActions
 
             // Does not allow for selecting an invisible primitive
             if(layer<layerV.size() &&
-                !((LayerDesc)layerV.get(layer)).isVisible &&
+                !((LayerDesc)layerV.get(layer)).isVisible() &&
                 !(gp instanceof PrimitiveMacro))
             {
                 continue;
             }
 
-            if(gp.selectedState){
+            if(gp.isSelected()){
                 // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
 
@@ -234,7 +234,7 @@ public class HandleActions
         if (mindistance<sptol && handleBeingDragged<0){
             primBeingDragged=
                 (GraphicPrimitive)dmp.getPrimitiveVector().get(isel);
-            if (!multiple && !primBeingDragged.getSelected()) {
+            if (!multiple && !primBeingDragged.isSelected()) {
                 sa.setSelectionAll(false);
             }
             if(!multiple) {

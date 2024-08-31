@@ -230,7 +230,7 @@ public class ParserActions
         for(int i=0; i<layerV.size();++i) {
             LayerDesc l = (LayerDesc)layerV.get(i);
 
-            if (l.getModified()) {
+            if (l.isModified()) {
                 int rgb=l.getColor().getRGB();
                 float alpha=l.getAlpha();
                 s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");

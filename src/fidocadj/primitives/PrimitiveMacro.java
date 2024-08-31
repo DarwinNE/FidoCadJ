@@ -210,7 +210,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
             macro.setChanged(true);
         }
 
-        if(getSelected()) {
+        if(isSelected()) {
             new SelectionActions(macro).setSelectionAll(true);
             selected = true;
         } else if (selected) {
@@ -696,7 +696,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         macro.setDrawOnlyLayer(drawOnlyLayer);
 
-        if(getSelected()) {
+        if(isSelected()) {
             new SelectionActions(macro).setSelectionAll(true);
         }
 

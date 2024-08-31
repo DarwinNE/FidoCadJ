@@ -37,7 +37,7 @@ import fidocadj.primitives.GraphicPrimitive;
 */
 public class Export
 {
-    private final DrawingModel dmp;
+    private final DrawingModel drawingModel;
 
     // Border to be used in the export in logical coordinates
     public static final int exportBorder=6;
@@ -47,7 +47,7 @@ public class Export
     */
     public Export(DrawingModel pp)
     {
-        dmp=pp;
+        drawingModel=pp;
     }
 
     /** Export all primitives and macros in the current model.
@@ -61,24 +61,25 @@ public class Export
     {
         GraphicPrimitive g;
 
-        for (int i=0; i<dmp.getPrimitiveVector().size(); ++i) {
+        for (int i=0; i<drawingModel.getPrimitiveVector().size(); ++i) {
 
-            g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
+            g = (GraphicPrimitive)drawingModel.getPrimitiveVector().get(i);
 
-            if(g.getLayer()==dmp.drawOnlyLayer &&
+            if(g.getLayer()==drawingModel.getDrawOnlyLayer() &&
                 !(g instanceof PrimitiveMacro))
             {
-                if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible||
-                    exportInvisible)
+                if(((LayerDesc)drawingModel.getLayers().get(
+                        g.getLayer())).isVisible()|| exportInvisible)
                 {
                     g.export(exp, mp);
                 }
             } else if(g instanceof PrimitiveMacro) {
-                ((PrimitiveMacro)g).setDrawOnlyLayer(dmp.drawOnlyLayer);
+                ((PrimitiveMacro)g).setDrawOnlyLayer(
+                                            drawingModel.getDrawOnlyLayer());
                 ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
 
-                if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible||
-                    exportInvisible)
+                if(((LayerDesc)drawingModel.getLayers().get(
+                        g.getLayer())).isVisible() || exportInvisible)
                 {
                     g.export(exp, mp);
                 }
@@ -97,7 +98,7 @@ public class Export
     {
         synchronized(this) {
             PointG o=new PointG(0,0);
-            DimensionG d = DrawingSize.getImageSize(dmp, 1, true,o);
+            DimensionG d = DrawingSize.getImageSize(drawingModel, 1, true,o);
             d.width+=exportBorder;
             d.height+=exportBorder;
             // We remeber that getImageSize works only with logical
@@ -107,7 +108,7 @@ public class Export
             d.height *= mp.getYMagnitude();
             exp.setDashUnit(mp.getXMagnitude());
             // We finally write the header
-            exp.exportStart(d, dmp.layerV, mp.getXGridStep());
+            exp.exportStart(d, drawingModel.getLayers(), mp.getXGridStep());
         }
     }
     /** Export the file using the given interface.
@@ -124,24 +125,25 @@ public class Export
         throws IOException
     {
         synchronized(this) {
-            if(dmp.drawOnlyLayer>=0 && !dmp.drawOnlyPads){
+            if (drawingModel.getDrawOnlyLayer() >= 0 && 
+                                            !drawingModel.getDrawOnlyPads()) {
                 exportAllObjects(exp, exportInvisible, mp);
-            } else if (!dmp.drawOnlyPads) {
-                for(int j=0;j<dmp.layerV.size(); ++j) {
-                    dmp.setDrawOnlyLayer(j);
+            } else if (!drawingModel.getDrawOnlyPads()) {
+                for(int j=0;j<drawingModel.getLayers().size(); ++j) {
+                    drawingModel.setDrawOnlyLayer(j);
                     exportAllObjects(exp, exportInvisible, mp);
                 }
-                dmp.setDrawOnlyLayer(-1);
+                drawingModel.setDrawOnlyLayer(-1);
             }
 
             // Export in a second time only the PCB pads, in order to ensure
             // that the drilling holes are always open.
-            for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
                 if (g instanceof PrimitivePCBPad) {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
 
-                    if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible
-                        ||exportInvisible)
+                    if(((LayerDesc)drawingModel.getLayers()
+                            .get(g.getLayer())).isVisible() || exportInvisible)
                     {
                         g.export(exp, mp);
                     }
@@ -150,8 +152,8 @@ public class Export
                     // Uhm... not beautiful
                     ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
                     ((PrimitiveMacro)g).setDrawOnlyPads(true);
-                    if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible
-                        ||exportInvisible)
+                    if(((LayerDesc)drawingModel.getLayers()
+                            .get(g.getLayer())).isVisible() || exportInvisible)
                     {
                         g.export(exp, mp);
                     }

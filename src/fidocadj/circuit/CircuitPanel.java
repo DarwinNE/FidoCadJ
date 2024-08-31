@@ -184,8 +184,6 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         backgroundColor = Color.white;
         gridDotsColor = new ColorSwing(Color.BLACK);
         gridLinesColor = new ColorSwing(Color.LIGHT_GRAY);
-        Color rightToLeftColor = Color.GREEN;
-        Color leftToRightColor = Color.BLUE;
 
         setDrawingModel(new DrawingModel());
 
@@ -655,7 +653,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        drawingModel.imgCanvas.drawCanvasImage(g2, mapCoordinates);
+        drawingModel.getImgCanvas().drawCanvasImage(g2, mapCoordinates);
         // Draw the grid if necessary.
         if (isGridVisible) {
             graphicSwing.drawGrid(mapCoordinates, 0, 0,
@@ -669,7 +667,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
         // Draw all the elements of the drawing.
         drawingAgent.draw(graphicSwing, mapCoordinates);
-        drawingModel.imgCanvas.trackExtremePoints(mapCoordinates);
+        drawingModel.getImgCanvas().trackExtremePoints(mapCoordinates);
 
         if (zoomListener != null) {
             zoomListener.changeZoom(mapCoordinates.getXMagnitude());
@@ -1224,7 +1222,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      */
     public ImageAsCanvas getAttachedImage()
     {
-        return drawingModel.imgCanvas;
+        return drawingModel.getImgCanvas();
     }
 
     /** Determine the direction of the selection.

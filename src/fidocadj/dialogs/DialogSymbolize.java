@@ -638,7 +638,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             ParserActions pa = new ParserActions(ps);
 
             for (GraphicPrimitive g : cp.getPrimitiveVector()) {
-                if (g.getSelected()) {
+                if (g.isSelected()) {
                     pa.addString(new StringBuffer(g.toString(true)), true);
                 }
             }
@@ -648,7 +648,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         }
 
         for (GraphicPrimitive psp : ps.getPrimitiveVector()) {
-            if (!psp.getSelected()) {
+            if (!psp.isSelected()) {
                 continue;
             }
             psp.movePrimitive(origin.x, origin.y);
