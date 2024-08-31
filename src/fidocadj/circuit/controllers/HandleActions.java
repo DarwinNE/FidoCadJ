@@ -113,45 +113,62 @@ public class HandleActions
         @param cs the coordinate mapping.
     */
     public void dragPrimitives(PrimitivesParInterface cc, int px, int py,
-        MapCoordinates cs)
+            MapCoordinates cs)
     {
         // Check if we are effectively dragging the whole primitive...
-        if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE) {
+        if (handleBeingDragged != GraphicPrimitive.DRAG_PRIMITIVE) {
             return;
         }
 
-        firstDrag=false;
+        firstDrag = false;
 
-        int dx=cs.unmapXsnap(px)-oldpx;
-        int dy=cs.unmapYsnap(py)-oldpy;
+        int dx = cs.unmapXsnap(px) - oldpx;
+        int dy = cs.unmapYsnap(py) - oldpy;
 
-        oldpx=cs.unmapXsnap(px);
-        oldpy=cs.unmapXsnap(py);
+        oldpx = cs.unmapXsnap(px);
+        oldpy = cs.unmapXsnap(py);
 
-        if(dx==0 && dy==0) {
+        if (dx == 0 && dy == 0) {
             return;
         }
 
-        // Here we adjust the new positions for all selected elements...
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()){
-            if(g.getSelected()) {
-                // This code is needed to ensure that all layer are printed
-                // when dragging a component (it solves bug #24)
-                if (g instanceof PrimitiveMacro) {
-                    ((PrimitiveMacro)g).setDrawOnlyLayer(-1);
-                }
+        // First, check if all primitives can move without going out of bounds
+        boolean canMoveAll = true;
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.getSelected()) {
+                for (int j = 0; j < g.getControlPointNumber(); ++j) {
+                    int newX = g.virtualPoint[j].x + dx;
+                    int newY = g.virtualPoint[j].y + dy;
 
-                for(int j=0; j<g.getControlPointNumber();++j){
-                    g.virtualPoint[j].x+=dx;
-                    g.virtualPoint[j].y+=dy;
-                    // Here we show the new place of the primitive.
+                    // If any point goes out of bounds, 
+                    // prevent the move for all
+                    if (newX < 0 || newY < 0) {
+                        canMoveAll = false;
+                        break;
+                    }
                 }
-                g.setChanged(true);
+                if (!canMoveAll) {
+                    break;
+                }
             }
         }
+
+        // If all primitives can move, apply the move to all of them
+        if (canMoveAll) {
+            for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+                if (g.getSelected()) {
+                    for (int j = 0; j < g.getControlPointNumber(); ++j) {
+                        g.virtualPoint[j].x += dx;
+                        g.virtualPoint[j].y += dy;
+                    }
+                    g.setChanged(true);
+                }
+            }
+        }
+
         cc.forcesRepaint();
     }
-
+    
     /** Start dragging handle. Check if the pointer is on the handle of a
         primitive and if it is the case, enter the dragging state.
         @param px the (screen) x coordinate of the pointer.

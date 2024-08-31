@@ -1239,4 +1239,82 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // Force the redraw when the selection direction changes.
         this.repaint();
     }
+    
+    /**
+     Checks if there are any primitives with negative coordinates in ..
+     their virtual points.
+     If such primitives are found, translates all primitives in the drawing ..
+     so that the negative coordinates are shifted to positive, 
+     keeping their relative distances.
+
+     @return true if a translation was necessary and performed, false otherwise.
+     */
+    public boolean normalizeCoordinates()
+    {
+        DrawingModel model = getDrawingModel();
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+
+        // Find the minimum (most negative) ..
+        // x and y coordinates among all primitives
+        for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+            for (PointG point : gp.virtualPoint) {
+                if (point.x < minX) {
+                    minX = point.x;
+                }
+                if (point.y < minY) {
+                    minY = point.y;
+                }
+            }
+        }
+
+        // If minimum x or y coordinates are negative, 
+        // calculate the necessary translation
+        if (minX < 0 || minY < 0) {
+            int deltaX = minX < 0 ? -minX : 0;
+            int deltaY = minY < 0 ? -minY : 0;
+
+            // Apply the translation to all primitives
+            for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+                gp.movePrimitive(deltaX, deltaY);
+            }
+            // Return true indicating that a translation was performed
+            return true;
+        }
+        // No translation was necessary, return false
+        return false;
+    }
+    
+    /**
+     Checks if there are any primitives where all virtual points ..
+     have negative coordinates.
+
+     @return true if there exists at least one primitive where all ..
+     virtual points have negative coordinates, false otherwise.
+     */
+    public boolean checkGhostPrimitives()
+    {
+        DrawingModel model = getDrawingModel();
+
+        // Iterate over all primitives in the model
+        for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+            boolean allNegative = true;
+
+            // Check each virtual point of the primitive
+            for (PointG point : gp.virtualPoint) {
+                // If any point is non-negative, set allNegative to false
+                if (point.x >= 0 || point.y >= 0) {
+                    allNegative = false;
+                    break; // No need to check further, move to next primitive
+                }
+            }
+
+            // If all points in this primitive are negative, return true
+            if (allNegative) {
+                return true;
+            }
+        }
+        // No primitives found where all points are negative
+        return false;
+    }
 }

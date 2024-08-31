@@ -587,11 +587,24 @@ public abstract class GraphicPrimitive
     */
     public void movePrimitive(int dx, int dy)
     {
-        for(int a=0; a<getControlPointNumber(); ++a) {
-            virtualPoint[a].x+=dx;
-            virtualPoint[a].y+=dy;
+        // Check if the move would result in any virtual point having negative coordinates
+        for (int a = 0; a < getControlPointNumber(); ++a) {
+            int newX = virtualPoint[a].x + dx;
+            int newY = virtualPoint[a].y + dy;
+
+            // If any new coordinate is negative, abort the move
+            if (newX < 0 || newY < 0) {
+                return; // Aborts the move
+            }
         }
-        changed=true;
+
+        // If all checks are passed, perform the move
+        for (int a = 0; a < getControlPointNumber(); ++a) {
+            virtualPoint[a].x += dx;
+            virtualPoint[a].y += dy;
+        }
+
+        changed = true;
     }
 
     /** Mirror the primitive. Adapted from Lorenzo Lutti's original code.
