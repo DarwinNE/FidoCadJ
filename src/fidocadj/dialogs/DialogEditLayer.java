@@ -115,7 +115,7 @@ public final class DialogEditLayer extends MinimumSizeDialog
         contentPane.add(opacity, constraints);
 
         visibility=new JCheckBox(Globals.messages.getString("IsVisible"));
-        visibility.setSelected(l.getVisible());
+        visibility.setSelected(l.isVisible());
 
         constraints = DialogUtil.createConst(2,4,1,1,100,0,
             GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,

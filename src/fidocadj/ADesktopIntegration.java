@@ -40,8 +40,8 @@ public class ADesktopIntegration implements AboutHandler,
                                             OpenFilesHandler
 {
 
-    public boolean handleAbout;         // True if the About action is handled
-    public boolean handlePreferences;   // True if the Pref action is handled
+    private boolean handleAbout;         // True if the About action is handled
+    private boolean handlePreferences;   // True if the Pref action is handled
 
     ADesktopIntegration()
     {
@@ -151,5 +151,25 @@ public class ADesktopIntegration implements AboutHandler,
         } else {
             response.cancelQuit();
         }
+    }
+    
+    /**
+     Check if the About action is handled.
+
+     @return true if the About action is handled, false otherwise.
+     */
+    public boolean getHandleAbout()
+    {
+        return handleAbout;
+    }
+
+    /**
+     Check if the Preferences action is handled.
+
+     @return true if the Preferences action is handled, false otherwise.
+     */
+    public boolean getHandlePreferences()
+    {
+        return handlePreferences;
     }
 }

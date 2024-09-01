@@ -81,7 +81,7 @@ public final class FidoFrame extends JFrame implements
     // Interface elements parts of FidoFrame
 
     // The circuit panel...
-    public CircuitPanel circuitPanel;
+    private CircuitPanel circuitPanel;
     // ... which is contained in a scroll pane.
     private JScrollPane scrollPane;
     // ... which at its turn is in a split pane.
@@ -101,7 +101,7 @@ public final class FidoFrame extends JFrame implements
     final private FileTools fileTools;
 
     // Libraries properties
-    public String libDirectory;
+    private String libDirectory;
 
     // Toolbar properties
     // The toolbar dedicated to the available tools (the first one under
@@ -117,9 +117,9 @@ public final class FidoFrame extends JFrame implements
     private boolean smallIconsToolbar;
 
     // Locale settings
-    public Locale currentLocale;
+    private Locale currentLocale;
     // Runs as an application or an applet.
-    public boolean runsAsApplication;
+    private boolean runsAsApplication;
 
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
@@ -551,7 +551,7 @@ public final class FidoFrame extends JFrame implements
         scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
 
         circuitPanel.profileTime=false;
-        circuitPanel.antiAlias=true;
+        circuitPanel.setAntiAlias(true);
 
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
@@ -771,8 +771,8 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.profileTime = SettingsManager.getBoolean("PROFILE_TIME",
                 circuitPanel.profileTime);
-        circuitPanel.antiAlias = SettingsManager.getBoolean("ANTIALIAS",
-                circuitPanel.antiAlias);
+        circuitPanel.setAntiAlias(SettingsManager.getBoolean("ANTIALIAS",
+                circuitPanel.getAntiAlias()));
         textToolbar = SettingsManager.getBoolean("TEXT_TOOLBAR", textToolbar);
         smallIconsToolbar = SettingsManager.getBoolean("SMALL_ICON_TOOLBAR",
                 smallIconsToolbar);
@@ -922,4 +922,75 @@ public final class FidoFrame extends JFrame implements
     {
         return splitPane.getBottomComponent()!=null;
     }
+    
+    /**
+     Get the current CircuitPanel object.
+
+     @return the current CircuitPanel object.
+     */
+    public CircuitPanel getCircuitPanel()
+    {
+        return circuitPanel;
+    }
+    
+    /**
+     Get the current library directory path.
+
+     @return the current library directory path.
+     */
+    public String getLibDirectory()
+    {
+        return libDirectory;
+    }
+    
+    /**
+     Set the library directory path.
+
+     @param libDirectory the directory path to set.
+     */
+    public void setLibDirectory(String libDirectory)
+    {
+        this.libDirectory = libDirectory;
+    }
+ 
+    /**
+     Set the current locale settings.
+
+     @param currentLocale the Locale object to set.
+     */
+    public void setCurrentLocale(Locale currentLocale)
+    {
+        this.currentLocale = currentLocale;
+    }
+
+    /**
+     Get the current locale settings.
+
+     @return the current Locale object.
+     */
+    public Locale getCurrentLocale()
+    {
+        return currentLocale;
+    }
+
+    /**
+     Set whether the program runs as an application.
+
+     @param runsAsApplication true if it runs as an application, 
+                              false if it runs as an applet.
+     */
+    public void setRunsAsApplication(boolean runsAsApplication)
+    {
+        this.runsAsApplication = runsAsApplication;
+    }
+
+    /**
+     Check if the program runs as an application.
+
+     @return true if it runs as an application, false if it runs as an applet.
+     */
+    public boolean getRunsAsApplication()
+    {
+        return runsAsApplication;
+    }   
 }

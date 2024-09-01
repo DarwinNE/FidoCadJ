@@ -44,18 +44,18 @@ public final class DrawingModel
     // ************* DRAWING *************
 
     // Array used to determine which layer is used in the drawing.
-    public boolean[] layersUsed;
+    private boolean[] layersUsed;
 
     // Higher priority layer used in the drawing.
-    public int maxLayer;
+    private int maxLayer;
     // True if only pads should be drawn.
-    public boolean drawOnlyPads;
+    private boolean drawOnlyPads;
 
     // Positive if during the redraw step only a particular layer should be
     // drawn
-    public int drawOnlyLayer;
+    private int drawOnlyLayer;
 
-    public ImageAsCanvas imgCanvas;
+    private ImageAsCanvas imgCanvas;
 
     // Font and size to be used for the text associated to the macros.
     private String macroFont;
@@ -72,7 +72,7 @@ public final class DrawingModel
     // List containing all primitives in the drawing.
     private List<GraphicPrimitive> primitiveVector;
     // List containing all layers used in the drawing.
-    public List<LayerDesc> layerV;
+    private List<LayerDesc> layerV;
 
     // Library of macros loaded.
     private Map<String, MacroDesc> library;
@@ -260,8 +260,10 @@ public final class DrawingModel
         for(l = getPrimitiveVector().size()/2; l>0; l/=2) {
             for(j = l; j< getPrimitiveVector().size(); ++j) {
                 for(i=j-l; i>=0; i-=l) {
-                    if(((GraphicPrimitive)getPrimitiveVector().get(i+l)).layer>=
-                        ((GraphicPrimitive)getPrimitiveVector().get(i)).layer)
+                    if(((GraphicPrimitive)getPrimitiveVector()
+                                                    .get(i+l)).getLayer()>=
+                        ((GraphicPrimitive)getPrimitiveVector()
+                                                    .get(i)).getLayer())
                     {
                         break;
                     } else {
@@ -289,8 +291,8 @@ public final class DrawingModel
 
                 // We keep track of the maximum layer number used in the
                 // drawing.
-                if (g.layer>maxLayer) {
-                    maxLayer = g.layer;
+                if (g.getLayer() > maxLayer) {
+                    maxLayer = g.getLayer();
                 }
 
                 if (g.containsLayer(l)) {
@@ -379,8 +381,19 @@ public final class DrawingModel
     */
     public void setDrawOnlyPads(boolean pd)
     {
-        drawOnlyPads=pd;
+        drawOnlyPads = pd;
     }
+    
+    /**
+     Check if only holes of the PCB pad should be drawn.
+
+     @return true if only holes should be drawn, false otherwise.
+     */
+    public boolean getDrawOnlyPads()
+    {
+        return drawOnlyPads;
+    }
+
 
     /** Set the layer to be drawn. If it is negative, draw all layers.
         @param la the layer to be drawn.
@@ -388,6 +401,37 @@ public final class DrawingModel
     public void setDrawOnlyLayer(int la)
     {
         drawOnlyLayer=la;
+    }
+    
+    /**
+     Get the layer to be drawn. If it is negative, 
+     it means all layers will be drawn.
+
+     @return the layer to be drawn.
+     */
+    public int getDrawOnlyLayer()
+    {
+        return drawOnlyLayer;
+    }
+    
+    /**
+     Set the ImageAsCanvas object.
+
+     @param imgCanvas the ImageAsCanvas object to set.
+     */
+    public void setImgCanvas(ImageAsCanvas imgCanvas)
+    {
+        this.imgCanvas = imgCanvas;
+    }
+
+    /**
+     Get the current ImageAsCanvas object.
+
+     @return the current ImageAsCanvas object.
+     */
+    public ImageAsCanvas getImgCanvas()
+    {
+        return imgCanvas;
     }
 }
 

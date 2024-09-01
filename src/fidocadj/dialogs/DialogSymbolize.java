@@ -57,7 +57,7 @@ import fidocadj.dialogs.controls.TextPopupMenu;
 public final class DialogSymbolize extends MinimumSizeDialog
 {
     final private JPanel parent;
-    private DrawingModel cp;
+    private DrawingModel drawingModel;
 
     // Swing elements
     private JComboBox<String> libFilename;
@@ -243,10 +243,10 @@ public final class DialogSymbolize extends MinimumSizeDialog
         cpanel.add(Box.createVerticalStrut(256));
         cpanel.add(Box.createHorizontalStrut(256));
 
-        cpanel.getDrawingModel().setLayers(cp.getLayers());
-        cpanel.getDrawingModel().setLibrary(cp.getLibrary());
+        cpanel.getDrawingModel().setLayers(drawingModel.getLayers());
+        cpanel.getDrawingModel().setLibrary(drawingModel.getLibrary());
         enumLibs();
-        cpanel.antiAlias = true;
+        cpanel.setAntiAlias(true);
         cpanel.profileTime = false;
         MacroDesc macro = buildMacro("temp","temp","temp","temp", "temp",
             new Point(100,100));
@@ -293,6 +293,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             public void itemStateChanged(ItemEvent arg0)
             {
                 listGroups();
+                generateUniqueKey();
             }
         });
 
@@ -301,6 +302,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             public void actionPerformed(ActionEvent arg0)
             {
                 listGroups();
+                generateUniqueKey();
             }
         });
 
@@ -339,18 +341,12 @@ public final class DialogSymbolize extends MinimumSizeDialog
         key=new JTextField();
         TextPopupMenu.addPopupToText(key);
 
-        long t=System.nanoTime();
-        long h=0;
-        for(int i=0; t>0; ++i) {
-            t>>=i*8;
-            h^=t & 0xFF;
-        }
-
         constraints = DialogUtil.createConst(2,5,1,1,0.01,0.01,
-        GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(8,0,0,0));
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(8,0,0,0));
 
         panel.add(key, constraints);
+        
         key.getDocument().addDocumentListener(new DocumentListener() {
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
@@ -376,18 +372,18 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 showValidity();
             }
 
-            /** Change the background color of the fiel depending on the
+            /** Change the background color of the field depending on the
                 validity of the key currently defined.
             */
             public void showValidity()
             {
-                if(isKeyInvalid()) {
+                if (isKeyInvalid()) {
                     key.setBackground(Color.RED.darker());
                     key.setForeground(Color.WHITE);
                 } else {
-                    Color c1=UIManager.getColor("TextField.background");
-                    Color c2=UIManager.getColor("TextField.foreground");
-                    if(c1!=null && c2!=null) {
+                    Color c1 = UIManager.getColor("TextField.background");
+                    Color c2 = UIManager.getColor("TextField.foreground");
+                    if (c1 != null && c2 != null) {
                         key.setBackground(c1);
                         key.setForeground(c2);
                     } else {
@@ -397,9 +393,9 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 }
             }
         });
-        while(isKeyInvalid()) {
-            key.setText(String.valueOf(h++));
-        }
+        
+        generateUniqueKey();
+
         snapToGrid = new JCheckBox(
                 Globals.messages.getString("SnapToGridOrigin"));
         snapToGrid.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -427,7 +423,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     private void listGroups()
     {
         // Obtain all the groups in a given library.
-        List<String> l = LibUtils.enumGroups(cp.getLibrary(),
+        List<String> l = LibUtils.enumGroups(drawingModel.getLibrary(),
             libFilename.getEditor().getItem().toString());
 
         // Update the group list.
@@ -435,7 +431,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         for (String s : l) {
             group.addItem(s);
         }
-        libName.setText(LibUtils.getLibName(cp.getLibrary(),
+        libName.setText(LibUtils.getLibName(drawingModel.getLibrary(),
             libFilename.getEditor().getItem().toString()));
     }
 
@@ -508,6 +504,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
             {
                 // Check if there is a valid key available. We can not continue
                 // without a key!
+                Map<String, MacroDesc> libref = drawingModel.getLibrary();
+                String k = key.getText().trim();
+                String lk = getPrefix().trim()+"."+k;
+                boolean val  = LibUtils.checkKey(libref, getPrefix().trim(),lk);
+
                 if (isKeyAbsent()) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("InvKey"),
@@ -536,11 +537,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
                     key.getText().trim(),getLibraryName().trim(),
                     getGroup().trim(), getPrefix().trim(),p);
 
-                cp.getLibrary().put(macro.key, macro); // add to lib
+                drawingModel.getLibrary().put(macro.key, macro); // add to lib
 
                 // Save the new symbol in the current libFilename
                 try {
-                    LibUtils.save(cp.getLibrary(),
+                    LibUtils.save(drawingModel.getLibrary(),
                         LibUtils.getLibPath(getPrefix()).trim(),
                         getLibraryName(), getPrefix());
                 } catch (FileNotFoundException fF) {
@@ -582,13 +583,36 @@ public final class DialogSymbolize extends MinimumSizeDialog
         getRootPane().setDefaultButton(ok);
     }
 
+    /** Generates a unique key based on the selected library.
+    */
+    private void generateUniqueKey()
+    {
+        long t = System.nanoTime();
+        long h = 0;
+        for (int i = 0; t > 0; ++i) {
+            t >>= i * 8;
+            h ^= t & 0xFF;
+        }
+
+        String baseKey = String.valueOf(h);
+        Map<String, MacroDesc> libref = drawingModel.getLibrary();
+        String lk = getPrefix().trim()+".";
+        
+        while (LibUtils.checkKey(libref, getPrefix().trim(),lk+baseKey)) {
+            baseKey = String.valueOf(h++);
+        }   
+        key.setText(baseKey);
+    }
+
     /** Check if the current key is duplicate or not.
         @return true if a duplicate exists in the library.
     */
     private boolean isKeyDuplicate()
     {
-        return LibUtils.checkKey(cp.getLibrary(), getPrefix().trim(),
-            getPrefix().trim()+"."+key.getText().trim());
+        Map<String, MacroDesc> libref = drawingModel.getLibrary();
+        String k = key.getText().trim();
+        String lk = getPrefix().trim()+"."+k;
+        return LibUtils.checkKey(libref, getPrefix().trim(),lk);
     }
 
     /** Check if the current key is containing invalid characters.
@@ -620,8 +644,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
             String mygrp, String myprefix, Point origin)
     {
         StringBuilder ss = new StringBuilder();
-        SelectionActions sa = new SelectionActions(cp);
-        new EditorActions(cp, sa, null);
+        SelectionActions sa = new SelectionActions(drawingModel);
+        new EditorActions(drawingModel, sa, null);
 
         // Check if there is anything selected.
         if (sa.getFirstSelectedPrimitive() == null) {
@@ -634,11 +658,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
 
         DrawingModel ps = new DrawingModel();
         try {
-            ps.setLibrary(cp.getLibrary());
+            ps.setLibrary(drawingModel.getLibrary());
             ParserActions pa = new ParserActions(ps);
 
-            for (GraphicPrimitive g : cp.getPrimitiveVector()) {
-                if (g.getSelected()) {
+            for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
+                if (g.isSelected()) {
                     pa.addString(new StringBuffer(g.toString(true)), true);
                 }
             }
@@ -648,7 +672,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         }
 
         for (GraphicPrimitive psp : ps.getPrimitiveVector()) {
-            if (!psp.getSelected()) {
+            if (!psp.isSelected()) {
                 continue;
             }
             psp.movePrimitive(origin.x, origin.y);
@@ -683,6 +707,6 @@ public final class DialogSymbolize extends MinimumSizeDialog
     */
     public void setCircuit(DrawingModel p)
     {
-        this.cp = p;
+        this.drawingModel = p;
     }
 }

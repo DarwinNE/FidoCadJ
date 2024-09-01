@@ -82,7 +82,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     private transient MapCoordinates mapCoordinates;
 
     // Use anti alias in drawings
-    public boolean antiAlias;
+    private boolean antiAlias;
 
     // Draw the grid
     private boolean isGridVisible;
@@ -184,8 +184,6 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         backgroundColor = Color.white;
         gridDotsColor = new ColorSwing(Color.BLACK);
         gridLinesColor = new ColorSwing(Color.LIGHT_GRAY);
-        Color rightToLeftColor = Color.GREEN;
-        Color leftToRightColor = Color.BLUE;
 
         setDrawingModel(new DrawingModel());
 
@@ -306,6 +304,26 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         }
         continuosMoveActions.setState(s, macro);
         mmcHandler.selectCursor();
+    }
+    
+    /**
+     Set whether to use anti-aliasing in drawings.
+
+     @param antiAlias true if anti-aliasing should be used, false otherwise.
+     */
+    public void setAntiAlias(boolean antiAlias)
+    {
+        this.antiAlias = antiAlias;
+    }
+
+    /**
+     Check if anti-aliasing is used in drawings.
+
+     @return true if anti-aliasing is used, false otherwise.
+     */
+    public boolean getAntiAlias()
+    {
+        return antiAlias;
     }
 
     /** Set the rectangle which will be shown during the next redraw.
@@ -452,6 +470,11 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     @Override
     public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
+        // Prevents possible exceptions in case it's null.
+        if(father == null) {
+            return;
+        }
+        
         int xpos = mapCoordinates.unmapXnosnap(x);
         int ypos = mapCoordinates.unmapYnosnap(y);
         double z = mapCoordinates.getXMagnitude();
@@ -655,7 +678,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        drawingModel.imgCanvas.drawCanvasImage(g2, mapCoordinates);
+        drawingModel.getImgCanvas().drawCanvasImage(g2, mapCoordinates);
         // Draw the grid if necessary.
         if (isGridVisible) {
             graphicSwing.drawGrid(mapCoordinates, 0, 0,
@@ -669,7 +692,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
         // Draw all the elements of the drawing.
         drawingAgent.draw(graphicSwing, mapCoordinates);
-        drawingModel.imgCanvas.trackExtremePoints(mapCoordinates);
+        drawingModel.getImgCanvas().trackExtremePoints(mapCoordinates);
 
         if (zoomListener != null) {
             zoomListener.changeZoom(mapCoordinates.getXMagnitude());
@@ -1224,7 +1247,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      */
     public ImageAsCanvas getAttachedImage()
     {
-        return drawingModel.imgCanvas;
+        return drawingModel.getImgCanvas();
     }
 
     /** Determine the direction of the selection.
@@ -1238,5 +1261,83 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         this.isLeftToRight = isLeftToRight;
         // Force the redraw when the selection direction changes.
         this.repaint();
+    }
+    
+    /**
+     Checks if there are any primitives with negative coordinates in ..
+     their virtual points.
+     If such primitives are found, translates all primitives in the drawing ..
+     so that the negative coordinates are shifted to positive, 
+     keeping their relative distances.
+
+     @return true if a translation was necessary and performed, false otherwise.
+     */
+    public boolean normalizeCoordinates()
+    {
+        DrawingModel model = getDrawingModel();
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+
+        // Find the minimum (most negative) ..
+        // x and y coordinates among all primitives
+        for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+            for (PointG point : gp.virtualPoint) {
+                if (point.x < minX) {
+                    minX = point.x;
+                }
+                if (point.y < minY) {
+                    minY = point.y;
+                }
+            }
+        }
+
+        // If minimum x or y coordinates are negative, 
+        // calculate the necessary translation
+        if (minX < 0 || minY < 0) {
+            int deltaX = minX < 0 ? -minX : 0;
+            int deltaY = minY < 0 ? -minY : 0;
+
+            // Apply the translation to all primitives
+            for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+                gp.movePrimitive(deltaX, deltaY);
+            }
+            // Return true indicating that a translation was performed
+            return true;
+        }
+        // No translation was necessary, return false
+        return false;
+    }
+    
+    /**
+     Checks if there are any primitives where all virtual points ..
+     have negative coordinates.
+
+     @return true if there exists at least one primitive where all ..
+     virtual points have negative coordinates, false otherwise.
+     */
+    public boolean checkGhostPrimitives()
+    {
+        DrawingModel model = getDrawingModel();
+
+        // Iterate over all primitives in the model
+        for (GraphicPrimitive gp : model.getPrimitiveVector()) {
+            boolean allNegative = true;
+
+            // Check each virtual point of the primitive
+            for (PointG point : gp.virtualPoint) {
+                // If any point is non-negative, set allNegative to false
+                if (point.x >= 0 || point.y >= 0) {
+                    allNegative = false;
+                    break; // No need to check further, move to next primitive
+                }
+            }
+
+            // If all points in this primitive are negative, return true
+            if (allNegative) {
+                return true;
+            }
+        }
+        // No primitives found where all points are negative
+        return false;
     }
 }

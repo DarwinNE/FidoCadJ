@@ -304,13 +304,12 @@ public final class LibUtils
         @return false if the key is available, true if it is used.
     */
     public static boolean checkKey(Map<String, MacroDesc> libref,
-        String tlib,String key)
+        String tlib, String key)
     {
         for (MacroDesc md : libref.values()) {
-            if (md.library.equalsIgnoreCase(tlib) &&
-                md.key.equalsIgnoreCase(key.trim()))
-            {
-                return true;
+            if (md.filename.equalsIgnoreCase(tlib) && 
+                md.key.equalsIgnoreCase(key.trim())) {
+                    return true;
             }
         }
         return key.contains("]");

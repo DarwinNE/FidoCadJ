@@ -43,10 +43,9 @@ import fidocadj.globals.Globals;
 
 public class HandleActions
 {
-    private final DrawingModel dmp;
-    private final EditorActions edt;
-    private final UndoActions ua;
-    private final SelectionActions sa;
+    private final DrawingModel drawingModel;
+    private final UndoActions undoActions;
+    private final SelectionActions selectionActions;
 
     // A coordinates listener (to show messages)
     private ChangeCoordinatesListener coordinatesListener=null;
@@ -86,10 +85,9 @@ public class HandleActions
         SelectionActions s,
         UndoActions u)
     {
-        dmp=pp;
-        edt=e;
-        ua=u;
-        sa=s;
+        drawingModel=pp;
+        undoActions=u;
+        selectionActions=s;
         firstDrag=false;
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         isLeftToRightSelection = false;
@@ -113,45 +111,62 @@ public class HandleActions
         @param cs the coordinate mapping.
     */
     public void dragPrimitives(PrimitivesParInterface cc, int px, int py,
-        MapCoordinates cs)
+            MapCoordinates cs)
     {
         // Check if we are effectively dragging the whole primitive...
-        if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE) {
+        if (handleBeingDragged != GraphicPrimitive.DRAG_PRIMITIVE) {
             return;
         }
 
-        firstDrag=false;
+        firstDrag = false;
 
-        int dx=cs.unmapXsnap(px)-oldpx;
-        int dy=cs.unmapYsnap(py)-oldpy;
+        int dx = cs.unmapXsnap(px) - oldpx;
+        int dy = cs.unmapYsnap(py) - oldpy;
 
-        oldpx=cs.unmapXsnap(px);
-        oldpy=cs.unmapXsnap(py);
+        oldpx = cs.unmapXsnap(px);
+        oldpy = cs.unmapXsnap(py);
 
-        if(dx==0 && dy==0) {
+        if (dx == 0 && dy == 0) {
             return;
         }
 
-        // Here we adjust the new positions for all selected elements...
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()){
-            if(g.getSelected()) {
-                // This code is needed to ensure that all layer are printed
-                // when dragging a component (it solves bug #24)
-                if (g instanceof PrimitiveMacro) {
-                    ((PrimitiveMacro)g).setDrawOnlyLayer(-1);
-                }
+        // First, check if all primitives can move without going out of bounds
+        boolean canMoveAll = true;
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
+            if (g.isSelected()) {
+                for (int j = 0; j < g.getControlPointNumber(); ++j) {
+                    int newX = g.virtualPoint[j].x + dx;
+                    int newY = g.virtualPoint[j].y + dy;
 
-                for(int j=0; j<g.getControlPointNumber();++j){
-                    g.virtualPoint[j].x+=dx;
-                    g.virtualPoint[j].y+=dy;
-                    // Here we show the new place of the primitive.
+                    // If any point goes out of bounds, 
+                    // prevent the move for all
+                    if (newX < 0 || newY < 0) {
+                        canMoveAll = false;
+                        break;
+                    }
                 }
-                g.setChanged(true);
+                if (!canMoveAll) {
+                    break;
+                }
             }
         }
+
+        // If all primitives can move, apply the move to all of them
+        if (canMoveAll) {
+            for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
+                if (g.isSelected()) {
+                    for (int j = 0; j < g.getControlPointNumber(); ++j) {
+                        g.virtualPoint[j].x += dx;
+                        g.virtualPoint[j].y += dy;
+                    }
+                    g.setChanged(true);
+                }
+            }
+        }
+
         cc.forcesRepaint();
     }
-
+    
     /** Start dragging handle. Check if the pointer is on the handle of a
         primitive and if it is the case, enter the dragging state.
         @param px the (screen) x coordinate of the pointer.
@@ -173,7 +188,7 @@ public class HandleActions
         hasMoved=false;
 
         GraphicPrimitive gp;
-        List<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=drawingModel.getLayers();
 
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);
@@ -186,19 +201,19 @@ public class HandleActions
         // Search for the closest primitive to the given point
         // Performs a cycle through all primitives and check their
         // distance.
-        for (i=0; i<dmp.getPrimitiveVector().size(); ++i){
-            gp=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
+        for (i=0; i<drawingModel.getPrimitiveVector().size(); ++i){
+            gp=(GraphicPrimitive)drawingModel.getPrimitiveVector().get(i);
             layer= gp.getLayer();
 
             // Does not allow for selecting an invisible primitive
             if(layer<layerV.size() &&
-                !((LayerDesc)layerV.get(layer)).isVisible &&
+                !((LayerDesc)layerV.get(layer)).isVisible() &&
                 !(gp instanceof PrimitiveMacro))
             {
                 continue;
             }
 
-            if(gp.selectedState){
+            if(gp.isSelected()){
                 // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
 
@@ -216,9 +231,9 @@ public class HandleActions
         // Verify if the whole primitive should be drag
         if (mindistance<sptol && handleBeingDragged<0){
             primBeingDragged=
-                (GraphicPrimitive)dmp.getPrimitiveVector().get(isel);
-            if (!multiple && !primBeingDragged.getSelected()) {
-                sa.setSelectionAll(false);
+                (GraphicPrimitive)drawingModel.getPrimitiveVector().get(isel);
+            if (!multiple && !primBeingDragged.isSelected()) {
+                selectionActions.setSelectionAll(false);
             }
             if(!multiple) {
                 primBeingDragged.setSelected(true);
@@ -254,7 +269,7 @@ public class HandleActions
                 int ya=Math.min(oldpy, cs.unmapYnosnap(py));
                 int xb=Math.max(oldpx, cs.unmapXnosnap(px));
                 int yb=Math.max(oldpy, cs.unmapYnosnap(py));
-                if(!multiple) { sa.setSelectionAll(false); }
+                if(!multiple) { selectionActions.setSelectionAll(false); }
                 edt.selectRect(xa, ya, xb-xa, yb-ya);
             }*/
 
@@ -268,10 +283,10 @@ public class HandleActions
                     xb - xa, yb - ya);
 
                 if (!multiple) {
-                    sa.setSelectionAll(false);
+                    selectionActions.setSelectionAll(false);
                 }
 
-                for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+                for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
                     if (g.intersects(selectionRect, isLeftToRightSelection)) {
                         g.setSelected(true);
                     }
@@ -281,15 +296,15 @@ public class HandleActions
 
             // Test if we are anyway dragging an entire primitive
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE &&
-                hasMoved && ua!=null)
+                hasMoved && undoActions!=null)
             {
-                ua.saveUndoState();
+                undoActions.saveUndoState();
             }
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
             return;
         }
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
-        if(ua!=null) { ua.saveUndoState(); }
+        if(undoActions!=null) { undoActions.saveUndoState(); }
     }
 
     /** Drag a handle.

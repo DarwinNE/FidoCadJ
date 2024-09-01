@@ -51,7 +51,7 @@ public class SelectionActions
     public GraphicPrimitive getFirstSelectedPrimitive()
     {
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 return g;
             }
         }
@@ -64,7 +64,7 @@ public class SelectionActions
     public void applyToSelectedElements(ProcessElementsInterface tt)
     {
         for (GraphicPrimitive g:dmp.getPrimitiveVector()){
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 tt.doAction(g);
             }
         }
@@ -79,7 +79,7 @@ public class SelectionActions
             new Vector<Boolean>(dmp.getPrimitiveVector().size());
 
         for(GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            v.add(Boolean.valueOf(g.getSelected()));
+            v.add(Boolean.valueOf(g.isSelected()));
         }
         return v;
     }
@@ -117,7 +117,7 @@ public class SelectionActions
         List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
 
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 selectedPrimitives.add(g);
             }
         }
@@ -136,7 +136,7 @@ public class SelectionActions
         boolean hasFound=false;
 
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 if(hasFound) {
                     return false;
                 }
@@ -154,7 +154,7 @@ public class SelectionActions
     public boolean selectionCanBeSplitted()
     {
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
-            if (g.getSelected() &&
+            if (g.isSelected() &&
                 (g instanceof PrimitiveMacro ||
                  g.hasName() || g.hasValue()))
             {
@@ -176,7 +176,7 @@ public class SelectionActions
         s.append(pa.registerConfiguration(extensions));
 
         for (GraphicPrimitive g: dmp.getPrimitiveVector()){
-            if(g.getSelected()) {
+            if(g.isSelected()) {
                 s.append(g.toString(extensions));
             }
         }

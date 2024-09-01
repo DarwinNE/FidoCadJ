@@ -66,7 +66,7 @@ public final class DrawingSize
         dm.setChanged(true);
         Drawing drawingAgent = new Drawing(dm);
         drawingAgent.draw(new GraphicsNull(),m);
-        dm.imgCanvas.trackExtremePoints(m);
+        dm.getImgCanvas().trackExtremePoints(m);
         dm.setChanged(true);
 
         // Calculate image size
@@ -120,7 +120,7 @@ public final class DrawingSize
         // Draw the image. In this way, the min and max coordinates will be
         // tracked.
         Drawing drawingAgent = new Drawing(dm);
-        dm.imgCanvas.trackExtremePoints(m);
+        dm.getImgCanvas().trackExtremePoints(m);
         drawingAgent.draw(new GraphicsNull(), m);
         dm.setChanged(true);
 

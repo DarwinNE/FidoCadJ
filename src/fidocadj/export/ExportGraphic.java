@@ -212,7 +212,7 @@ public final class ExportGraphic
             java.util.List<LayerDesc> v=new Vector<LayerDesc>();
             for (int i=0; i<16;++i) {
                 v.add(new LayerDesc((new ColorSwing()).black(), // NOPMD
-                    ((LayerDesc)ol.get(i)).getVisible(),
+((LayerDesc)ol.get(i)).isVisible(),
                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
             }
             pp.setLayers(v);

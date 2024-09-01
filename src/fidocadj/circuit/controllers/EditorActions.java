@@ -151,7 +151,7 @@ public class EditorActions
         List<GraphicPrimitive> v=dmp.getPrimitiveVector();
 
         for (i=0; i<v.size(); ++i){
-            if(v.get(i).getSelected()) {
+            if(v.get(i).isSelected()) {
                 v.remove(v.get(i--));
             }
         }
@@ -171,7 +171,7 @@ public class EditorActions
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             // If selected, change the layer. Macros must be always associated
             // to layer 0.
-            if (g.getSelected() && ! (g instanceof PrimitiveMacro)) {
+            if (g.isSelected() && ! (g instanceof PrimitiveMacro)) {
                 g.setLayer(l);
                 toRedraw=true;
             }
@@ -205,7 +205,7 @@ public class EditorActions
             if(distance<=mindistance) {
                 layer = g.getLayer();
 
-                if(layerV.get(layer).isVisible) {
+                if(layerV.get(layer).isVisible()) {
                     mindistance=distance;
                 }
             }
@@ -261,7 +261,7 @@ public class EditorActions
         */
         for  (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             layer = g.getLayer();
-            if(layerV.get(layer).isVisible || g instanceof PrimitiveMacro) {
+            if(layerV.get(layer).isVisible() || g instanceof PrimitiveMacro) {
                 distance=g.getDistanceToPoint(px,py);
                 if (distance<=mindistance) {
                     gpsel=g;
@@ -273,7 +273,7 @@ public class EditorActions
         // Check if we found something!
         if (mindistance<tolerance && gpsel!=null) {
             if(toggle) {
-                gpsel.setSelected(!gpsel.getSelected());
+                gpsel.setSelected(!gpsel.isSelected());
             } else {
                 gpsel.setSelected(true);
             }
@@ -304,7 +304,7 @@ public class EditorActions
         for (GraphicPrimitive g: dmp.getPrimitiveVector()){
             layer= g.getLayer();
             if((layer>=layerV.size() ||
-                layerV.get(layer).isVisible ||
+                layerV.get(layer).isVisible() ||
                 g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
             {
                 s=true;
@@ -323,7 +323,7 @@ public class EditorActions
         // Find the leftmost x coordinate among selected primitives
         int leftmost = Integer.MAX_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int x = g.getPosition().x;
                 if (x < leftmost) {
                     leftmost = x;
@@ -358,7 +358,7 @@ public class EditorActions
         // Find the rightmost x coordinate among selected primitives
         int rightmost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int x = g.getPosition().x + g.getSize().width;
                 if (x > rightmost) {
                     rightmost = x;
@@ -394,7 +394,7 @@ public class EditorActions
         // Find the topmost y coordinate among selected primitives
         int topmost = Integer.MAX_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int y = g.getPosition().y;
                 if (y < topmost) {
                     topmost = y;
@@ -429,7 +429,7 @@ public class EditorActions
         // Find the bottommost y coordinate among selected primitives
         int bottommost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int y = g.getPosition().y + g.getSize().height;
                 if (y > bottommost) {
                     bottommost = y;
@@ -466,7 +466,7 @@ public class EditorActions
         int topmost = Integer.MAX_VALUE;
         int bottommost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int yTop = g.getPosition().y;
                 int yBottom = g.getPosition().y + g.getSize().height;
                 if (yTop < topmost) {
@@ -510,7 +510,7 @@ public class EditorActions
         int leftmost = Integer.MAX_VALUE;
         int rightmost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 int xLeft = g.getPosition().x;
                 int xRight = g.getPosition().x + g.getSize().width;
                 if (xLeft < leftmost) {
@@ -556,7 +556,7 @@ public class EditorActions
 
         // Find all selected primitives
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 selectedPrimitives.add(g);
             }
         }
@@ -608,7 +608,7 @@ public class EditorActions
 
         // Find all selected primitives
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-            if (g.getSelected()) {
+            if (g.isSelected()) {
                 selectedPrimitives.add(g);
             }
         }

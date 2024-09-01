@@ -551,7 +551,7 @@ class CreateSwingInterface implements Runnable
         FidoFrame popFrame = new FidoFrame(true, currentLocale);
 
         if (!"".equals(libDirectory)) {
-            popFrame.libDirectory = libDirectory;
+            popFrame.setLibDirectory(libDirectory);
         }
 
         popFrame.init();

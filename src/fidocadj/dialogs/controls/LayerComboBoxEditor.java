@@ -77,7 +77,7 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements
      */
     public LayerComboBoxEditor(JComboBox comboBox, FidoFrame fidoFrame) {
         this.fidoFrame = fidoFrame;
-        this.circuitPanel = this.fidoFrame.circuitPanel;
+        this.circuitPanel = this.fidoFrame.getCircuitPanel();
         panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 4));
         colorLabel = new JLabel();
         visibilityLabel = new JLabel();
@@ -112,9 +112,9 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                currentLayer.setVisible(!currentLayer.getVisible());
+                currentLayer.setVisible(!currentLayer.isVisible());
                 visibilityLabel.setIcon(
-                        currentLayer.getVisible() ? visibleIcon:invisibleIcon);
+                        currentLayer.isVisible() ? visibleIcon:invisibleIcon);
 
                 circuitPanel.getDrawingModel().setChanged(true);
                 fidoFrame.repaint();
@@ -177,7 +177,7 @@ public class LayerComboBoxEditor extends AbstractCellEditor implements
         colorLabel.setPreferredSize(new Dimension(25, ICON_SIZE));
 
         visibilityLabel.setIcon(
-                currentLayer.getVisible() ? visibleIcon : invisibleIcon);
+                currentLayer.isVisible() ? visibleIcon : invisibleIcon);
         visibilityLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
         nameLabel.setText(currentLayer.getDescription());

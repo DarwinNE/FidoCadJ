@@ -89,14 +89,14 @@ public class LayerCellRenderer extends JPanel implements
         colorLabel.setPreferredSize(new Dimension(25, ICON_SIZE));
 
         visibilityLabel.setIcon(
-                layer.getVisible() ? visibleIcon : invisibleIcon);
+                layer.isVisible() ? visibleIcon : invisibleIcon);
 
         visibilityLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
         nameLabel.setText(layer.getDescription());
         nameLabel.setForeground(Color.BLACK);
 
-        if (!layer.getVisible())
+        if (!layer.isVisible())
             nameLabel.setForeground(SystemColor.textInactiveText);
 
         if (isSelected) {

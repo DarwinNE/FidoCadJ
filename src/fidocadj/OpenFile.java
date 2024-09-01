@@ -63,7 +63,7 @@ class OpenFile implements Runnable
             // Vastly better on MacOSX
             FileDialog fd = new FileDialog(parent,
                 Globals.messages.getString("Open"));
-            fd.setDirectory(parent.getFileTools().openFileDirectory);
+            fd.setDirectory(parent.getFileTools().getOpenFileDirectory());
             fd.setFilenameFilter(new FilenameFilter(){
                 @Override public boolean accept(File dir, String name)
                 {
@@ -81,7 +81,7 @@ class OpenFile implements Runnable
 
             JFileChooser fc = new JFileChooser();
             fc.setCurrentDirectory(
-                new File(parent.getFileTools().openFileDirectory));
+                new File(parent.getFileTools().getOpenFileDirectory()));
             fc.setDialogTitle(Globals.messages.getString("Open"));
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
                 @Override public boolean accept(File f)
@@ -134,13 +134,13 @@ class OpenFile implements Runnable
                 // normal Swing one.
 
                 FidoFrame popFrame;
-                if(parent.circuitPanel.getUndoActions().getModified() ||
-                    !parent.circuitPanel.getDrawingModel().isEmpty())
+                if(parent.getCircuitPanel().getUndoActions().getModified() ||
+                    !parent.getCircuitPanel().getDrawingModel().isEmpty())
                 {
                     // Here we create a new window in order to display
                     // the file.
 
-                    popFrame=new FidoFrame(parent.runsAsApplication,
+                    popFrame=new FidoFrame(parent.getRunsAsApplication(),
                         parent.getLocale());
                     popFrame.init();
                     popFrame.setBounds(parent.getX()+20, parent.getY()+20,
@@ -154,16 +154,16 @@ class OpenFile implements Runnable
                     // file to be loaded
                     popFrame=parent;
                 }
-                popFrame.circuitPanel.getParserActions().openFileName=
+                popFrame.getCircuitPanel().getParserActions().openFileName=
                     Globals.createCompleteFileName(din, fin);
-                if (parent.runsAsApplication) {
+                if (parent.getRunsAsApplication()) {
                     SettingsManager.put("OPEN_DIR", din);
                 }
 
-                popFrame.getFileTools().openFileDirectory=din;
+                popFrame.getFileTools().setOpenFileDirectory(din);
                 popFrame.getFileTools().openFile();
-                popFrame.circuitPanel.getUndoActions().saveUndoState();
-                popFrame.circuitPanel.getUndoActions().setModified(false);
+                popFrame.getCircuitPanel().getUndoActions().saveUndoState();
+                popFrame.getCircuitPanel().getUndoActions().setModified(false);
 
             } catch (IOException fnfex) {
                 JOptionPane.showMessageDialog(parent,

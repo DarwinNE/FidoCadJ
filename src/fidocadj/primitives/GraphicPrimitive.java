@@ -49,13 +49,13 @@ public abstract class GraphicPrimitive
     public static final int RECT_SELECTION=-3;
 
     // Indicates wether the primitive is selected or not
-    public boolean selectedState;
+    private boolean selectedState;
 
     // Minimum width size of a line in pixel
     protected static final float D_MIN = 0.5f;
 
     // The layer
-    public int layer;
+    private int layer;
 
     // The multiplication factor which is calculated for adjusting the screen
     // resolution, so that the size of handles or other important graphic stuff
@@ -587,11 +587,24 @@ public abstract class GraphicPrimitive
     */
     public void movePrimitive(int dx, int dy)
     {
-        for(int a=0; a<getControlPointNumber(); ++a) {
-            virtualPoint[a].x+=dx;
-            virtualPoint[a].y+=dy;
+        // Check if the move would result in any virtual point having negative coordinates
+        for (int a = 0; a < getControlPointNumber(); ++a) {
+            int newX = virtualPoint[a].x + dx;
+            int newY = virtualPoint[a].y + dy;
+
+            // If any new coordinate is negative, abort the move
+            if (newX < 0 || newY < 0) {
+                return; // Aborts the move
+            }
         }
-        changed=true;
+
+        // If all checks are passed, perform the move
+        for (int a = 0; a < getControlPointNumber(); ++a) {
+            virtualPoint[a].x += dx;
+            virtualPoint[a].y += dy;
+        }
+
+        changed = true;
     }
 
     /** Mirror the primitive. Adapted from Lorenzo Lutti's original code.
@@ -682,7 +695,7 @@ public abstract class GraphicPrimitive
     /** Get the selection state of the primitive.
         @return true if the primitive is selected, false otherwise.
     */
-    final public boolean getSelected()
+    final public boolean isSelected()
     {
         return selectedState;
     }
@@ -758,7 +771,7 @@ public abstract class GraphicPrimitive
         // If the layer is not visible, we just exit, returning false. This
         // will made the caller not to draw the graphical element.
 
-        if (!currentLayer.isVisible) {
+        if (!currentLayer.isVisible()) {
             return false;
         }
 
