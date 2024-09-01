@@ -293,6 +293,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             public void itemStateChanged(ItemEvent arg0)
             {
                 listGroups();
+                generateUniqueKey();
             }
         });
 
@@ -301,6 +302,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             public void actionPerformed(ActionEvent arg0)
             {
                 listGroups();
+                generateUniqueKey();
             }
         });
 
@@ -339,18 +341,12 @@ public final class DialogSymbolize extends MinimumSizeDialog
         key=new JTextField();
         TextPopupMenu.addPopupToText(key);
 
-        long t=System.nanoTime();
-        long h=0;
-        for(int i=0; t>0; ++i) {
-            t>>=i*8;
-            h^=t & 0xFF;
-        }
-
         constraints = DialogUtil.createConst(2,5,1,1,0.01,0.01,
-        GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(8,0,0,0));
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(8,0,0,0));
 
         panel.add(key, constraints);
+        
         key.getDocument().addDocumentListener(new DocumentListener() {
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
@@ -376,18 +372,18 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 showValidity();
             }
 
-            /** Change the background color of the fiel depending on the
+            /** Change the background color of the field depending on the
                 validity of the key currently defined.
             */
             public void showValidity()
             {
-                if(isKeyInvalid()) {
+                if (isKeyInvalid()) {
                     key.setBackground(Color.RED.darker());
                     key.setForeground(Color.WHITE);
                 } else {
-                    Color c1=UIManager.getColor("TextField.background");
-                    Color c2=UIManager.getColor("TextField.foreground");
-                    if(c1!=null && c2!=null) {
+                    Color c1 = UIManager.getColor("TextField.background");
+                    Color c2 = UIManager.getColor("TextField.foreground");
+                    if (c1 != null && c2 != null) {
                         key.setBackground(c1);
                         key.setForeground(c2);
                     } else {
@@ -397,9 +393,9 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 }
             }
         });
-        while(isKeyInvalid()) {
-            key.setText(String.valueOf(h++));
-        }
+        
+        generateUniqueKey();
+
         snapToGrid = new JCheckBox(
                 Globals.messages.getString("SnapToGridOrigin"));
         snapToGrid.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -508,6 +504,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
             {
                 // Check if there is a valid key available. We can not continue
                 // without a key!
+                Map<String, MacroDesc> libref = drawingModel.getLibrary();
+                String k = key.getText().trim();
+                String lk = getPrefix().trim()+"."+k;
+                boolean val  = LibUtils.checkKey(libref, getPrefix().trim(),lk);
+
                 if (isKeyAbsent()) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("InvKey"),
@@ -582,13 +583,36 @@ public final class DialogSymbolize extends MinimumSizeDialog
         getRootPane().setDefaultButton(ok);
     }
 
+    /** Generates a unique key based on the selected library.
+    */
+    private void generateUniqueKey()
+    {
+        long t = System.nanoTime();
+        long h = 0;
+        for (int i = 0; t > 0; ++i) {
+            t >>= i * 8;
+            h ^= t & 0xFF;
+        }
+
+        String baseKey = String.valueOf(h);
+        Map<String, MacroDesc> libref = drawingModel.getLibrary();
+        String lk = getPrefix().trim()+".";
+        
+        while (LibUtils.checkKey(libref, getPrefix().trim(),lk+baseKey)) {
+            baseKey = String.valueOf(h++);
+        }   
+        key.setText(baseKey);
+    }
+
     /** Check if the current key is duplicate or not.
         @return true if a duplicate exists in the library.
     */
     private boolean isKeyDuplicate()
     {
-        return LibUtils.checkKey(drawingModel.getLibrary(), getPrefix().trim(),
-            getPrefix().trim()+"."+key.getText().trim());
+        Map<String, MacroDesc> libref = drawingModel.getLibrary();
+        String k = key.getText().trim();
+        String lk = getPrefix().trim()+"."+k;
+        return LibUtils.checkKey(libref, getPrefix().trim(),lk);
     }
 
     /** Check if the current key is containing invalid characters.
