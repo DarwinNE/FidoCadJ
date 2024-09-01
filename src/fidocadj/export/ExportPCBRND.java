@@ -62,10 +62,6 @@ public final class ExportPCBRND implements ExportInterface
     private static List<String> layerEls15 = new ArrayList<String>();
     private static List<String> layerEls16 = new ArrayList<String>();
 
-    static final double text_stretch = 0.73;
-    static final String EagleFidoLib = "FidoCadJLIB";
-    static final String ExportFormatString = "####.####";
-
     // Conversion between FidoCadJ units and Eagle units (1/10 inches)
     //static double res=5e-2;
 

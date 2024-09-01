@@ -57,8 +57,6 @@ public final class OSKeybPanel extends JPanel
 
     JButton[] k = new JButton[symbols.length()];
     JDialog txt;
-    int posX=0;
-    int posY=0;
 
     /** Attach the current panel to a dialog to intercept keyboard operations.
         @param o the dialog to be attached to.
