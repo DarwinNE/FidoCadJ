@@ -470,6 +470,11 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     @Override
     public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
+        // Prevents possible exceptions in case it's null.
+        if(father == null) {
+            return;
+        }
+        
         int xpos = mapCoordinates.unmapXnosnap(x);
         int ypos = mapCoordinates.unmapYnosnap(y);
         double z = mapCoordinates.getXMagnitude();
