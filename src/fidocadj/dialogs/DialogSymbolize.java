@@ -57,7 +57,7 @@ import fidocadj.dialogs.controls.TextPopupMenu;
 public final class DialogSymbolize extends MinimumSizeDialog
 {
     final private JPanel parent;
-    private DrawingModel cp;
+    private DrawingModel drawingModel;
 
     // Swing elements
     private JComboBox<String> libFilename;
@@ -243,8 +243,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
         cpanel.add(Box.createVerticalStrut(256));
         cpanel.add(Box.createHorizontalStrut(256));
 
-        cpanel.getDrawingModel().setLayers(cp.getLayers());
-        cpanel.getDrawingModel().setLibrary(cp.getLibrary());
+        cpanel.getDrawingModel().setLayers(drawingModel.getLayers());
+        cpanel.getDrawingModel().setLibrary(drawingModel.getLibrary());
         enumLibs();
         cpanel.setAntiAlias(true);
         cpanel.profileTime = false;
@@ -427,7 +427,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     private void listGroups()
     {
         // Obtain all the groups in a given library.
-        List<String> l = LibUtils.enumGroups(cp.getLibrary(),
+        List<String> l = LibUtils.enumGroups(drawingModel.getLibrary(),
             libFilename.getEditor().getItem().toString());
 
         // Update the group list.
@@ -435,7 +435,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         for (String s : l) {
             group.addItem(s);
         }
-        libName.setText(LibUtils.getLibName(cp.getLibrary(),
+        libName.setText(LibUtils.getLibName(drawingModel.getLibrary(),
             libFilename.getEditor().getItem().toString()));
     }
 
@@ -536,11 +536,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
                     key.getText().trim(),getLibraryName().trim(),
                     getGroup().trim(), getPrefix().trim(),p);
 
-                cp.getLibrary().put(macro.key, macro); // add to lib
+                drawingModel.getLibrary().put(macro.key, macro); // add to lib
 
                 // Save the new symbol in the current libFilename
                 try {
-                    LibUtils.save(cp.getLibrary(),
+                    LibUtils.save(drawingModel.getLibrary(),
                         LibUtils.getLibPath(getPrefix()).trim(),
                         getLibraryName(), getPrefix());
                 } catch (FileNotFoundException fF) {
@@ -587,7 +587,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     */
     private boolean isKeyDuplicate()
     {
-        return LibUtils.checkKey(cp.getLibrary(), getPrefix().trim(),
+        return LibUtils.checkKey(drawingModel.getLibrary(), getPrefix().trim(),
             getPrefix().trim()+"."+key.getText().trim());
     }
 
@@ -620,8 +620,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
             String mygrp, String myprefix, Point origin)
     {
         StringBuilder ss = new StringBuilder();
-        SelectionActions sa = new SelectionActions(cp);
-        new EditorActions(cp, sa, null);
+        SelectionActions sa = new SelectionActions(drawingModel);
+        new EditorActions(drawingModel, sa, null);
 
         // Check if there is anything selected.
         if (sa.getFirstSelectedPrimitive() == null) {
@@ -634,10 +634,10 @@ public final class DialogSymbolize extends MinimumSizeDialog
 
         DrawingModel ps = new DrawingModel();
         try {
-            ps.setLibrary(cp.getLibrary());
+            ps.setLibrary(drawingModel.getLibrary());
             ParserActions pa = new ParserActions(ps);
 
-            for (GraphicPrimitive g : cp.getPrimitiveVector()) {
+            for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
                 if (g.isSelected()) {
                     pa.addString(new StringBuffer(g.toString(true)), true);
                 }
@@ -683,6 +683,6 @@ public final class DialogSymbolize extends MinimumSizeDialog
     */
     public void setCircuit(DrawingModel p)
     {
-        this.cp = p;
+        this.drawingModel = p;
     }
 }
