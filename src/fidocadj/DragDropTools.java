@@ -35,14 +35,14 @@ import java.awt.datatransfer.*;
 */
 public class DragDropTools implements DropTargetListener
 {
-    FidoFrame fff;
+    FidoFrame fidoFrame;
 
     /** Constructor.
       @param f the frame to which the drag and drop tools should be associated.
     */
     public DragDropTools(FidoFrame f)
     {
-        fff=f;
+        fidoFrame=f;
     }
 
     /**  This implementation of the DropTargetListener interface is heavily
@@ -112,14 +112,15 @@ public class DragDropTools implements DropTargetListener
 
                     FidoFrame popFrame;
 
-                    if(fff.circuitPanel.getUndoActions().getModified()) {
-                        popFrame = fff.createNewInstance();
+                    if(fidoFrame.getCircuitPanel().getUndoActions()
+                                                        .getModified()) {
+                        popFrame = fidoFrame.createNewInstance();
                     } else {
-                        popFrame=fff;
+                        popFrame=fidoFrame;
                     }
 
                     // Only the first file of the list will be opened
-                    popFrame.circuitPanel.getParserActions().openFileName=
+                    popFrame.getCircuitPanel().getParserActions().openFileName=
                         ((File)list.get(0)).getAbsolutePath();
                     popFrame.getFileTools().openFile();
                     // If we made it this far, everything worked.
@@ -133,19 +134,19 @@ public class DragDropTools implements DropTargetListener
                     // If there is a valid FidoCad code, try to draw it.
                     FidoFrame popFrame;
 
-                    if(fff.circuitPanel.getUndoActions().getModified()) {
-                        popFrame = fff.createNewInstance();
+                    if(fidoFrame.getCircuitPanel().getUndoActions().getModified()) {
+                        popFrame = fidoFrame.createNewInstance();
                     } else {
-                        popFrame=fff;
+                        popFrame=fidoFrame;
                     }
 
-                    popFrame.circuitPanel.getParserActions().parseString(
+                    popFrame.getCircuitPanel().getParserActions().parseString(
                         new StringBuffer(o.toString()));
-                    popFrame.circuitPanel.getUndoActions().saveUndoState();
-                    popFrame.circuitPanel.getUndoActions().setModified(false);
+                    popFrame.getCircuitPanel().getUndoActions().saveUndoState();
+                    popFrame.getCircuitPanel().getUndoActions().setModified(false);
 
                     dtde.dropComplete(true);
-                    popFrame.circuitPanel.repaint();
+                    popFrame.getCircuitPanel().repaint();
                     return;
                 }
                 // How about an input stream? In some Linux flavors, it contains
@@ -171,15 +172,15 @@ public class DragDropTools implements DropTargetListener
                             if (k>=0) {
                                 FidoFrame popFrame;
 
-                                if(fff.circuitPanel.getUndoActions().
+                                if(fidoFrame.getCircuitPanel().getUndoActions().
                                     getModified())
                                 {
-                                    popFrame=fff.createNewInstance();
+                                    popFrame=fidoFrame.createNewInstance();
                                 } else {
-                                    popFrame=fff;
+                                    popFrame=fidoFrame;
                                 }
 
-                                popFrame.circuitPanel.getParserActions().
+                                popFrame.getCircuitPanel().getParserActions().
                                     openFileName = line.substring(k+7);
 
                                 // Deprecated! It should indicate the encoding,
@@ -188,18 +189,19 @@ public class DragDropTools implements DropTargetListener
                                 // deprecated, but it is the correct behaviour,
                                 // here.
 
-                                popFrame.circuitPanel.getParserActions().
+                                popFrame.getCircuitPanel().getParserActions().
                                     openFileName =
                                     java.net.URLDecoder.decode(
-                                    popFrame.circuitPanel.getParserActions().
-                                    openFileName, "UTF-8");
+                                            popFrame.getCircuitPanel()
+                                                    .getParserActions()
+                                                    .openFileName, "UTF-8");
 
                                 // After we set the current file name, we just
                                 // open it.
                                 popFrame.getFileTools().openFile();
-                                popFrame.circuitPanel.getUndoActions().
+                                popFrame.getCircuitPanel().getUndoActions().
                                     saveUndoState();
-                                popFrame.circuitPanel.getUndoActions().
+                                popFrame.getCircuitPanel().getUndoActions().
                                     setModified(false);
                                 break;
                             }
@@ -209,7 +211,7 @@ public class DragDropTools implements DropTargetListener
                         if(in!=null) { in.close(); }
                         if(reader!=null) { reader.close(); }
                     }
-                    fff.circuitPanel.repaint();
+                    fidoFrame.getCircuitPanel().repaint();
 
                     dtde.dropComplete(true);
                     return;

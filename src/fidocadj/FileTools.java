@@ -41,7 +41,7 @@ public class FileTools
     final private FidoFrame fidoFrame;
 
     // Open/save default properties
-    public String openFileDirectory;
+    private String openFileDirectory;
 
     /** Standard constructor.
      *
@@ -70,12 +70,12 @@ public class FileTools
     {
         // If the drawing is empty, there's no need to ask if it should be ..
         // saved before closing the program.
-        if (fidoFrame.circuitPanel.getDrawingModel().isEmpty()) {
+        if (fidoFrame.getCircuitPanel().getDrawingModel().isEmpty()) {
             return true;
         }
 
         boolean shouldExit = true;
-        if (fidoFrame.circuitPanel.getUndoActions().getModified()) {
+        if (fidoFrame.getCircuitPanel().getUndoActions().getModified()) {
             Object[] options = {
                 Globals.messages.getString("Save"),
                 Globals.messages.getString("Do_Not_Save"),
@@ -85,8 +85,10 @@ public class FileTools
             // the drawing to which the dialog refers to. If not, we just
             // write Warning!
             String filename = Globals.messages.getString("Warning");
-            if (!"".equals(fidoFrame.circuitPanel.getParserActions().openFileName)) {
-                filename = fidoFrame.circuitPanel.getParserActions().openFileName;
+            if (!"".equals(fidoFrame.getCircuitPanel()
+                                        .getParserActions().openFileName)) {
+                filename = fidoFrame.getCircuitPanel()
+                                    .getParserActions().openFileName;
             }
             int choice = JOptionPane.showOptionDialog(fidoFrame,
                     Globals.messages.getString("Warning_unsaved"),
@@ -114,7 +116,7 @@ public class FileTools
         }
 
         if (shouldExit) {
-            fidoFrame.circuitPanel.getUndoActions().doTheDishes();
+            fidoFrame.getCircuitPanel().getUndoActions().doTheDishes();
         }
 
         return shouldExit;
@@ -134,7 +136,8 @@ public class FileTools
         try {
             bufRead = new BufferedReader(
                     new InputStreamReader(new FileInputStream(
-                            fidoFrame.circuitPanel.getParserActions().openFileName),
+                            fidoFrame.getCircuitPanel()
+                                     .getParserActions().openFileName),
                             Globals.encoding));
 
             String line = bufRead.readLine();
@@ -150,11 +153,11 @@ public class FileTools
         }
 
         // Here txt contains the new circuit: draw it!
-        fidoFrame.circuitPanel.getParserActions().parseString(
+        fidoFrame.getCircuitPanel().getParserActions().parseString(
                 new StringBuffer(txt.toString()));
 
         // Check for ghost primitives (hidden outside the drawing area)
-        if (fidoFrame.circuitPanel.checkGhostPrimitives()) {
+        if (fidoFrame.getCircuitPanel().checkGhostPrimitives()) {
             int response = JOptionPane.showConfirmDialog(fidoFrame,
                     Globals.messages.getString("GhostPrimitivesFound") + "\n"
                     + Globals.messages.getString(
@@ -165,14 +168,14 @@ public class FileTools
 
             if (response == JOptionPane.YES_OPTION) {
                 // Normalize the coordinates if user clicks 'Yes'
-                fidoFrame.circuitPanel.normalizeCoordinates();
+                fidoFrame.getCircuitPanel().normalizeCoordinates();
             }
         }
 
         // Calculate the zoom to fit
         fidoFrame.zoomToFit();
-        fidoFrame.circuitPanel.getUndoActions().saveUndoState();
-        fidoFrame.circuitPanel.getUndoActions().setModified(false);
+        fidoFrame.getCircuitPanel().getUndoActions().saveUndoState();
+        fidoFrame.getCircuitPanel().getUndoActions().setModified(false);
 
         fidoFrame.repaint();
     }
@@ -247,12 +250,14 @@ public class FileTools
         if (fin == null) {
             return false;
         } else {
-            fidoFrame.circuitPanel.getParserActions().openFileName
+            fidoFrame.getCircuitPanel().getParserActions().openFileName
                 = Globals.createCompleteFileName(din, fin);
 
-            fidoFrame.circuitPanel.getParserActions().openFileName
-                = Globals.adjustExtension(fidoFrame.circuitPanel.getParserActions().openFileName,
-                    Globals.DEFAULT_EXTENSION);
+            fidoFrame.getCircuitPanel().getParserActions().openFileName
+                = Globals.adjustExtension(
+                        fidoFrame.getCircuitPanel()
+                                 .getParserActions().openFileName,
+                                        Globals.DEFAULT_EXTENSION);
 
             SettingsManager.put("OPEN_DIR", din);
 
@@ -272,7 +277,7 @@ public class FileTools
      */
     public boolean save(boolean splitNonStandardMacroS)
     {
-        CircuitPanel cc = fidoFrame.circuitPanel;
+        CircuitPanel cc = fidoFrame.getCircuitPanel();
 
         // If there is not a name currently defined, we use instead the
         // save with name function.
@@ -325,12 +330,32 @@ public class FileTools
      */
     public void load(String s)
     {
-        fidoFrame.circuitPanel.getParserActions().openFileName = s;
+        fidoFrame.getCircuitPanel().getParserActions().openFileName = s;
         try {
             openFile();
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(fidoFrame,
                     Globals.messages.getString("Open_error") + fnfex);
         }
+    }
+    
+    /**
+     Set the default directory for opening files.
+
+     @param openFileDirectory the directory path to set.
+     */
+    public void setOpenFileDirectory(String openFileDirectory)
+    {
+        this.openFileDirectory = openFileDirectory;
+    }
+
+    /**
+     Get the default directory for opening files.
+
+     @return the current directory path for opening files.
+     */
+    public String getOpenFileDirectory()
+    {
+        return openFileDirectory;
     }
 }

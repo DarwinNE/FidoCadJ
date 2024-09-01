@@ -82,7 +82,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     private transient MapCoordinates mapCoordinates;
 
     // Use anti alias in drawings
-    public boolean antiAlias;
+    private boolean antiAlias;
 
     // Draw the grid
     private boolean isGridVisible;
@@ -304,6 +304,26 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         }
         continuosMoveActions.setState(s, macro);
         mmcHandler.selectCursor();
+    }
+    
+    /**
+     Set whether to use anti-aliasing in drawings.
+
+     @param antiAlias true if anti-aliasing should be used, false otherwise.
+     */
+    public void setAntiAlias(boolean antiAlias)
+    {
+        this.antiAlias = antiAlias;
+    }
+
+    /**
+     Check if anti-aliasing is used in drawings.
+
+     @return true if anti-aliasing is used, false otherwise.
+     */
+    public boolean getAntiAlias()
+    {
+        return antiAlias;
     }
 
     /** Set the rectangle which will be shown during the next redraw.

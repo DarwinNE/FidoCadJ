@@ -246,7 +246,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         cpanel.getDrawingModel().setLayers(cp.getLayers());
         cpanel.getDrawingModel().setLibrary(cp.getLibrary());
         enumLibs();
-        cpanel.antiAlias = true;
+        cpanel.setAntiAlias(true);
         cpanel.profileTime = false;
         MacroDesc macro = buildMacro("temp","temp","temp","temp", "temp",
             new Point(100,100));

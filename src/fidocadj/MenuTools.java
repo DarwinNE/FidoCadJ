@@ -72,7 +72,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
         JMenu about = defineAboutMenu(al);
-        if(!Globals.desktopInt.handleAbout) {
+        if(!Globals.desktopInt.getHandleAbout()) {
             menuBar.add(about);
         }
 
@@ -186,7 +186,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
 
-        if(!Globals.desktopInt.handlePreferences) {
+        if(!Globals.desktopInt.getHandlePreferences()) {
             fileMenu.add(options);
             fileMenu.addSeparator();
         }
@@ -495,16 +495,16 @@ public class MenuTools implements MenuListener
 
     /** Process the menu events.
         @param evt the event.
-        @param fff the frame in which the menu is present.
+        @param fidoFrame the frame in which the menu is present.
         @param coordL the coordinate listener to show messages if needed.
     */
-    public void processMenuActions(ActionEvent evt, FidoFrame fff,
+    public void processMenuActions(ActionEvent evt, FidoFrame fidoFrame,
         ChangeCoordinatesListener coordL)
     {
-        ExportTools et = fff.getExportTools();
+        ExportTools et = fidoFrame.getExportTools();
         et.setCoordinateListener(coordL);
-        PrintTools pt = fff.getPrintTools();
-        CircuitPanel cc = fff.circuitPanel;
+        PrintTools pt = fidoFrame.getPrintTools();
+        CircuitPanel cc = fidoFrame.getCircuitPanel();
         String arg=evt.getActionCommand();
         EditorActions edt=cc.getEditorActions();
         CopyPasteActions cpa=cc.getCopyPasteActions();
@@ -514,23 +514,23 @@ public class MenuTools implements MenuListener
 
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
-            DialogCircuitCode circuitDialog=new DialogCircuitCode(fff,
+            DialogCircuitCode circuitDialog=new DialogCircuitCode(fidoFrame,
                 cc.getParserActions().getText(!cc.extStrict).toString());
             circuitDialog.setVisible(true);
 
             pa.parseString(new StringBuffer(circuitDialog.getStringCircuit()));
             cc.getUndoActions().saveUndoState();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
             // Update libraries
-            fff.loadLibraries();
-            fff.setVisible(true);
+            fidoFrame.loadLibraries();
+            fidoFrame.setVisible(true);
         } else if (arg.equals(Globals.messages.getString("Circ_opt"))) {
             // Options for the current drawing
-            fff.showPrefs();
+            fidoFrame.showPrefs();
         } else if (arg.equals(Globals.messages.getString("Layer_opt"))) {
             // Options for the layers
-            DialogLayer layerDialog=new DialogLayer(fff,
+            DialogLayer layerDialog=new DialogLayer(fidoFrame,
                                             cc.getDrawingModel().getLayers());
             layerDialog.setVisible(true);
 
@@ -539,42 +539,42 @@ public class MenuTools implements MenuListener
             // will not be responsive to the changes in the layer editing.
 
             cc.getDrawingModel().setChanged(true);
-            fff.repaint();
+            fidoFrame.repaint();
         } else if(arg.equals(Globals.messages.getString("Libs"))) {
-            fff.showLibs(!fff.areLibsVisible());
-            libs.setState(fff.areLibsVisible());
+            fidoFrame.showLibs(!fidoFrame.areLibsVisible());
+            libs.setState(fidoFrame.areLibsVisible());
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
             pt.associateToCircuitPanel(cc);
-            pt.printDrawing(fff);
+            pt.printDrawing(fidoFrame);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
-            fff.getFileTools().saveWithName(false);
+            fidoFrame.getFileTools().saveWithName(false);
         } else if (arg.equals(Globals.messages.getString("Save_split"))) {
             // Save with name, split non standard macros
-            fff.getFileTools().saveWithName(true);
+            fidoFrame.getFileTools().saveWithName(true);
         } else if (arg.equals(Globals.messages.getString("Save"))) {
             // Save with the current name (if available)
-            fff.getFileTools().save(false);
+            fidoFrame.getFileTools().save(false);
         } else if (arg.equals(Globals.messages.getString("New"))) {
             // New drawing
-            fff.createNewInstance();
+            fidoFrame.createNewInstance();
         } else if (arg.equals(Globals.messages.getString("Undo"))) {
             // Undo the last action
             cc.getUndoActions().undo();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Redo"))) {
             // Redo the last action
             cc.getUndoActions().redo();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("About_menu"))) {
             // Show the about menu
-            DialogAbout d=new DialogAbout(fff);
+            DialogAbout d=new DialogAbout(fidoFrame);
             d.setVisible(true);
         } else if (arg.equals(Globals.messages.getString("Open"))) {
             // Open a file
             OpenFile openf=new OpenFile();
-            openf.setParam(fff);
+            openf.setParam(fidoFrame);
             /*
                 The following code would require a thread safe implementation
                 of some of the inner classes (such as CircuitModel), which was
@@ -583,13 +583,14 @@ public class MenuTools implements MenuListener
             SwingUtilities.invokeLater(openf);
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-            et.launchExport(fff, cc, fff.getFileTools().openFileDirectory);
+            et.launchExport(fidoFrame, cc, 
+                    fidoFrame.getFileTools().getOpenFileDirectory());
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
             sa.setSelectionAll(true);
             // Even if the drawing is not changed, a repaint operation is
             // needed since all selected elements are rendered in green.
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Copy"))) {
             // Copy all selected elements in the clipboard
             cpa.copySelected(!cc.extStrict, false);
@@ -600,12 +601,12 @@ public class MenuTools implements MenuListener
             // Display a dialog similar to the Export menu and create an image
             // that is stored in the clipboard, using a bitmap or vector
             //format.
-            et.exportAsCopiedImage(fff, cc);
+            et.exportAsCopiedImage(fidoFrame, cc);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
             cpa.copySelected(!cc.extStrict, false);
             edt.deleteAllSelected(true);
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Mirror_E"))) {
             // Mirror all the selected elements
             if(eea.isEnteringMacro()) {
@@ -613,7 +614,7 @@ public class MenuTools implements MenuListener
             } else {
                 edt.mirrorAllSelected();
             }
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Rotate"))) {
             // 90 degrees rotation of all selected elements
             if(eea.isEnteringMacro()) {
@@ -621,78 +622,78 @@ public class MenuTools implements MenuListener
             } else {
                 edt.rotateAllSelected();
             }
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate
             cpa.copySelected(!cc.extStrict, false);
             cpa.paste(cc.getMapCoordinates().getXGridStep(),
                 cc.getMapCoordinates().getYGridStep());
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
             // Paste as a new circuit
             TextTransfer textTransfer = new TextTransfer();
             //FidoFrame popFrame;
             if(cc.getUndoActions().getModified()) {
-                fff.createNewInstance();
+                fidoFrame.createNewInstance();
             }
             pa.parseString(
                 new StringBuffer(textTransfer.getClipboardContents()));
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Paste"))) {
             // Paste some graphical elements
             cpa.paste(cc.getMapCoordinates().getXGridStep(),
                     cc.getMapCoordinates().getYGridStep());
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Close"))) {
             // Close the current window
-            if(!fff.getFileTools().checkIfToBeSaved()) {
+            if(!fidoFrame.getFileTools().checkIfToBeSaved()) {
                 return;
             }
-            fff.closeThisFrame();
+            fidoFrame.closeThisFrame();
         } else if (arg.equals(
                 Globals.messages.getString("alignLeftSelected")))
         {
             edt.alignLeftSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignRightSelected")))
         {
             edt.alignRightSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignTopSelected")))
         {
             edt.alignTopSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignBottomSelected")))
         {
             edt.alignBottomSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignHorizontalCenterSelected")))
         {
             edt.alignHorizontalCenterSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignVerticalCenterSelected")))
         {
             edt.alignVerticalCenterSelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("distributeHorizontallySelected")))
         {
             edt.distributeHorizontallySelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("distributeVerticallySelected")))
         {
             edt.distributeVerticallySelected();
-            fff.repaint();
+            fidoFrame.repaint();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.
-            ImageAsCanvas ii=fff.circuitPanel.getAttachedImage();
-            DialogAttachImage di = new DialogAttachImage(fff);
+            ImageAsCanvas ii=fidoFrame.getCircuitPanel().getAttachedImage();
+            DialogAttachImage di = new DialogAttachImage(fidoFrame);
             di.setFilename(ii.getFilename());
             di.setCorner(ii.getCornerX(),ii.getCornerY());
             di.setResolution(ii.getResolution());
@@ -707,7 +708,7 @@ public class MenuTools implements MenuListener
                     ii.setResolution(di.getResolution());
                     ii.setCorner(di.getCornerX(),di.getCornerY());
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(fff,
+                    JOptionPane.showMessageDialog(fidoFrame,
                         Globals.messages.getString("Can_not_attach_image"),
                         "",
                         JOptionPane.INFORMATION_MESSAGE);
