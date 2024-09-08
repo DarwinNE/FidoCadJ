@@ -152,7 +152,7 @@ public class ADesktopIntegration implements AboutHandler,
             response.cancelQuit();
         }
     }
-    
+
     /**
      Check if the About action is handled.
 

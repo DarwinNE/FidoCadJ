@@ -138,7 +138,7 @@ public class HandleActions
                     int newX = g.virtualPoint[j].x + dx;
                     int newY = g.virtualPoint[j].y + dy;
 
-                    // If any point goes out of bounds, 
+                    // If any point goes out of bounds,
                     // prevent the move for all
                     if (newX < 0 || newY < 0) {
                         canMoveAll = false;
@@ -166,7 +166,7 @@ public class HandleActions
 
         cc.forcesRepaint();
     }
-    
+
     /** Start dragging handle. Check if the pointer is on the handle of a
         primitive and if it is the case, enter the dragging state.
         @param px the (screen) x coordinate of the pointer.

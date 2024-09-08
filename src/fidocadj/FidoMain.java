@@ -142,7 +142,7 @@ public final class FidoMain
                     PrintWriter pw = new PrintWriter(sw);
                     e.printStackTrace(pw);
                     String exceptionText = sw.toString();
-    
+
                     ErrorDialog errorDialog = new ErrorDialog(parentFrame,
                             "Error setting the exception handler for the EDT:\n" +
                                     exceptionText);

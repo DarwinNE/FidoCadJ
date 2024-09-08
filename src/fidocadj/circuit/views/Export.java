@@ -125,8 +125,9 @@ public class Export
         throws IOException
     {
         synchronized(this) {
-            if (drawingModel.getDrawOnlyLayer() >= 0 && 
-                                            !drawingModel.getDrawOnlyPads()) {
+            if (drawingModel.getDrawOnlyLayer() >= 0 &&
+                                            !drawingModel.getDrawOnlyPads())
+            {
                 exportAllObjects(exp, exportInvisible, mp);
             } else if (!drawingModel.getDrawOnlyPads()) {
                 for(int j=0;j<drawingModel.getLayers().size(); ++j) {

@@ -346,7 +346,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             new Insets(8,0,0,0));
 
         panel.add(key, constraints);
-        
+
         key.getDocument().addDocumentListener(new DocumentListener() {
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
@@ -393,7 +393,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 }
             }
         });
-        
+
         generateUniqueKey();
 
         snapToGrid = new JCheckBox(
@@ -597,10 +597,10 @@ public final class DialogSymbolize extends MinimumSizeDialog
         String baseKey = String.valueOf(h);
         Map<String, MacroDesc> libref = drawingModel.getLibrary();
         String lk = getPrefix().trim()+".";
-        
+
         while (LibUtils.checkKey(libref, getPrefix().trim(),lk+baseKey)) {
             baseKey = String.valueOf(h++);
-        }   
+        }
         key.setText(baseKey);
     }
 

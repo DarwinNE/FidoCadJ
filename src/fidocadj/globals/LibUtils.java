@@ -307,9 +307,10 @@ public final class LibUtils
         String tlib, String key)
     {
         for (MacroDesc md : libref.values()) {
-            if (md.filename.equalsIgnoreCase(tlib) && 
-                md.key.equalsIgnoreCase(key.trim())) {
-                    return true;
+            if (md.filename.equalsIgnoreCase(tlib) &&
+                md.key.equalsIgnoreCase(key.trim()))
+            {
+                return true;
             }
         }
         return key.contains("]");

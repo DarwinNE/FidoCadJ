@@ -922,7 +922,7 @@ public final class FidoFrame extends JFrame implements
     {
         return splitPane.getBottomComponent()!=null;
     }
-    
+
     /**
      Get the current CircuitPanel object.
 
@@ -932,7 +932,7 @@ public final class FidoFrame extends JFrame implements
     {
         return circuitPanel;
     }
-    
+
     /**
      Get the current library directory path.
 
@@ -942,7 +942,7 @@ public final class FidoFrame extends JFrame implements
     {
         return libDirectory;
     }
-    
+
     /**
      Set the library directory path.
 
@@ -952,7 +952,7 @@ public final class FidoFrame extends JFrame implements
     {
         this.libDirectory = libDirectory;
     }
- 
+
     /**
      Set the current locale settings.
 
@@ -976,7 +976,7 @@ public final class FidoFrame extends JFrame implements
     /**
      Set whether the program runs as an application.
 
-     @param runsAsApplication true if it runs as an application, 
+     @param runsAsApplication true if it runs as an application,
                               false if it runs as an applet.
      */
     public void setRunsAsApplication(boolean runsAsApplication)
@@ -992,5 +992,5 @@ public final class FidoFrame extends JFrame implements
     public boolean getRunsAsApplication()
     {
         return runsAsApplication;
-    }   
+    }
 }

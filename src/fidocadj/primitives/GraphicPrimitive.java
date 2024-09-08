@@ -587,7 +587,8 @@ public abstract class GraphicPrimitive
     */
     public void movePrimitive(int dx, int dy)
     {
-        // Check if the move would result in any virtual point having negative coordinates
+        // Check if the move would result in any virtual point having negative
+        // coordinates
         for (int a = 0; a < getControlPointNumber(); ++a) {
             int newX = virtualPoint[a].x + dx;
             int newY = virtualPoint[a].y + dy;

@@ -305,7 +305,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         continuosMoveActions.setState(s, macro);
         mmcHandler.selectCursor();
     }
-    
+
     /**
      Set whether to use anti-aliasing in drawings.
 
@@ -474,7 +474,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         if(father == null) {
             return;
         }
-        
+
         int xpos = mapCoordinates.unmapXnosnap(x);
         int ypos = mapCoordinates.unmapYnosnap(y);
         double z = mapCoordinates.getXMagnitude();
@@ -1262,12 +1262,12 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // Force the redraw when the selection direction changes.
         this.repaint();
     }
-    
+
     /**
      Checks if there are any primitives with negative coordinates in ..
      their virtual points.
      If such primitives are found, translates all primitives in the drawing ..
-     so that the negative coordinates are shifted to positive, 
+     so that the negative coordinates are shifted to positive,
      keeping their relative distances.
 
      @return true if a translation was necessary and performed, false otherwise.
@@ -1291,7 +1291,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
             }
         }
 
-        // If minimum x or y coordinates are negative, 
+        // If minimum x or y coordinates are negative,
         // calculate the necessary translation
         if (minX < 0 || minY < 0) {
             int deltaX = minX < 0 ? -minX : 0;
@@ -1307,7 +1307,7 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // No translation was necessary, return false
         return false;
     }
-    
+
     /**
      Checks if there are any primitives where all virtual points ..
      have negative coordinates.

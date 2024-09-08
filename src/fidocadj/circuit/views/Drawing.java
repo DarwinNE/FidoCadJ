@@ -116,13 +116,15 @@ public class Drawing
                 in a macro). This is indicated by the fact that drawOnlyLayer
                 is non negative.
             */
-            if (drawingModel.getDrawOnlyLayer() >= 0 
-                                        && !drawingModel.getDrawOnlyPads()) {
+            if (drawingModel.getDrawOnlyLayer() >= 0
+                                        && !drawingModel.getDrawOnlyPads())
+            {
                 // At first, we check if the layer is effectively used in the
                 // drawing. If not, we exit directly.
 
                 if(!drawingModel.containsLayer(
-                                        drawingModel.getDrawOnlyLayer())) {
+                                        drawingModel.getDrawOnlyLayer()))
+                {
                     return;
                 }
 
@@ -140,7 +142,7 @@ public class Drawing
             // Draw in a second time only the PCB pads, in order to ensure that
             // the drills are always open.
             if(needHoles) {
-                for (i_index = 0; i_index < 
+                for (i_index = 0; i_index <
                         drawingModel.getPrimitiveVector().size(); ++i_index){
 
                     // We will process only primitive which require holes (pads

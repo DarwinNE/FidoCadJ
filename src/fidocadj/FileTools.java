@@ -86,7 +86,8 @@ public class FileTools
             // write Warning!
             String filename = Globals.messages.getString("Warning");
             if (!"".equals(fidoFrame.getCircuitPanel()
-                                        .getParserActions().openFileName)) {
+                                        .getParserActions().openFileName))
+            {
                 filename = fidoFrame.getCircuitPanel()
                                     .getParserActions().openFileName;
             }
@@ -338,7 +339,7 @@ public class FileTools
                     Globals.messages.getString("Open_error") + fnfex);
         }
     }
-    
+
     /**
      Set the default directory for opening files.
 

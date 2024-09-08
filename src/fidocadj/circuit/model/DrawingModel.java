@@ -383,7 +383,7 @@ public final class DrawingModel
     {
         drawOnlyPads = pd;
     }
-    
+
     /**
      Check if only holes of the PCB pad should be drawn.
 
@@ -402,9 +402,9 @@ public final class DrawingModel
     {
         drawOnlyLayer=la;
     }
-    
+
     /**
-     Get the layer to be drawn. If it is negative, 
+     Get the layer to be drawn. If it is negative,
      it means all layers will be drawn.
 
      @return the layer to be drawn.
@@ -413,7 +413,7 @@ public final class DrawingModel
     {
         return drawOnlyLayer;
     }
-    
+
     /**
      Set the ImageAsCanvas object.
 

@@ -45,7 +45,7 @@ public final class SearchField extends JTextField implements FocusListener
         initBorder();
         initKeyListener();
         addFocusListener(this);
-        
+
         TextPopupMenu.addPopupToText(this);
     }
 

@@ -583,7 +583,7 @@ public class MenuTools implements MenuListener
             SwingUtilities.invokeLater(openf);
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-            et.launchExport(fidoFrame, cc, 
+            et.launchExport(fidoFrame, cc,
                     fidoFrame.getFileTools().getOpenFileDirectory());
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing

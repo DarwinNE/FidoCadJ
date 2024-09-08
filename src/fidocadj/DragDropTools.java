@@ -113,7 +113,8 @@ public class DragDropTools implements DropTargetListener
                     FidoFrame popFrame;
 
                     if(fidoFrame.getCircuitPanel().getUndoActions()
-                                                        .getModified()) {
+                                                        .getModified())
+                    {
                         popFrame = fidoFrame.createNewInstance();
                     } else {
                         popFrame=fidoFrame;
@@ -134,7 +135,9 @@ public class DragDropTools implements DropTargetListener
                     // If there is a valid FidoCad code, try to draw it.
                     FidoFrame popFrame;
 
-                    if(fidoFrame.getCircuitPanel().getUndoActions().getModified()) {
+                    if(fidoFrame.getCircuitPanel().getUndoActions()
+                        .getModified())
+                    {
                         popFrame = fidoFrame.createNewInstance();
                     } else {
                         popFrame=fidoFrame;
@@ -143,7 +146,8 @@ public class DragDropTools implements DropTargetListener
                     popFrame.getCircuitPanel().getParserActions().parseString(
                         new StringBuffer(o.toString()));
                     popFrame.getCircuitPanel().getUndoActions().saveUndoState();
-                    popFrame.getCircuitPanel().getUndoActions().setModified(false);
+                    popFrame.getCircuitPanel().getUndoActions()
+                        .setModified(false);
 
                     dtde.dropComplete(true);
                     popFrame.getCircuitPanel().repaint();
