@@ -165,10 +165,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
         }
 
         /*
-     For this:
-     http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=
-     274886&atid=1167997
-     we are now checking if the text is "" before printing it.
+            For this:
+            http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=
+            274886&atid=1167997
+            we are now checking if the text is "" before printing it.
          */
         if (txt.length() == 0) {
             return;
@@ -182,16 +182,16 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
             mirror = false;
             recalcSize = true;
             /*
-         in the simple text primitive, the the virtual point represents
-         the position of the text to be drawn.
+                in the simple text primitive, the the virtual point represents
+                the position of the text to be drawn.
              */
             x1 = virtualPoint[0].x;
             y1 = virtualPoint[0].y;
             xa = coordSys.mapX(x1, y1);
             ya = coordSys.mapY(x1, y1);
             /*
-         siy is the font horizontal size in mils (1/1000 of an inch).
-         1 typographical point is 1/72 of an inch.
+                siy is the font horizontal size in mils (1/1000 of an inch).
+                1 typographical point is 1/72 of an inch.
              */
 
             g.setFont(fontName, six * 12 * coordSys.getYMagnitude() / 7 + .5,
@@ -274,8 +274,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
             qq = (int) (ya / xyfactor);
         }
 
-        DecoratedText dtRender = new DecoratedText(g.getTextInterface());
-        dtRender.drawString(txt, xa, qq + h);
+        g.drawAdvText(xyfactor, xa, ya, qq, h, w, h, needsStretching,
+                orientation, mirror, txt);
     }
 
     /**
