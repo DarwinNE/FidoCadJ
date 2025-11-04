@@ -36,14 +36,14 @@ import fidocadj.graphic.swing.ColorSwing;
  *
  * @author Manuel Finessi
  */
-public class LayerCellRenderer extends JPanel implements
+public final class LayerCellRenderer extends JPanel implements
                                                 ListCellRenderer<LayerDesc>
 {
-    private JLabel colorLabel;
-    private JLabel visibilityLabel;
-    private JLabel nameLabel;
-    private Icon visibleIcon;
-    private Icon invisibleIcon;
+    private final JLabel colorLabel;
+    private final JLabel visibilityLabel;
+    private final JLabel nameLabel;
+    private final Icon visibleIcon;
+    private final Icon invisibleIcon;
     private final int ICON_SIZE = 20;
 
     /**

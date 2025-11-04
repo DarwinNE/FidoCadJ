@@ -52,21 +52,21 @@ import fidocadj.layers.LayerDesc;
  *
  * @author Manuel Finessi
  */
-public class LayerComboBoxEditor extends AbstractCellEditor implements
+public final class LayerComboBoxEditor extends AbstractCellEditor implements
                                                             ComboBoxEditor
 {
-    private JPanel panel;
+    private final JPanel panel;
     private JLabel colorLabel;
     private JLabel visibilityLabel;
-    private JLabel nameLabel;
+    private final JLabel nameLabel;
     private LayerDesc currentLayer;
     private Icon visibleIcon;
     private Icon invisibleIcon;
-    private FidoFrame fidoFrame;
+    private final FidoFrame fidoFrame;
     private CircuitPanel circuitPanel;
     private final int ICON_SIZE = 20;
 
-    private ArrayList<ActionListener> actionListeners = new ArrayList<>();
+    private final ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
     /**
      * Constructs a LayerEditor associated with the provided ..
