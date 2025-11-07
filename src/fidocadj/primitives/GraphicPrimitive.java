@@ -115,7 +115,6 @@ public abstract class GraphicPrimitive
     private int x3;         // NOPMD
     private int y3;         // NOPMD
 
-
     /* At first, non abstract methods */
 
     /** Standard constructor.
@@ -146,6 +145,14 @@ public abstract class GraphicPrimitive
         mult = 1.0f;
         setMacroFontSize(4);
         macroFont="";
+    }
+    
+    
+    /**
+     * @return the currentLayer
+     */
+    public LayerDesc getCurrentLayer() {
+        return currentLayer;
     }
 
     /** Set the font to be used for name and value.
@@ -778,11 +785,11 @@ public abstract class GraphicPrimitive
 
         if(selectedState) {
             // We change the color for selected objects
-            g.activateSelectColor(currentLayer);
+            g.activateSelectColor(getCurrentLayer());
         } else {
-            if(g.getColor()!=currentLayer.getColor() || oldalpha!=alpha) {
-                g.setColor(currentLayer.getColor());
-                alpha=currentLayer.getAlpha();
+            if(g.getColor()!=getCurrentLayer().getColor() || oldalpha!=alpha) {
+                g.setColor(getCurrentLayer().getColor());
+                alpha=getCurrentLayer().getAlpha();
                 oldalpha = alpha;
                 g.setAlpha(alpha);
             }

@@ -747,7 +747,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * false otherwise.
      */
     @Override
-    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) {
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) 
+    {
+        if (getCurrentLayer().isVisible() == false) {
+            return false;
+        }
+        
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
         }

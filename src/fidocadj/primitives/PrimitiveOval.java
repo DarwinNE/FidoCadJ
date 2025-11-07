@@ -443,6 +443,10 @@ public final class PrimitiveOval extends GraphicPrimitive
     @Override
     public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
+        if (getCurrentLayer().isVisible() == false) {
+            return false;
+        }
+        
         int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
         int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
