@@ -445,6 +445,9 @@ public final class FidoFrame extends JFrame implements
         MapCoordinates mc=circuitPanel.getMapCoordinates();
         double z=Double.parseDouble(SettingsManager.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
+        
+        circuitPanel.setEnableKeyForZoom(
+                SettingsManager.getBoolean("ZOOM_KEY", true));
     }
 
     /** Load the standard libraries according to the locale.
@@ -816,6 +819,9 @@ public final class FidoFrame extends JFrame implements
                     "STROKE_SIZE_OVAL", Globals.lineWidthCircles);
         Globals.diameterConnection = SettingsManager.getDouble(
                     "CONNECTION_SIZE", Globals.diameterConnection);
+        
+        circuitPanel.setEnableKeyForZoom(
+                SettingsManager.getBoolean("ZOOM_KEY", true));
 
         if (!libDirectory.equals(oldDirectory)) {
             loadLibraries();

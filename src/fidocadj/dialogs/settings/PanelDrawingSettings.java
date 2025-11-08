@@ -44,6 +44,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
     private JCheckBox antiAliasCheckBox;
     private JCheckBox shiftCPCheckBox;
     private JCheckBox profileCheckBox;
+    private JCheckBox zoomKeyCheckBox;
 
     /**
      Constructor for PanelDrawingSettings.
@@ -181,9 +182,16 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
                 GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(8, 6, 6, 6));
         add(shiftCPCheckBox, constraints);
+        
+        // Checkbox for Zoom Key
+        zoomKeyCheckBox = new JCheckBox(Globals.messages.getString("Zoom_key"));
+        constraints = DialogUtil.createConst(1, 8, 1, 1, 1.0, 0.0,
+                GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(8, 6, 6, 6));
+        add(zoomKeyCheckBox, constraints);
 
         // Spacer to push all components to the top
-        constraints = DialogUtil.createConst(0, 8, 2, 1, 1.0, 1.0,
+        constraints = DialogUtil.createConst(0, 9, 2, 1, 1.0, 1.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0));
         add(Box.createGlue(), constraints);
@@ -229,6 +237,8 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
                 SettingsManager.get("ANTIALIAS", "false").equals("true"));
         shiftCPCheckBox.setSelected(
                 SettingsManager.get("SHIFT_CP", "false").equals("true"));
+        zoomKeyCheckBox.setSelected(
+                SettingsManager.get("ZOOM_KEY", "false").equals("true"));
     }
 
     /**
@@ -251,5 +261,7 @@ public class PanelDrawingSettings extends JPanel implements SettingsPanel
                 antiAliasCheckBox.isSelected() ? "true" : "false");
         SettingsManager.put("SHIFT_CP",
                 shiftCPCheckBox.isSelected() ? "true" : "false");
+        SettingsManager.put("ZOOM_KEY",
+                zoomKeyCheckBox.isSelected() ? "true" : "false");
     }
 }
