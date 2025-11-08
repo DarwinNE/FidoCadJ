@@ -1197,6 +1197,10 @@ public final class PrimitiveComplexCurve
     @Override
     public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
+        if (getCurrentLayer().isVisible() == false) {
+            return false;
+        }
+                
         if (isLeftToRightSelection) {
             // Check if all points of the curve are contained..
             // within the selection rectangle.

@@ -476,6 +476,10 @@ public final class PrimitiveLine extends GraphicPrimitive
     @Override
     public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
     {
+        if (getCurrentLayer().isVisible() == false) {
+            return false;
+        }
+
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
         }

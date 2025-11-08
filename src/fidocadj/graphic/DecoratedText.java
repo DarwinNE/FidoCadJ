@@ -129,7 +129,7 @@ public class DecoratedText
                 return 0.5f;
         }
     }
-    
+
     /** Get the actual width of a decorated string (with indices and exponents).
         This method calculates the width by simulating the exact same parsing
         and rendering logic used by drawString, ensuring the bounding box
@@ -143,34 +143,34 @@ public class DecoratedText
         int totalWidth = 0;
         double originalFontSize = g.getFontSize();
         int t;
-        
+
         while((t = getToken()) != END) {
             switch(t) {
                 case CHUNK:
                     g.setFontSize(originalFontSize * getSizeMultLevel());
                     totalWidth += g.getStringWidth(btoken);
                     break;
-                    
+
                 case EXPONENT:
                     ++exponentLevel;
                     break;
-                    
+
                 case INDEX:
                     --exponentLevel;
                     break;
-                    
+
                 case END:
                     break;
-                    
+
                 default:
                     break;
             }
         }
         g.setFontSize(originalFontSize);
-        
+
         return totalWidth;
     }
-    
+
     /** Draw a string on the current graphic context.
         @param str the string to be drawn.
         @param x the x coordinate of the starting point.

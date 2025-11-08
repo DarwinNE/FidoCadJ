@@ -41,8 +41,8 @@ import fidocadj.graphic.nil.GraphicsNull;
  *
  * @author Davide Bucci
  */
-public final class PrimitiveAdvText extends GraphicPrimitive {
-
+public final class PrimitiveAdvText extends GraphicPrimitive
+{
     private String txt;
     private int six;
     private int siy;
@@ -100,7 +100,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @return the number of points used by the primitive.
      */
     @Override
-    public int getControlPointNumber() {
+    public int getControlPointNumber()
+    {
         return N_POINTS;
     }
 
@@ -158,8 +159,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @param layerV the layer description.
      */
     @Override
-    public void draw(GraphicsInterface g, MapCoordinates coordSys,
-            List layerV) {
+    public void draw(GraphicsInterface g, MapCoordinates coordSys, List layerV)
+    {
         if (!selectLayer(g, layerV)) {
             return;
         }
@@ -291,8 +292,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @throws IOException if the arguments are incorrect or a problem occurs.
      */
     @Override
-    public void parseTokens(String[] tokens, int nn)
-            throws IOException {
+    public void parseTokens(String[] tokens, int nn) throws IOException
+    {
         // assert it is the correct primitive
         changed = true;
         recalcSize = true;
@@ -367,7 +368,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
     /**
      * Check and correct if necessary the text size range.
      */
-    public void checkSizes() {
+    public void checkSizes()
+    {
         // Safety checks!
         if (siy < MINSIZE) {
             siy = MINSIZE;
@@ -396,7 +398,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @return the distance in logical units.
      */
     @Override
-    public int getDistanceToPoint(int px, int py) {
+    public int getDistanceToPoint(int px, int py)
+    {
         // This calculation takes a lot of time, since we need to obtain the
         // size of the font used, calculate the area which is active for the
         // mouse and so on. For this reason, we make it only when necessary,
@@ -472,7 +475,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
 
         if (orientationSCI == 0) {
             if (GeometricDistances.pointInRectangle(Math.min(xaSCI,
-                    xaSCI + wSCI), yaSCI, Math.abs(wSCI), thSCI, px, py)) {
+                    xaSCI + wSCI), yaSCI, Math.abs(wSCI), thSCI, px, py))
+            {
                 return 0;
             }
         } else {
@@ -499,7 +503,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      *
      */
     @Override
-    public List<ParameterDescription> getControls() {
+    public List<ParameterDescription> getControls()
+    {
         List<ParameterDescription> v = new ArrayList<>(10);
 
         addParameter(v, txt, "ctrl_text");
@@ -530,7 +535,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      *
      */
     private void addParameter(List<ParameterDescription> list, Object parameter,
-            String descriptionKey) {
+            String descriptionKey)
+    {
         ParameterDescription pd = new ParameterDescription();
         pd.parameter = parameter;
         pd.description = Globals.messages.getString(descriptionKey);
@@ -548,7 +554,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * of this function.
      */
     @Override
-    public int setControls(List<ParameterDescription> parameters) {
+    public int setControls(List<ParameterDescription> parameters)
+    {
         changed = true;
         recalcSize = true;
 
@@ -613,7 +620,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @param iy the y coordinate of the rotation center
      */
     @Override
-    public void rotatePrimitive(boolean bc, int ix, int iy) {
+    public void rotatePrimitive(boolean bc, int ix, int iy)
+    {
         boolean bCounterClockWise = bc;
         super.rotatePrimitive(bCounterClockWise, ix, iy);
 
@@ -640,7 +648,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      *
      */
     @Override
-    public void mirrorPrimitive(int xPos) {
+    public void mirrorPrimitive(int xPos)
+    {
         super.mirrorPrimitive(xPos);
         sty ^= TEXT_MIRRORED;
         changed = true;
@@ -656,7 +665,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @return the FidoCad code corresponding to the primitive.
      */
     @Override
-    public String toString(boolean extensions) {
+    public String toString(boolean extensions)
+    {
         String subsFont;
 
         // Assicurati che fontName non sia null
@@ -697,7 +707,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      */
     @Override
     public void export(ExportInterface exp, MapCoordinates cs)
-            throws IOException {
+            throws IOException
+    {
         int resultingO = o - cs.getOrientation() * 90;
 
         exp.exportAdvText(cs.mapX(virtualPoint[0].x, virtualPoint[0].y),
@@ -717,7 +728,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @return the number of the virtual point associated to the Name property.
      */
     @Override
-    public int getNameVirtualPointNumber() {
+    public int getNameVirtualPointNumber()
+    {
         return -1;
     }
 
@@ -727,7 +739,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * @return the number of the virtual point associated to the Value property.
      */
     @Override
-    public int getValueVirtualPointNumber() {
+    public int getValueVirtualPointNumber()
+    {
         return -1;
     }
 
@@ -747,7 +760,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive {
      * false otherwise.
      */
     @Override
-    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection) {
+    public boolean intersects(RectangleG rect, boolean isLeftToRightSelection)
+    {
+        if (getCurrentLayer().isVisible() == false) {
+            return false;
+        }
+
         if (isLeftToRightSelection) {
             return isFullyContained(rect);
         }

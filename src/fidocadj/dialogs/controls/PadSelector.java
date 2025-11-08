@@ -31,13 +31,13 @@ import java.awt.*;
     Copyright 2007-2024 by Davide Bucci, Manuel Finessi
     </pre>
  */
-public class PadSelector extends JPanel
+public final class PadSelector extends JPanel
 {
 
-    private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
-    private JRadioButton radioButton3;
-    private ButtonGroup buttonGroup;
+    private final JRadioButton radioButton1;
+    private final JRadioButton radioButton2;
+    private final JRadioButton radioButton3;
+    private final ButtonGroup buttonGroup;
 
     /**
      Constructs a PadSelector with three radio buttons.
@@ -102,17 +102,10 @@ public class PadSelector extends JPanel
     public void setSelectedIndex(int index)
     {
         switch (index) {
-            case 0:
-                radioButton1.setSelected(true);
-                break;
-            case 1:
-                radioButton2.setSelected(true);
-                break;
-            case 2:
-                radioButton3.setSelected(true);
-                break;
-            default:
-                radioButton1.setSelected(true);
+            case 0 -> radioButton1.setSelected(true);
+            case 1 -> radioButton2.setSelected(true);
+            case 2 -> radioButton3.setSelected(true);
+            default -> radioButton1.setSelected(true);
         }
     }
 
