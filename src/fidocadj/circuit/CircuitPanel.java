@@ -104,6 +104,9 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
 
     // Default grid lines color
     private ColorSwing gridLinesColor;
+    
+    // Use key for zoom
+    private boolean enableKeyForZoom;
 
     public CircuitPanel()
     {
@@ -1339,5 +1342,31 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         }
         // No primitives found where all points are negative
         return false;
+    }
+
+    /**
+     * @return the enableKeyForZoom
+     */
+    public boolean isEnabledKeyForZoom() {
+        return enableKeyForZoom;
+    }
+
+    /**
+     * Sets whether zoom with mouse wheel requires holding Ctrl key.
+     * When this setting changes, the mouse wheel listener state is ..
+     * updated accordingly.
+     * 
+     * @param enableKeyForZoom true to enable wheel zoom without Ctrl key,
+     *                         false to require Ctrl key for wheel zoom
+     */
+    public void setEnableKeyForZoom(boolean enableKeyForZoom) 
+    {
+        this.enableKeyForZoom = enableKeyForZoom;
+
+        // Notify the MouseWheelHandler about the configuration change
+        // so it can add/remove the listener as appropriate
+        if (mwHandler != null) {
+            mwHandler.updateListenerState();
+        }
     }
 }
