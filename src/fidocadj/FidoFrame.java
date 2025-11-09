@@ -589,6 +589,7 @@ public final class FidoFrame extends JFrame implements
 
         JMenuBar menuBar=menuTools.defineMenuBar(this);
         setJMenuBar(menuBar);
+        menuTools.setCircuitPanel(circuitPanel);
 
         // The initial state is the selection one.
         circuitPanel.setSelectionState(ElementsEdtActions.SELECTION, "");

@@ -76,6 +76,24 @@ public class UndoManager
         isRedoable=false;
     }
 
+    /** Check if undo operation is available.
+        @return true if there are actions that can be undone.
+    */
+    public boolean canUndo()
+    {
+        // Can undo if pointer > 1 and there are elements in the buffer
+        return pointer > 1 && !undoBuffer.isEmpty();
+    }
+
+    /** Check if redo operation is available.
+        @return true if there are actions that can be redone.
+    */
+    public boolean canRedo()
+    {
+        // Can redo if isRedoable flag is set and pointer is less than buffer size
+        return isRedoable && pointer >= 1 && pointer < undoBuffer.size();
+    }
+
     /** Pushes a new undo state in the buffer.
         @param state the state to be committed.
     */

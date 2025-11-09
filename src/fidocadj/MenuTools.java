@@ -52,6 +52,30 @@ import fidocadj.geom.ChangeCoordinatesListener;
 public class MenuTools implements MenuListener
 {
     JCheckBoxMenuItem libs=new JCheckBoxMenuItem();
+    
+    // Menu Edit items that need to be enabled/disabled dynamically
+    private JMenuItem editUndo;
+    private JMenuItem editRedo;
+    private JMenuItem editCut;
+    private JMenuItem editCopy;
+    private JMenuItem editCopySplit;
+    private JMenuItem editCopyImage;
+    private JMenuItem editPaste;
+    private JMenuItem editDuplicate;
+    private JMenuItem editMove;
+    private JMenuItem editRotate;
+    private JMenuItem editMirror;
+    private JMenuItem alignLeftSelected;
+    private JMenuItem alignRightSelected;
+    private JMenuItem alignTopSelected;
+    private JMenuItem alignBottomSelected;
+    private JMenuItem alignHorizontalCenterSelected;
+    private JMenuItem alignVerticalCenterSelected;
+    private JMenuItem distributeHorizontallySelected;
+    private JMenuItem distributeVerticallySelected;
+    
+    private JMenu editMenu;
+    private CircuitPanel circuitPanel;
 
     /** Create all the menus and associate to them all the needed listeners.
         @param al the action listener to associate to the menu elements.
@@ -79,12 +103,132 @@ public class MenuTools implements MenuListener
         return menuBar;
     }
 
+    /** Set the circuit panel reference for dynamic menu updates.
+        @param cp the CircuitPanel instance.
+    */
+    public void setCircuitPanel(CircuitPanel cp)
+    {
+        this.circuitPanel = cp;
+    }
+
     /** The menuSelected method, useful for the MenuListener interface.
+        Updates menu items state based on current selection and undo/redo status
         @param evt the menu event object.
     */
     @Override public void menuSelected(MenuEvent evt)
     {
-        // does nothing
+        // Update Edit menu items when the menu is opened
+        if(evt.getSource() == editMenu) {
+            updateEditMenuState();
+        }
+    }
+
+    /** Update the state of Edit menu items based on current selection
+        and undo/redo availability.
+    */
+    private void updateEditMenuState()
+    {      
+        if(circuitPanel == null) {
+            // If no circuit panel, disable all editing operations
+            disableAllEditItems();
+            return;
+        }
+        
+        try {
+            SelectionActions selectionActions = 
+                    circuitPanel.getSelectionActions();
+            
+            boolean somethingSelected = false;
+            
+            if(selectionActions != null) {
+                somethingSelected = 
+                        selectionActions.getFirstSelectedPrimitive() != null;
+            }
+            
+            // Enable/disable items based on selection
+            editCut.setEnabled(somethingSelected);
+            editCopy.setEnabled(somethingSelected);
+            editCopySplit.setEnabled(somethingSelected);
+            editCopyImage.setEnabled(somethingSelected);
+            editDuplicate.setEnabled(somethingSelected);
+            editMove.setEnabled(somethingSelected);
+            editRotate.setEnabled(somethingSelected);
+            editMirror.setEnabled(somethingSelected);
+                        
+            // Alignment and distribution items
+            alignLeftSelected.setEnabled(somethingSelected);
+            alignRightSelected.setEnabled(somethingSelected);
+            alignTopSelected.setEnabled(somethingSelected);
+            alignBottomSelected.setEnabled(somethingSelected);
+            alignHorizontalCenterSelected.setEnabled(somethingSelected);
+            alignVerticalCenterSelected.setEnabled(somethingSelected);
+            distributeHorizontallySelected.setEnabled(somethingSelected);
+            distributeVerticallySelected.setEnabled(somethingSelected);
+            
+            // Check clipboard for paste operation
+            try {
+                TextTransfer textTransfer = new TextTransfer();
+                String clipboardContent = textTransfer.getClipboardContents();
+                boolean pasteEnabled = clipboardContent != null && 
+                                   !"".equals(clipboardContent);
+                editPaste.setEnabled(pasteEnabled);
+            } catch (Exception e) {
+                editPaste.setEnabled(false);
+            }
+            
+            // Check undo/redo availability
+            if(circuitPanel.getUndoActions() != null) {
+                try {
+                    boolean undoEnabled = 
+                            circuitPanel.getUndoActions().canUndo();
+                    boolean redoEnabled = 
+                            circuitPanel.getUndoActions().canRedo();
+                    editUndo.setEnabled(undoEnabled);
+                    editRedo.setEnabled(redoEnabled);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    editUndo.setEnabled(false);
+                    editRedo.setEnabled(false);
+                }
+            } else {
+                editUndo.setEnabled(false);
+                editRedo.setEnabled(false);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            // If any error occurs, disable all items for safety
+            disableAllEditItems();
+        }
+    }
+    
+    /** Disable all edit menu items (safety fallback).
+    */
+    private void disableAllEditItems()
+    {
+        if(editUndo != null) editUndo.setEnabled(false);
+        if(editRedo != null) editRedo.setEnabled(false);
+        if(editCut != null) editCut.setEnabled(false);
+        if(editCopy != null) editCopy.setEnabled(false);
+        if(editCopySplit != null) editCopySplit.setEnabled(false);
+        if(editCopyImage != null) editCopyImage.setEnabled(false);
+        if(editPaste != null) editPaste.setEnabled(false);
+        if(editDuplicate != null) editDuplicate.setEnabled(false);
+        if(editMove != null) editMove.setEnabled(false);
+        if(editRotate != null) editRotate.setEnabled(false);
+        if(editMirror != null) editMirror.setEnabled(false);
+        if(alignLeftSelected != null) alignLeftSelected.setEnabled(false);
+        if(alignRightSelected != null) alignRightSelected.setEnabled(false);
+        if(alignTopSelected != null) alignTopSelected.setEnabled(false);
+        if(alignBottomSelected != null) alignBottomSelected.setEnabled(false);
+        if(alignHorizontalCenterSelected != null) 
+            alignHorizontalCenterSelected.setEnabled(false);
+        if(alignVerticalCenterSelected != null) 
+            alignVerticalCenterSelected.setEnabled(false);
+        if(distributeHorizontallySelected != null) 
+            distributeHorizontallySelected.setEnabled(false);
+        if(distributeVerticallySelected != null) 
+            distributeVerticallySelected.setEnabled(false);
     }
 
     /** The menuDeselected method, useful for the MenuListener interface.
@@ -209,45 +353,65 @@ public class MenuTools implements MenuListener
     */
     public JMenu defineEditMenu(ActionListener al)
     {
-        JMenu editMenu = new JMenu(Globals.messages.getString("Edit_menu"));
+        editMenu = new JMenu(Globals.messages.getString("Edit_menu"));
+        
+        editMenu.getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
+            {
+                updateEditMenuState();
+            }
+            
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) 
+            {
+            }
+            
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) 
+            {
+            }
+        });
 
-        JMenuItem editUndo = new
+        editUndo = new
             JMenuItem(Globals.messages.getString("Undo"));
         editUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
             Globals.shortcutKey));
         editUndo.setIcon(Globals.loadIcon("/icons/menu_icons/undo.png"));
-        JMenuItem editRedo = new
+        
+        editRedo = new
             JMenuItem(Globals.messages.getString("Redo"));
         editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
             Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
         editRedo.setIcon(Globals.loadIcon("/icons/menu_icons/redo.png"));
-        JMenuItem editCut = new
+        
+        editCut = new
             JMenuItem(Globals.messages.getString("Cut"));
         editCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
             Globals.shortcutKey));
         editCut.setIcon(Globals.loadIcon("/icons/menu_icons/cut.png"));
 
-        JMenuItem editCopy = new
+        editCopy = new
             JMenuItem(Globals.messages.getString("Copy"));
         editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
             Globals.shortcutKey));
         editCopy.setIcon(Globals.loadIcon("/icons/menu_icons/copy.png"));
 
-        JMenuItem editCopySplit = new
+        editCopySplit = new
             JMenuItem(Globals.messages.getString("Copy_split"));
         editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
             Globals.shortcutKey));
         editCopySplit.setIcon(
                 Globals.loadIcon("/icons/menu_icons/copy_split.png"));
 
-        JMenuItem editCopyImage = new
+        editCopyImage = new
             JMenuItem(Globals.messages.getString("Copy_as_image"));
         editCopyImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
             Globals.shortcutKey));
         editCopyImage.setIcon(
                 Globals.loadIcon("/icons/menu_icons/copy_image.png"));
 
-        JMenuItem editPaste = new
+        editPaste = new
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
             Globals.shortcutKey));
@@ -265,67 +429,67 @@ public class MenuTools implements MenuListener
         editSelectAll.setIcon(
                 Globals.loadIcon("/icons/menu_icons/select_all.png"));
 
-        JMenuItem editDuplicate = new
+        editDuplicate = new
             JMenuItem(Globals.messages.getString("Duplicate"));
         editDuplicate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
             Globals.shortcutKey));
         editDuplicate.setIcon(
                 Globals.loadIcon("/icons/menu_icons/duplicate.png"));
         
-        JMenuItem editMove = new
+        editMove = new
             JMenuItem(Globals.messages.getString("Move"));
         editMove.setAccelerator(KeyStroke.getKeyStroke("M"));
         editMove.setIcon(
                 Globals.loadIcon("/icons/menu_icons/move.png"));
 
-        JMenuItem editRotate = new
+        editRotate = new
             JMenuItem(Globals.messages.getString("Rotate"));
         editRotate.setAccelerator(KeyStroke.getKeyStroke("R"));
         editRotate.setIcon(Globals.loadIcon("/icons/menu_icons/rotate.png"));
 
-        JMenuItem editMirror = new
+        editMirror = new
             JMenuItem(Globals.messages.getString("Mirror_E"));
         editMirror.setAccelerator(KeyStroke.getKeyStroke("S"));
         editMirror.setIcon(Globals.loadIcon("/icons/menu_icons/mirror.png"));
 
-        JMenuItem alignLeftSelected = new
+        alignLeftSelected = new
             JMenuItem(Globals.messages.getString("alignLeftSelected"));
         alignLeftSelected.setIcon(
                 Globals.loadIcon("/icons/menu_icons/align_left.png"));
 
-        JMenuItem alignRightSelected = new
+        alignRightSelected = new
             JMenuItem(Globals.messages.getString("alignRightSelected"));
         alignRightSelected.setIcon(
                 Globals.loadIcon("/icons/menu_icons/align_right.png"));
 
-        JMenuItem alignTopSelected = new
+        alignTopSelected = new
             JMenuItem(Globals.messages.getString("alignTopSelected"));
         alignTopSelected.setIcon(
                 Globals.loadIcon("/icons/menu_icons/align_top.png"));
 
-        JMenuItem alignBottomSelected = new
+        alignBottomSelected = new
             JMenuItem(Globals.messages.getString("alignBottomSelected"));
         alignBottomSelected.setIcon(
                 Globals.loadIcon("/icons/menu_icons/align_bottom.png"));
 
-        JMenuItem alignHorizontalCenterSelected = new
+        alignHorizontalCenterSelected = new
             JMenuItem(Globals.messages.getString(
                                 "alignHorizontalCenterSelected"));
         alignHorizontalCenterSelected.setIcon(Globals.loadIcon(
                         "/icons/menu_icons/align_horizontal_center.png"));
 
-        JMenuItem alignVerticalCenterSelected = new
+        alignVerticalCenterSelected = new
             JMenuItem(Globals.messages.getString(
                             "alignVerticalCenterSelected"));
         alignVerticalCenterSelected.setIcon(Globals.loadIcon(
                         "/icons/menu_icons/align_vertical_center.png"));
 
-        JMenuItem distributeHorizontallySelected = new JMenuItem(
+        distributeHorizontallySelected = new JMenuItem(
                 Globals.messages.getString("distributeHorizontallySelected"));
         distributeHorizontallySelected.setIcon(Globals.loadIcon(
                         "/icons/menu_icons/horizonta_distribute.png"));
 
-        JMenuItem distributeVerticallySelected = new JMenuItem(
+        distributeVerticallySelected = new JMenuItem(
                 Globals.messages.getString("distributeVerticallySelected"));
         distributeVerticallySelected.setIcon(Globals.loadIcon(
                         "/icons/menu_icons/vertical_distribute.png"));
@@ -488,25 +652,28 @@ public class MenuTools implements MenuListener
     public void processMenuActions(ActionEvent evt, FidoFrame fidoFrame,
         ChangeCoordinatesListener coordL)
     {
-        ExportTools et = fidoFrame.getExportTools();
-        et.setCoordinateListener(coordL);
-        PrintTools pt = fidoFrame.getPrintTools();
-        CircuitPanel cc = fidoFrame.getCircuitPanel();
+        ExportTools exportTools = fidoFrame.getExportTools();
+        exportTools.setCoordinateListener(coordL);
+        PrintTools printTools = fidoFrame.getPrintTools();
+        CircuitPanel circuitPanel = fidoFrame.getCircuitPanel();
         String arg=evt.getActionCommand();
-        EditorActions edt=cc.getEditorActions();
-        CopyPasteActions cpa=cc.getCopyPasteActions();
-        ElementsEdtActions eea = cc.getContinuosMoveActions();
-        SelectionActions sa = cc.getSelectionActions();
-        ParserActions pa = cc.getParserActions();
+        EditorActions editorActions=circuitPanel.getEditorActions();
+        CopyPasteActions copyPasteActions=circuitPanel.getCopyPasteActions();
+        ElementsEdtActions elementsEdtActions = 
+                circuitPanel.getContinuosMoveActions();
+        SelectionActions selectionActions = circuitPanel.getSelectionActions();
+        ParserActions parserActions = circuitPanel.getParserActions();
 
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
             DialogCircuitCode circuitDialog=new DialogCircuitCode(fidoFrame,
-                cc.getParserActions().getText(!cc.extStrict).toString());
+                circuitPanel.getParserActions().getText(
+                        !circuitPanel.extStrict).toString());
             circuitDialog.setVisible(true);
 
-            pa.parseString(new StringBuffer(circuitDialog.getStringCircuit()));
-            cc.getUndoActions().saveUndoState();
+            parserActions.parseString(
+                    new StringBuffer(circuitDialog.getStringCircuit()));
+            circuitPanel.getUndoActions().saveUndoState();
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
             // Update libraries
@@ -518,22 +685,22 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("Layer_opt"))) {
             // Options for the layers
             DialogLayer layerDialog=new DialogLayer(fidoFrame,
-                                            cc.getDrawingModel().getLayers());
+                    circuitPanel.getDrawingModel().getLayers());
             layerDialog.setVisible(true);
 
             // It is important that we force a complete recalculation of
             // all details in the drawing, otherwise the buffered setup
             // will not be responsive to the changes in the layer editing.
 
-            cc.getDrawingModel().setChanged(true);
+            circuitPanel.getDrawingModel().setChanged(true);
             fidoFrame.repaint();
         } else if(arg.equals(Globals.messages.getString("Libs"))) {
             fidoFrame.showLibs(!fidoFrame.areLibsVisible());
             libs.setState(fidoFrame.areLibsVisible());
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
-            pt.associateToCircuitPanel(cc);
-            pt.printDrawing(fidoFrame);
+            printTools.associateToCircuitPanel(circuitPanel);
+            printTools.printDrawing(fidoFrame);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
             fidoFrame.getFileTools().saveWithName(false);
@@ -548,11 +715,11 @@ public class MenuTools implements MenuListener
             fidoFrame.createNewInstance();
         } else if (arg.equals(Globals.messages.getString("Undo"))) {
             // Undo the last action
-            cc.getUndoActions().undo();
+            circuitPanel.getUndoActions().undo();
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Redo"))) {
             // Redo the last action
-            cc.getUndoActions().redo();
+            circuitPanel.getUndoActions().redo();
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("About_menu"))) {
             // Show the about menu
@@ -570,73 +737,75 @@ public class MenuTools implements MenuListener
             SwingUtilities.invokeLater(openf);
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-            et.launchExport(fidoFrame, cc,
+            exportTools.launchExport(fidoFrame, circuitPanel,
                     fidoFrame.getFileTools().getOpenFileDirectory());
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
-            sa.setSelectionAll(true);
+            selectionActions.setSelectionAll(true);
             // Even if the drawing is not changed, a repaint operation is
             // needed since all selected elements are rendered in green.
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Copy"))) {
             // Copy all selected elements in the clipboard
-            cpa.copySelected(!cc.extStrict, false);
+            copyPasteActions.copySelected(!circuitPanel.extStrict, false);
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
             // Copy elements, splitting non standard macros
-            cpa.copySelected(!cc.extStrict, true);
+            copyPasteActions.copySelected(!circuitPanel.extStrict, true);
         } else if (arg.equals(Globals.messages.getString("Copy_as_image"))) {
             // Display a dialog similar to the Export menu and create an image
             // that is stored in the clipboard, using a bitmap or vector
             //format.
-            et.exportAsCopiedImage(fidoFrame, cc);
+            exportTools.exportAsCopiedImage(fidoFrame, circuitPanel);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
-            cpa.copySelected(!cc.extStrict, false);
-            edt.deleteAllSelected(true);
+            copyPasteActions.copySelected(!circuitPanel.extStrict, false);
+            editorActions.deleteAllSelected(true);
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Mirror_E"))) {
             // Mirror all the selected elements
-            if(eea.isEnteringMacro()) {
-                eea.mirrorMacro();
+            if(elementsEdtActions.isEnteringMacro()) {
+                elementsEdtActions.mirrorMacro();
             } else {
-                edt.mirrorAllSelected();
+                editorActions.mirrorAllSelected();
             }
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Rotate"))) {
             // 90 degrees rotation of all selected elements
-            if(eea.isEnteringMacro()) {
-                eea.rotateMacro();
+            if(elementsEdtActions.isEnteringMacro()) {
+                elementsEdtActions.rotateMacro();
             } else {
-                edt.rotateAllSelected();
+                editorActions.rotateAllSelected();
             }
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Move"))) {
             // Start moving selected elements with Move command
-            if (sa.getFirstSelectedPrimitive() != null) {
-                cc.getContinuosMoveActions().startMovingSelected(
-                        cc.getMapCoordinates());
+            if (selectionActions.getFirstSelectedPrimitive() != null) {
+                circuitPanel.getContinuosMoveActions().startMovingSelected(
+                        circuitPanel.getMapCoordinates());
                 fidoFrame.repaint();
             }
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate
-            cpa.copySelected(!cc.extStrict, false);
-            cpa.paste(cc.getMapCoordinates().getXGridStep(),
-                cc.getMapCoordinates().getYGridStep());
+            copyPasteActions.copySelected(!circuitPanel.extStrict, false);
+            copyPasteActions.paste(
+                    circuitPanel.getMapCoordinates().getXGridStep(),
+                    circuitPanel.getMapCoordinates().getYGridStep());
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
             // Paste as a new circuit
             TextTransfer textTransfer = new TextTransfer();
             //FidoFrame popFrame;
-            if(cc.getUndoActions().getModified()) {
+            if(circuitPanel.getUndoActions().getModified()) {
                 fidoFrame.createNewInstance();
             }
-            pa.parseString(
+            parserActions.parseString(
                 new StringBuffer(textTransfer.getClipboardContents()));
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Paste"))) {
             // Paste some graphical elements
-            cpa.paste(cc.getMapCoordinates().getXGridStep(),
-                    cc.getMapCoordinates().getYGridStep());
+            copyPasteActions.paste(
+                    circuitPanel.getMapCoordinates().getXGridStep(),
+                    circuitPanel.getMapCoordinates().getYGridStep());
             fidoFrame.repaint();
         } else if (arg.equals(Globals.messages.getString("Close"))) {
             // Close the current window
@@ -647,42 +816,42 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(
                 Globals.messages.getString("alignLeftSelected")))
         {
-            edt.alignLeftSelected();
+            editorActions.alignLeftSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignRightSelected")))
         {
-            edt.alignRightSelected();
+            editorActions.alignRightSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignTopSelected")))
         {
-            edt.alignTopSelected();
+            editorActions.alignTopSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignBottomSelected")))
         {
-            edt.alignBottomSelected();
+            editorActions.alignBottomSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignHorizontalCenterSelected")))
         {
-            edt.alignHorizontalCenterSelected();
+            editorActions.alignHorizontalCenterSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("alignVerticalCenterSelected")))
         {
-            edt.alignVerticalCenterSelected();
+            editorActions.alignVerticalCenterSelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("distributeHorizontallySelected")))
         {
-            edt.distributeHorizontallySelected();
+            editorActions.distributeHorizontallySelected();
             fidoFrame.repaint();
         } else if (arg.equals(
                 Globals.messages.getString("distributeVerticallySelected")))
         {
-            edt.distributeVerticallySelected();
+            editorActions.distributeVerticallySelected();
             fidoFrame.repaint();
         } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.
