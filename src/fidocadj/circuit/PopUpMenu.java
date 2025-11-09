@@ -38,7 +38,7 @@ import fidocadj.clipboard.TextTransfer;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2025 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -52,6 +52,7 @@ public class PopUpMenu implements ActionListener
     private JMenuItem editPaste;
     private JMenuItem editDuplicate;
     private JMenuItem editSelectAll;
+    private JMenuItem editMove;
     private JMenuItem editRotate;
     private JMenuItem editMirror;
     private JMenuItem editSymbolize; // phylum
@@ -59,15 +60,15 @@ public class PopUpMenu implements ActionListener
     private JMenuItem editAddNode;
     private JMenuItem editRemoveNode;
 
-    private final CircuitPanel cp;
-    private final SelectionActions sa;
-    private final EditorActions edt;
-    private final ContinuosMoveActions eea;
-    private final UndoActions ua;
-    private final ParserActions pa;
-    private final CopyPasteActions cpa;
+    private final CircuitPanel circuitPanel;
+    private final SelectionActions selectionActions;
+    private final EditorActions editorActions;
+    private final ContinuosMoveActions continuosMoveActions;
+    private final UndoActions undoActions;
+    private final ParserActions parserActions;
+    private final CopyPasteActions copyPasteActions;
 
-    private final JPopupMenu pp;
+    private final JPopupMenu popupMenu;
 
     // We need to save the position where the popup menu appears.
     private int menux;
@@ -79,15 +80,15 @@ public class PopUpMenu implements ActionListener
     */
     public PopUpMenu(CircuitPanel p)
     {
-        cp=p;
-        sa=cp.getSelectionActions();
-        edt=cp.getEditorActions();
-        eea=cp.getContinuosMoveActions();
-        ua=cp.getUndoActions();
-        pa=cp.getParserActions();
-        cpa=cp.getCopyPasteActions();
+        circuitPanel=p;
+        selectionActions=circuitPanel.getSelectionActions();
+        editorActions=circuitPanel.getEditorActions();
+        continuosMoveActions=circuitPanel.getContinuosMoveActions();
+        undoActions=circuitPanel.getUndoActions();
+        parserActions=circuitPanel.getParserActions();
+        copyPasteActions=circuitPanel.getCopyPasteActions();
 
-        pp = new JPopupMenu();
+        popupMenu = new JPopupMenu();
         definePopupMenu();
     }
 
@@ -137,6 +138,10 @@ public class PopUpMenu implements ActionListener
         editDuplicate = new JMenuItem(Globals.messages.getString("Duplicate"));
         editDuplicate.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/duplicate.png")));
+        
+        editMove = new JMenuItem(Globals.messages.getString("Move"));
+        editMove.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/move.png")));
 
         editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
         editRotate.setIcon(new ImageIcon(
@@ -164,26 +169,27 @@ public class PopUpMenu implements ActionListener
         editRemoveNode.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/remove_node.png")));
 
-        pp.add(editProperties);
-        pp.addSeparator();
+        popupMenu.add(editProperties);
+        popupMenu.addSeparator();
 
-        pp.add(editCut);
-        pp.add(editCopy);
-        pp.add(editPaste);
-        pp.add(editDuplicate);
-        pp.addSeparator();
-        pp.add(editSelectAll);
+        popupMenu.add(editCut);
+        popupMenu.add(editCopy);
+        popupMenu.add(editPaste);
+        popupMenu.add(editDuplicate);
+        popupMenu.addSeparator();
+        popupMenu.add(editSelectAll);
 
-        pp.addSeparator();
-        pp.add(editRotate);
-        pp.add(editMirror);
+        popupMenu.addSeparator();
+        popupMenu.add(editMove);
+        popupMenu.add(editRotate);
+        popupMenu.add(editMirror);
 
-        pp.add(editAddNode);
-        pp.add(editRemoveNode);
+        popupMenu.add(editAddNode);
+        popupMenu.add(editRemoveNode);
 
-        pp.addSeparator();
-        pp.add(editSymbolize); // by phylum
-        pp.add(editUSymbolize); // phylum
+        popupMenu.addSeparator();
+        popupMenu.add(editSymbolize); // by phylum
+        popupMenu.add(editUSymbolize); // phylum
 
         // Adding the action listener
 
@@ -193,6 +199,7 @@ public class PopUpMenu implements ActionListener
         editSelectAll.addActionListener(this);
         editPaste.addActionListener(this);
         editDuplicate.addActionListener(this);
+        editMove.addActionListener(this);
         editRotate.addActionListener(this);
         editMirror.addActionListener(this);
         editAddNode.addActionListener(this);
@@ -211,7 +218,7 @@ public class PopUpMenu implements ActionListener
     {
         menux=x; menuy=y;
         boolean s=false;
-        GraphicPrimitive g=sa.getFirstSelectedPrimitive();
+        GraphicPrimitive g=selectionActions.getFirstSelectedPrimitive();
         boolean somethingSelected=g!=null;
 
         // A certain number of menu options are applied to selected
@@ -223,6 +230,7 @@ public class PopUpMenu implements ActionListener
         editProperties.setEnabled(s);
         editCut.setEnabled(s);
         editCopy.setEnabled(s);
+        editMove.setEnabled(s);
         editRotate.setEnabled(s);
         editMirror.setEnabled(s);
         editDuplicate.setEnabled(s);
@@ -237,7 +245,7 @@ public class PopUpMenu implements ActionListener
             s=false;
         }
 
-        if (!sa.isUniquePrimitiveSelected()) {
+        if (!selectionActions.isUniquePrimitiveSelected()) {
             s=false;
         }
 
@@ -259,9 +267,9 @@ public class PopUpMenu implements ActionListener
 
         editSymbolize.setEnabled(somethingSelected);
 
-        editUSymbolize.setEnabled(sa.selectionCanBeSplitted()); // phylum
+        editUSymbolize.setEnabled(selectionActions.selectionCanBeSplitted());
 
-        pp.show(j, x, y);
+        popupMenu.show(j, x, y);
     }
 
     /** Register an action involving the editing
@@ -272,26 +280,32 @@ public class PopUpMenu implements ActionListener
     */
     private void registerAction(String actionString, char key, final int state)
     {
-
         // We need to make this indipendent to the case. So we start by
         // registering the action for the upper case
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)),
                 actionString);
         // And then we repeat the operation for the lower case
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)),
                 actionString);
 
-        cp.getActionMap().put(actionString, new AbstractAction() {
+        circuitPanel.getActionMap().put(actionString, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
+                if (actionString.equals("selection") && 
+                    continuosMoveActions.isMovingSelected()) {
+                    continuosMoveActions.cancelMove();
+                    circuitPanel.repaint();
+                    return;
+                }
+
                 // We now set the new editing state
-                cp.setSelectionState(state,"");
+                circuitPanel.setSelectionState(state,"");
                 // If we are entering or modifying a primitive or a macro,
                 // we should be sure it disappears when the state changes
-                eea.primEdit = null;
-                cp.repaint();
+                continuosMoveActions.primEdit = null;
+                circuitPanel.repaint();
             }
         });
     }
@@ -316,10 +330,10 @@ public class PopUpMenu implements ActionListener
     public final void registerActiveKeys()
     {
         registerAction("selection", 'a', ElementsEdtActions.SELECTION);
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),
                 "selection");
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false),
                 "selection");
         registerAction("line", 'l', ElementsEdtActions.LINE);
@@ -332,21 +346,42 @@ public class PopUpMenu implements ActionListener
         registerAction("connection", 'c', ElementsEdtActions.CONNECTION);
         registerAction("pcbline", 'i', ElementsEdtActions.PCB_LINE);
         registerAction("pcbpad", 'z', ElementsEdtActions.PCB_PAD);
+        
+        final String moveKey = "move_key";
+
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(
+                        Character.toUpperCase('m')), moveKey);
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(
+                        Character.toLowerCase('m')), moveKey);
+
+        circuitPanel.getActionMap().put(moveKey, new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent ignored)
+            {
+                if (selectionActions.getFirstSelectedPrimitive() != null && 
+                    !continuosMoveActions.isMovingSelected()) {
+                    continuosMoveActions.startMovingSelected(
+                            circuitPanel.getMapCoordinates());
+                    circuitPanel.repaint();
+                }
+            }
+        });
 
         final String delete = "delete";
 
         // Delete key
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke("DELETE"), delete);
 
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
 
-        cp.getActionMap().put(delete, new AbstractAction() {
+        circuitPanel.getActionMap().put(delete, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                edt.deleteAllSelected(true);
-                cp.repaint();
+                editorActions.deleteAllSelected(true);
+                circuitPanel.repaint();
             }
         });
 
@@ -356,72 +391,79 @@ public class PopUpMenu implements ActionListener
         /*cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke("ESCAPE"), escape);*/
 
-        cp.getActionMap().put(escape, new AbstractAction() {
+        circuitPanel.getActionMap().put(escape, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                if(eea.clickNumber>0){
+                // Cancel Move command if in progress
+                if(continuosMoveActions.isMovingSelected()) {
+                    continuosMoveActions.cancelMove();
+                    circuitPanel.repaint();
+                    return;
+                }
+
+                if(continuosMoveActions.clickNumber>0){
                     // Here we need to clear the variables which are used
                     // during the primitive introduction and editing.
                     // see mouseMoved method for details.
-                    eea.successiveMove = false;
-                    eea.clickNumber = 0;
-                    eea.primEdit = null;
-                    cp.repaint();
+                    continuosMoveActions.successiveMove = false;
+                    continuosMoveActions.clickNumber = 0;
+                    continuosMoveActions.primEdit = null;
+                    circuitPanel.repaint();
                 }
             }
         });
-
+        
         final String left = "lleft";
          // left key
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
             InputEvent.ALT_DOWN_MASK,false), left);
 
-        cp.getActionMap().put(left, new AbstractAction() {
+        circuitPanel.getActionMap().put(left, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                edt.moveAllSelected(-1,0);
-                cp.repaint();
+                editorActions.moveAllSelected(-1,0);
+                circuitPanel.repaint();
             }
         });
         final String right = "lright";
          // right key
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
             InputEvent.ALT_DOWN_MASK,false), right);
 
-        cp.getActionMap().put(right, new AbstractAction() {
+        circuitPanel.getActionMap().put(right, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                edt.moveAllSelected(1,0);
-                cp.repaint();
+                editorActions.moveAllSelected(1,0);
+                circuitPanel.repaint();
             }
         });
 
         final String up = "lup";
          // up key
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
             InputEvent.ALT_DOWN_MASK,false), up);
 
-        cp.getActionMap().put(up, new AbstractAction() {
+        circuitPanel.getActionMap().put(up, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                edt.moveAllSelected(0,-1);
-                cp.repaint();
+                editorActions.moveAllSelected(0,-1);
+                circuitPanel.repaint();
             }
         });
         final String down = "ldown";
         // down key
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        circuitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
             InputEvent.ALT_DOWN_MASK,false), down);
 
-        cp.getActionMap().put(down, new AbstractAction() {
+        circuitPanel.getActionMap().put(down, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent ignored)
             {
-                edt.moveAllSelected(0,1);
-                cp.repaint();
+                editorActions.moveAllSelected(0,1);
+                circuitPanel.repaint();
             }
         });
     }
@@ -438,114 +480,137 @@ public class PopUpMenu implements ActionListener
             String arg=evt.getActionCommand();
 
             if (arg.equals(Globals.messages.getString("Param_opt"))) {
-                cp.setPropertiesForPrimitive();
+                circuitPanel.setPropertiesForPrimitive();
             } else if (arg.equals(Globals.messages.getString("Copy"))) {
                 // Copy all selected elements in the clipboard
-                cpa.copySelected(!cp.getStrictCompatibility(), false);
+                copyPasteActions.copySelected(
+                        !circuitPanel.getStrictCompatibility(), false);
             } else if (arg.equals(Globals.messages.getString("Cut"))) {
                 // Cut elements
-                cpa.copySelected(!cp.getStrictCompatibility(), false);
-                edt.deleteAllSelected(true);
-                cp.repaint();
+                copyPasteActions.copySelected(
+                        !circuitPanel.getStrictCompatibility(), false);
+                editorActions.deleteAllSelected(true);
+                circuitPanel.repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {
                 // Paste elements from the clipboard
-                cpa.paste(cp.getMapCoordinates().getXGridStep(),
-                    cp.getMapCoordinates().getYGridStep());
-                cp.repaint();
+                copyPasteActions.paste(
+                        circuitPanel.getMapCoordinates().getXGridStep(),
+                        circuitPanel.getMapCoordinates().getYGridStep());
+                circuitPanel.repaint();
             } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
                 // Copy all selected elements in the clipboard
-                cpa.copySelected(!cp.getStrictCompatibility(), false);
+                copyPasteActions.copySelected(
+                        !circuitPanel.getStrictCompatibility(), false);
                 // Paste elements from the clipboard
-                cpa.paste(cp.getMapCoordinates().getXGridStep(),
-                    cp.getMapCoordinates().getYGridStep());
-                cp.repaint();
+                copyPasteActions.paste(
+                        circuitPanel.getMapCoordinates().getXGridStep(),
+                        circuitPanel.getMapCoordinates().getYGridStep());
+                circuitPanel.repaint();
             } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
                 // Select all in the drawing.
-                sa.setSelectionAll(true);
+                selectionActions.setSelectionAll(true);
                 // Even if the drawing is not changed, a repaint operation is
                 // needed since all selected elements are rendered in green.
-                cp.repaint();
+                circuitPanel.repaint();
+            } else if (arg.equals(Globals.messages.getString("Move"))) {
+                // Start moving selected elements
+                if (selectionActions.getFirstSelectedPrimitive() != null) {
+                    continuosMoveActions.startMovingSelected(
+                            circuitPanel.getMapCoordinates());
+                    circuitPanel.repaint();
+                }
             } else if (arg.equals(Globals.messages.getString("Rotate"))) {
                 // Rotate the selected element
-                if(eea.isEnteringMacro()) {
-                    eea.rotateMacro();
+                if(continuosMoveActions.isEnteringMacro()) {
+                    continuosMoveActions.rotateMacro();
                 } else {
-                    edt.rotateAllSelected();
+                    editorActions.rotateAllSelected();
                 }
-                cp.repaint();
+                circuitPanel.repaint();
             } else if(arg.equals(Globals.messages.getString("Mirror_E"))) {
                 // Mirror the selected element
-                if(eea.isEnteringMacro()) {
-                    eea.mirrorMacro();
+                if(continuosMoveActions.isEnteringMacro()) {
+                    continuosMoveActions.mirrorMacro();
                 } else {
-                    edt.mirrorAllSelected();
+                    editorActions.mirrorAllSelected();
                 }
-                cp.repaint();
+                circuitPanel.repaint();
             } else if (arg.equals(Globals.messages.getString("Symbolize"))) {
-                if (sa.getFirstSelectedPrimitive() == null) {
+                if (selectionActions.getFirstSelectedPrimitive() == null) {
                     return;
                 }
-                DialogSymbolize s = new DialogSymbolize(cp,
-                    cp.getDrawingModel());
+                DialogSymbolize s = new DialogSymbolize(circuitPanel,
+                    circuitPanel.getDrawingModel());
                 s.setModal(true);
                 s.setVisible(true);
                 try {
-                    LibUtils.saveLibraryState(ua);
+                    LibUtils.saveLibraryState(undoActions);
                 } catch (IOException e) {
                     System.out.println("Exception: "+e);
                 }
-                cp.repaint();
+                circuitPanel.repaint();
             } else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
-                StringBuffer s=sa.getSelectedString(true, pa);
-                edt.deleteAllSelected(false);
-                pa.addString(pa.splitMacros(s,  true),true);
-                ua.saveUndoState();
-                cp.repaint();
+                StringBuffer s = selectionActions.getSelectedString(
+                        true, parserActions);
+                editorActions.deleteAllSelected(false);
+                parserActions.addString(
+                        parserActions.splitMacros(s,  true),true);
+                undoActions.saveUndoState();
+                circuitPanel.repaint();
             } else if(arg.equals(Globals.messages.getString("Remove_node"))) {
-                if(sa.getFirstSelectedPrimitive()
+                if(selectionActions.getFirstSelectedPrimitive()
                     instanceof PrimitivePolygon)
                 {
-                    PrimitivePolygon poly=
-                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
-                    poly.removePoint(
-                        cp.getMapCoordinates().unmapXnosnap(getMenuX()),
-                        cp.getMapCoordinates().unmapYnosnap(getMenuY()),
+                    PrimitivePolygon poly = 
+                            (PrimitivePolygon)selectionActions
+                                    .getFirstSelectedPrimitive();
+                    
+                    poly.removePoint(circuitPanel.getMapCoordinates()
+                            .unmapXnosnap(getMenuX()),
+                        circuitPanel.getMapCoordinates()
+                                .unmapYnosnap(getMenuY()),
                         1);
-                    ua.saveUndoState();
-                    cp.repaint();
-                } else if(sa.getFirstSelectedPrimitive()
+                    undoActions.saveUndoState();
+                    circuitPanel.repaint();
+                } else if(selectionActions.getFirstSelectedPrimitive()
                     instanceof PrimitiveComplexCurve)
                 {
                     PrimitiveComplexCurve curve=
-                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
-                    curve.removePoint(
-                        cp.getMapCoordinates().unmapXnosnap(getMenuX()),
-                        cp.getMapCoordinates().unmapYnosnap(getMenuY()),
+                        (PrimitiveComplexCurve)selectionActions
+                                .getFirstSelectedPrimitive();
+                    curve.removePoint(circuitPanel.getMapCoordinates()
+                            .unmapXnosnap(getMenuX()),
+                        circuitPanel.getMapCoordinates()
+                                .unmapYnosnap(getMenuY()),
                         1);
-                    ua.saveUndoState();
-                    cp.repaint();
+                    undoActions.saveUndoState();
+                    circuitPanel.repaint();
                 }
             } else if(arg.equals(Globals.messages.getString("Add_node"))) {
-                if(sa.getFirstSelectedPrimitive()
+                if(selectionActions.getFirstSelectedPrimitive()
                     instanceof PrimitivePolygon)
                 {
                     PrimitivePolygon poly=
-                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
-                    poly.addPointClosest(
-                        cp.getMapCoordinates().unmapXsnap(getMenuX()),
-                        cp.getMapCoordinates().unmapYsnap(getMenuY()));
-                    ua.saveUndoState();
-                    cp.repaint();
-                } else if(sa.getFirstSelectedPrimitive() instanceof
-                    PrimitiveComplexCurve)
+                        (PrimitivePolygon)selectionActions
+                                .getFirstSelectedPrimitive();
+                    poly.addPointClosest(circuitPanel.getMapCoordinates()
+                            .unmapXsnap(getMenuX()),
+                        circuitPanel.getMapCoordinates()
+                                .unmapYsnap(getMenuY()));
+                    undoActions.saveUndoState();
+                    circuitPanel.repaint();
+                } else if(selectionActions.getFirstSelectedPrimitive() 
+                        instanceof PrimitiveComplexCurve)
                 {
                     PrimitiveComplexCurve poly=
-                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
-                    poly.addPointClosest(
-                        cp.getMapCoordinates().unmapXsnap(getMenuX()),
-                        cp.getMapCoordinates().unmapYsnap(getMenuY()));
-                    ua.saveUndoState();
-                    cp.repaint();
+                        (PrimitiveComplexCurve)selectionActions
+                                .getFirstSelectedPrimitive();
+                    poly.addPointClosest(circuitPanel.getMapCoordinates()
+                            .unmapXsnap(getMenuX()),
+                        circuitPanel.getMapCoordinates()
+                                .unmapYsnap(getMenuY()));
+                    undoActions.saveUndoState();
+                    circuitPanel.repaint();
                 }
             }
         }

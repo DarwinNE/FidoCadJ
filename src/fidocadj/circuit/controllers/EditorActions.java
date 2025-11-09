@@ -38,9 +38,9 @@ import fidocadj.primitives.PrimitiveMacro;
 
 public class EditorActions
 {
-    private final DrawingModel dmp;
-    private final UndoActions ua;
-    private final SelectionActions sa;
+    private final DrawingModel drawingModel;
+    private final UndoActions undoActions;
+    private final SelectionActions selectionActions;
 
     // Tolerance in pixels to select an object
     public int sel_tolerance = 10;
@@ -53,9 +53,9 @@ public class EditorActions
     */
     public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
     {
-        dmp=pp;
-        ua=u;
-        sa=s;
+        drawingModel=pp;
+        undoActions=u;
+        selectionActions=s;
         sel_tolerance = 10;
     }
 
@@ -80,7 +80,7 @@ public class EditorActions
     */
     public void rotateAllSelected()
     {
-        GraphicPrimitive g = sa.getFirstSelectedPrimitive();
+        GraphicPrimitive g = selectionActions.getFirstSelectedPrimitive();
 
         if(g==null) {
             return;
@@ -89,7 +89,7 @@ public class EditorActions
         final int ix = g.getFirstPoint().x;
         final int iy = g.getFirstPoint().y;
 
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -97,7 +97,7 @@ public class EditorActions
             }
         });
 
-        if(ua!=null) { ua.saveUndoState(); }
+        if(undoActions!=null) { undoActions.saveUndoState(); }
     }
 
     /** Move all selected primitives.
@@ -106,7 +106,7 @@ public class EditorActions
     */
     public void moveAllSelected(final int dx, final int dy)
     {
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -114,28 +114,28 @@ public class EditorActions
             }
         });
 
-        if(ua!=null) { ua.saveUndoState(); }
+        if(undoActions!=null) { undoActions.saveUndoState(); }
     }
 
     /** Mirror all selected primitives.
     */
     public void mirrorAllSelected()
     {
-        GraphicPrimitive g = sa.getFirstSelectedPrimitive();
+        GraphicPrimitive g = selectionActions.getFirstSelectedPrimitive();
         if(g==null) {
             return;
         }
 
         final int ix = g.getFirstPoint().x;
 
-        sa.applyToSelectedElements(new ProcessElementsInterface(){
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface(){
             public void doAction(GraphicPrimitive g)
             {
                 g.mirrorPrimitive(ix);
             }
         });
 
-        if(ua!=null) { ua.saveUndoState(); }
+        if(undoActions!=null) { undoActions.saveUndoState(); }
     }
 
     /** Delete all selected primitives.
@@ -148,15 +148,15 @@ public class EditorActions
     public void deleteAllSelected(boolean saveState)
     {
         int i;
-        List<GraphicPrimitive> v=dmp.getPrimitiveVector();
+        List<GraphicPrimitive> v=drawingModel.getPrimitiveVector();
 
         for (i=0; i<v.size(); ++i){
             if(v.get(i).isSelected()) {
                 v.remove(v.get(i--));
             }
         }
-        if (saveState && ua!=null) {
-            ua.saveUndoState();
+        if (saveState && undoActions!=null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -168,7 +168,7 @@ public class EditorActions
     {
         boolean toRedraw=false;
         // Search for all selected primitives.
-        for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g: drawingModel.getPrimitiveVector()) {
             // If selected, change the layer. Macros must be always associated
             // to layer 0.
             if (g.isSelected() && ! (g instanceof PrimitiveMacro)) {
@@ -177,9 +177,9 @@ public class EditorActions
             }
         }
         if(toRedraw) {
-            dmp.sortPrimitiveLayers();
-            dmp.setChanged(true);
-            ua.saveUndoState();
+            drawingModel.sortPrimitiveLayers();
+            drawingModel.setChanged(true);
+            undoActions.saveUndoState();
         }
         return toRedraw;
     }
@@ -196,11 +196,11 @@ public class EditorActions
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer=0;
-        List<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=drawingModel.getLayers();
 
         // Check the minimum distance by searching among all
         // primitives
-        for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g: drawingModel.getPrimitiveVector()) {
             distance=g.getDistanceToPoint(px,py);
             if(distance<=mindistance) {
                 layer = g.getLayer();
@@ -228,7 +228,7 @@ public class EditorActions
     {
         // Deselect primitives if needed.
         if(!toggle) {
-            sa.setSelectionAll(false);
+            selectionActions.setSelectionAll(false);
         }
 
         // Calculate a reasonable tolerance. If it is too small, we ensure
@@ -253,13 +253,13 @@ public class EditorActions
         int mindistance=Integer.MAX_VALUE;
         int layer;
         GraphicPrimitive gpsel=null;
-        List<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=drawingModel.getLayers();
 
         /*  The search method is very simple: we compute the distance of the
             given point from each primitive and we retain the minimum value, if
             it is less than a given tolerance.
         */
-        for  (GraphicPrimitive g: dmp.getPrimitiveVector()) {
+        for  (GraphicPrimitive g: drawingModel.getPrimitiveVector()) {
             layer = g.getLayer();
             if(layerV.get(layer).isVisible() || g instanceof PrimitiveMacro) {
                 distance=g.getDistanceToPoint(px,py);
@@ -299,9 +299,9 @@ public class EditorActions
             return false;
         }
 
-        List<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=drawingModel.getLayers();
         // Process every primitive, if the corresponding layer is visible.
-        for (GraphicPrimitive g: dmp.getPrimitiveVector()){
+        for (GraphicPrimitive g: drawingModel.getPrimitiveVector()){
             layer= g.getLayer();
             if((layer>=layerV.size() ||
                 layerV.get(layer).isVisible() ||
@@ -322,7 +322,7 @@ public class EditorActions
     {
         // Find the leftmost x coordinate among selected primitives
         int leftmost = Integer.MAX_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int x = g.getPosition().x;
                 if (x < leftmost) {
@@ -333,7 +333,7 @@ public class EditorActions
 
         // Move all selected primitives to the leftmost x coordinate
         final int finalLeftmost = leftmost;
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -343,8 +343,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -357,7 +357,7 @@ public class EditorActions
     {
         // Find the rightmost x coordinate among selected primitives
         int rightmost = Integer.MIN_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int x = g.getPosition().x + g.getSize().width;
                 if (x > rightmost) {
@@ -368,7 +368,7 @@ public class EditorActions
 
         // Move all selected primitives to the rightmost x coordinate
         final int finalRightmost = rightmost;
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -379,8 +379,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -393,7 +393,7 @@ public class EditorActions
     {
         // Find the topmost y coordinate among selected primitives
         int topmost = Integer.MAX_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int y = g.getPosition().y;
                 if (y < topmost) {
@@ -404,7 +404,7 @@ public class EditorActions
 
         // Move all selected primitives to the topmost y coordinate
         final int finalTopmost = topmost;
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -414,8 +414,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -428,7 +428,7 @@ public class EditorActions
     {
         // Find the bottommost y coordinate among selected primitives
         int bottommost = Integer.MIN_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int y = g.getPosition().y + g.getSize().height;
                 if (y > bottommost) {
@@ -439,7 +439,7 @@ public class EditorActions
 
         // Move all selected primitives to the bottommost y coordinate
         final int finalBottommost = bottommost;
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -450,8 +450,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -465,7 +465,7 @@ public class EditorActions
         // Find the minimum and maximum y coordinates among selected primitives
         int topmost = Integer.MAX_VALUE;
         int bottommost = Integer.MIN_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int yTop = g.getPosition().y;
                 int yBottom = g.getPosition().y + g.getSize().height;
@@ -482,7 +482,7 @@ public class EditorActions
         final int verticalCenter = (topmost + bottommost) / 2;
 
         // Move all selected primitives to align with the vertical center
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -494,8 +494,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -509,7 +509,7 @@ public class EditorActions
         // Find the minimum and maximum x coordinates among selected primitives
         int leftmost = Integer.MAX_VALUE;
         int rightmost = Integer.MIN_VALUE;
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 int xLeft = g.getPosition().x;
                 int xRight = g.getPosition().x + g.getSize().width;
@@ -526,7 +526,7 @@ public class EditorActions
         final int horizontalCenter = (leftmost + rightmost) / 2;
 
         // Move all selected primitives to align with the horizontal center
-        sa.applyToSelectedElements(new ProcessElementsInterface()
+        selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -538,8 +538,8 @@ public class EditorActions
         });
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -555,7 +555,7 @@ public class EditorActions
         List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
 
         // Find all selected primitives
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 selectedPrimitives.add(g);
             }
@@ -590,8 +590,8 @@ public class EditorActions
         }
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 
@@ -607,7 +607,7 @@ public class EditorActions
         List<GraphicPrimitive> selectedPrimitives = new ArrayList<>();
 
         // Find all selected primitives
-        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+        for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 selectedPrimitives.add(g);
             }
@@ -642,8 +642,8 @@ public class EditorActions
         }
 
         // Save the state for the undo operation
-        if (ua != null) {
-            ua.saveUndoState();
+        if (undoActions != null) {
+            undoActions.saveUndoState();
         }
     }
 }

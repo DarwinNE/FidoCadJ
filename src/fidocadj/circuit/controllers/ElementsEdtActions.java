@@ -95,6 +95,7 @@ public class ElementsEdtActions
     public static final int PCB_PAD = 12;
     public static final int MACRO = 13;
     public static final int COMPLEXCURVE = 14;
+    public static final int MOVE = 12;
 
     protected PrimitivesParInterface primitivesParListener;
 

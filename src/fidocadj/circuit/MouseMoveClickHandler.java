@@ -39,10 +39,10 @@ import fidocadj.globals.OSValidator;
 public class MouseMoveClickHandler implements MouseMotionListener,
                                              MouseListener
 {
-    private final CircuitPanel cp;
-    private final EditorActions edt;
-    private final ContinuosMoveActions eea;
-    private final HandleActions haa;
+    private final CircuitPanel circuitPanel;
+    private final EditorActions editorActions;
+    private final ContinuosMoveActions continuosMoveActions;
+    private final HandleActions handleActions;
 
     // Record time for mouse down handle event in selection.
     private double record_c;
@@ -56,10 +56,10 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     */
     public MouseMoveClickHandler(CircuitPanel p)
     {
-        cp=p;
-        edt=cp.getEditorActions();
-        eea=cp.getContinuosMoveActions();
-        haa=cp.getHandleActions();
+        circuitPanel=p;
+        editorActions=circuitPanel.getEditorActions();
+        continuosMoveActions=circuitPanel.getContinuosMoveActions();
+        handleActions=circuitPanel.getHandleActions();
         record_c=record_d=1e100;
     }
 
@@ -72,7 +72,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     */
     @Override public void mouseClicked(MouseEvent evt)
     {
-        cp.requestFocusInWindow();
+        circuitPanel.requestFocusInWindow();
     }
 
     /** Handle the mouse movements when editing a graphic primitive.
@@ -87,11 +87,22 @@ public class MouseMoveClickHandler implements MouseMotionListener,
 
         boolean toggle = getToggle(evt);
 
-        if (eea.continuosMove(cp.getMapCoordinates(), xa, ya, toggle)) {
-            cp.repaint();
+        // Handle Move command mode - update positions with center anchoring
+        if (continuosMoveActions.isMovingSelected()) {
+            continuosMoveActions.updateMovePositions(
+                    circuitPanel.getMapCoordinates().unmapXsnap(xa),
+                    circuitPanel.getMapCoordinates().unmapYsnap(ya));
+            circuitPanel.repaint();
+            return;
+        }
+
+        // Normal continuous move (for drawing new primitives)
+        if (continuosMoveActions.continuosMove(
+                circuitPanel.getMapCoordinates(), xa, ya, toggle)) {
+            circuitPanel.repaint();
         }
     }
-
+    
     /** Check if the "toggle" keyboard button is pressed during the mouse
         operation. Toggle may be Control or Meta, depending on the operating
         system.
@@ -116,24 +127,32 @@ public class MouseMoveClickHandler implements MouseMotionListener,
 
         int px=evt.getX();
         int py=evt.getY();
-
-        cp.getRuler().setActive(false);
-        cp.getRuler().setRulerStart(px, py);
-        cp.getRuler().setRulerEnd(px, py);
-        boolean toggle = getToggle(evt);
-
-        if(eea.actionSelected == ElementsEdtActions.SELECTION &&
-            (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)==0 &&
-            !evt.isShiftDown())
-        {
-            haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
-                toggle, cp.getMapCoordinates());
-        } else if(eea.actionSelected == ElementsEdtActions.SELECTION){
-            // Right click during selection
-            cp.getRuler().setActive(true);
+        
+        // Handle Move command mode - just consume the event
+        if (continuosMoveActions.isMovingSelected()) {
+            return;
         }
 
-        if(cp.isProfiling()) {
+        circuitPanel.getRuler().setActive(false);
+        circuitPanel.getRuler().setRulerStart(px, py);
+        circuitPanel.getRuler().setRulerEnd(px, py);
+        boolean toggle = getToggle(evt);
+
+        if(continuosMoveActions.actionSelected == 
+                ElementsEdtActions.SELECTION && 
+                (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)==0 &&
+                !evt.isShiftDown())
+        {
+            handleActions.dragHandleStart(px, py, 
+                    editorActions.getSelectionTolerance(),
+                    toggle, circuitPanel.getMapCoordinates());
+        } else if(continuosMoveActions.actionSelected == 
+                    ElementsEdtActions.SELECTION){
+            // Right click during selection
+            circuitPanel.getRuler().setActive(true);
+        }
+
+        if(circuitPanel.isProfiling()) {
             double elapsed=mt.getElapsed();
             if(elapsed<record_c) {
                 record_c=elapsed;
@@ -151,6 +170,15 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         MyTimer mt = new MyTimer();
         int px=evt.getX();
         int py=evt.getY();
+        
+        // Handle Move command mode - update positions during drag
+        if (continuosMoveActions.isMovingSelected()) {
+            continuosMoveActions.updateMovePositions(
+                    circuitPanel.getMapCoordinates().unmapXsnap(px),
+                    circuitPanel.getMapCoordinates().unmapYsnap(py));
+            circuitPanel.repaint();
+            return;
+        }
 
         // Handle the ruler. Basically, we just save the coordinates and
         // we launch a repaint which will be done as soon as possible.
@@ -158,18 +186,19 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         if((evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK)!=0 ||
             evt.isShiftDown())
         {
-            cp.getRuler().setRulerEnd(px, py);
-            cp.repaint();
+            circuitPanel.getRuler().setRulerEnd(px, py);
+            circuitPanel.repaint();
             return;
         }
 
-        haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates(),
-            (evt.getModifiersEx() & ActionEvent.CTRL_MASK)==
-            ActionEvent.CTRL_MASK);
+        handleActions.dragHandleDrag(
+                circuitPanel, px, py, circuitPanel.getMapCoordinates(),
+                (evt.getModifiersEx() & ActionEvent.CTRL_MASK)==
+                ActionEvent.CTRL_MASK);
         // A little profiling if necessary. I noticed that time needed for
         // handling clicks is not negligible in large drawings, hence the
         // need of controlling it.
-        if(cp.isProfiling()) {
+        if(circuitPanel.isProfiling()) {
             double elapsed=mt.getElapsed();
             if(elapsed<record_d) {
                 record_d=elapsed;
@@ -187,8 +216,17 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         MyTimer mt = new MyTimer();
         int px=evt.getX();
         int py=evt.getY();
-        MapCoordinates cs=cp.getMapCoordinates();
-
+        MapCoordinates cs=circuitPanel.getMapCoordinates();
+        
+        // Handle Move command mode - confirm move on release
+        if (continuosMoveActions.isMovingSelected()) {
+            if (evt.getButton() == MouseEvent.BUTTON1) {
+                continuosMoveActions.confirmMove();
+                circuitPanel.repaint();
+            }
+            return;
+        }
+        
         boolean button3 = false;
         boolean toggle = getToggle(evt);
 
@@ -208,25 +246,25 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         // If we are in the selection state, either we are ending the editing
         // of an element (and thus the dragging of a handle) or we are
         // making a click.
-        if(eea.actionSelected==ElementsEdtActions.SELECTION) {
-            if(cp.getRuler().getRulerStartX()!=px ||
-                cp.getRuler().getRulerStartY()!=py) // NOPMD
+        if(continuosMoveActions.actionSelected==ElementsEdtActions.SELECTION) {
+            if(circuitPanel.getRuler().getRulerStartX()!=px ||
+                circuitPanel.getRuler().getRulerStartY()!=py) // NOPMD
             {
-                haa.dragHandleEnd(cp, px, py, toggle, cs);
+                handleActions.dragHandleEnd(circuitPanel, px, py, toggle, cs);
             } else {
-                cp.getRuler().setActive(false);
-                cp.requestFocusInWindow();
+                circuitPanel.getRuler().setActive(false);
+                circuitPanel.requestFocusInWindow();
 
-                eea.handleClick(cs,evt.getX(), evt.getY(),
+                continuosMoveActions.handleClick(cs,evt.getX(), evt.getY(),
                     button3, toggle, evt.getClickCount() >= 2);
             }
-            cp.repaint();
+            circuitPanel.repaint();
         } else {
-            cp.requestFocusInWindow();
-            if(eea.handleClick(cs,evt.getX(), evt.getY(),
+            circuitPanel.requestFocusInWindow();
+            if(continuosMoveActions.handleClick(cs,evt.getX(), evt.getY(),
                 button3, toggle, evt.getClickCount() >= 2))
             {
-                cp.repaint();
+                circuitPanel.repaint();
             }
         }
 
@@ -235,7 +273,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         // which is done in this phase is finding the closest component to
         // the mouse pointer and eventually selecting it.
 
-        if(cp.isProfiling()) {
+        if(circuitPanel.isProfiling()) {
             double elapsed=mt.getElapsed();
             if(elapsed<record_d) {
                 record_d=elapsed;
@@ -260,11 +298,12 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     */
     public void selectCursor()
     {
-        switch(eea.actionSelected) {
+        switch(continuosMoveActions.actionSelected) {
             case ElementsEdtActions.NONE:
             case ElementsEdtActions.ZOOM:
             case ElementsEdtActions.HAND:
-                cp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                circuitPanel.setCursor(
+                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 break;
             case ElementsEdtActions.LINE:
             case ElementsEdtActions.TEXT:
@@ -276,13 +315,13 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             case ElementsEdtActions.CONNECTION:
             case ElementsEdtActions.PCB_LINE:
             case ElementsEdtActions.PCB_PAD:
-                cp.setCursor(Cursor.getPredefinedCursor(
-                    Cursor.CROSSHAIR_CURSOR));
+                circuitPanel.setCursor(Cursor.getPredefinedCursor(
+                        Cursor.CROSSHAIR_CURSOR));
                 break;
             case ElementsEdtActions.SELECTION:
             default:
-                cp.setCursor(Cursor.getPredefinedCursor(
-                    Cursor.DEFAULT_CURSOR));
+                circuitPanel.setCursor(Cursor.getPredefinedCursor(
+                        Cursor.DEFAULT_CURSOR));
                 break;
         }
     }
@@ -293,10 +332,12 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     */
     @Override public void mouseExited(MouseEvent evt)
     {
-        cp.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        if(eea.successiveMove) {
-            eea.successiveMove = false;
-            cp.repaint();
+        circuitPanel.setCursor(
+                Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        
+        if(continuosMoveActions.successiveMove) {
+            continuosMoveActions.successiveMove = false;
+            circuitPanel.repaint();
         }
     }
 }

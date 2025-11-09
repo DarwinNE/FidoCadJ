@@ -1,12 +1,16 @@
 package fidocadj.circuit.controllers;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
+import fidocadj.graphic.PointG;
 import fidocadj.layers.StandardLayers;
+import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.PrimitiveLine;
 import fidocadj.primitives.PrimitiveOval;
 import fidocadj.primitives.PrimitiveRectangle;
@@ -50,6 +54,13 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
     private int oldx;
     private int oldy;
+    
+    // Variables for moving selected primitives with Move command
+    private boolean isMovingSelected = false;
+    private Map<GraphicPrimitive, PointG> originalPositions;
+    // Center point of all selected primitives (only for Move command)
+    private int selectionCenterX;
+    private int selectionCenterY;
 
     /** Constructor
         @param pp the DrawingModel to be associated to the controller
@@ -99,6 +110,13 @@ public class ContinuosMoveActions extends ElementsEdtActions
         int xa, int ya,
         boolean isControl)
     {
+        // Handle Move command mode (center-anchored movement)
+        // This is separate from normal drag operations
+        if (isMovingSelected) {
+            updateMovePositions(cs.unmapXsnap(xa), cs.unmapYsnap(ya));
+            return true;
+        }
+        
         // This transformation/antitrasformation is useful to take care
         // of the snapping.
         int x=cs.mapX(cs.unmapXsnap(xa),0);
@@ -371,5 +389,134 @@ public class ContinuosMoveActions extends ElementsEdtActions
             successiveMove = true;
         }
         return toRepaint;
+    }
+    
+    /** Start moving selected primitives with Move command.
+        This saves the original positions and calculates the center.
+        NOTE: This is ONLY for the Move command, not for normal drag operations.
+    */
+    public void startMovingSelected(MapCoordinates cs)
+    {
+        if (sa.getFirstSelectedPrimitive() == null) {
+            return;
+        }
+
+        isMovingSelected = true;
+        originalPositions = new HashMap<>();
+
+        // Calculate bounds of all selected primitives to find center
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+
+        // Save original positions and find bounds
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+            if (g.isSelected()) {
+                originalPositions.put(g, new PointG(
+                    g.getFirstPoint().x, 
+                    g.getFirstPoint().y));
+
+                // Update bounds
+                int x = g.getFirstPoint().x;
+                int y = g.getFirstPoint().y;
+                if (x < minX) minX = x;
+                if (x > maxX) maxX = x;
+                if (y < minY) minY = y;
+                if (y > maxY) maxY = y;
+            }
+        }
+
+        // Calculate center of selection
+        int centerX = (minX + maxX) / 2;
+        int centerY = (minY + maxY) / 2;
+
+        // IMPORTANT: Snap the center to the grid!
+        // This ensures that when we calculate offsets, everything stays aligned
+        int screenX = cs.mapX(centerX, centerY);
+        int screenY = cs.mapY(centerX, centerY);
+
+        selectionCenterX = cs.unmapXsnap(screenX);
+        selectionCenterY = cs.unmapYsnap(screenY);
+    }
+    
+    /** Check if we are currently moving selected primitives.
+        @return true if in move mode
+    */
+    public boolean isMovingSelected()
+    {
+        return isMovingSelected;
+    }
+
+    /** Update positions of selected primitives during Move command.
+        This anchors the selection center to the mouse position.
+        @param x current x coordinate (where the mouse is)
+        @param y current y coordinate (where the mouse is)
+    */
+    public void updateMovePositions(int x, int y)
+    {
+        if (!isMovingSelected || originalPositions == null) {
+            return;
+        }
+
+        // Calculate offset from selection center to mouse position
+        int dx = x - selectionCenterX;
+        int dy = y - selectionCenterY;
+
+        // Move all selected primitives relative to their original positions
+        for (Map.Entry<GraphicPrimitive, PointG> entry : 
+                originalPositions.entrySet()) {
+            GraphicPrimitive g = entry.getKey();
+            PointG originalPos = entry.getValue();
+
+            // Calculate new position: original position + offset from center
+            int newX = originalPos.x + dx;
+            int newY = originalPos.y + dy;
+
+            // Move to new position (relative to current position)
+            int currentX = g.getFirstPoint().x;
+            int currentY = g.getFirstPoint().y;
+            g.movePrimitive(newX - currentX, newY - currentY);
+        }
+    }
+
+    /** Confirm the move operation and save undo state.
+    */
+    public void confirmMove()
+    {
+        if (!isMovingSelected) {
+            return;
+        }
+
+        isMovingSelected = false;
+        originalPositions = null;
+        
+        if (ua != null) {
+            ua.saveUndoState();
+        }
+    }
+
+    /** Cancel the Move command operation and restore original positions.
+    */
+    public void cancelMove()
+    {
+        if (!isMovingSelected || originalPositions == null) {
+            return;
+        }
+
+        // Restore all original positions
+        for (Map.Entry<GraphicPrimitive, PointG> entry : 
+                originalPositions.entrySet()) {
+            GraphicPrimitive g = entry.getKey();
+            PointG originalPos = entry.getValue();
+
+            // Move back to original position
+            int currentX = g.getFirstPoint().x;
+            int currentY = g.getFirstPoint().y;
+            g.movePrimitive(originalPos.x - currentX, originalPos.y - currentY);
+        }
+
+        isMovingSelected = false;
+        originalPositions = null;
     }
 }
