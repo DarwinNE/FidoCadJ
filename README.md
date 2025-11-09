@@ -114,7 +114,7 @@ not seem to keen to support Java, if you experience some
 problems running FidoCadJ, please check you do have a Java runtime
 correctly installed on your Mac. This is particularly true if you are using
 the macOS Lion/Mountain Lion/Mavericks/etc. operating system. Normally, you
-will have to download the Java runtime in a few clicks. I tried my best, but
+will have to download the Java runtime in a few clicks. We tried our best, but
 the situation in 2007 was different from the current one and Apple used to
 warmly welcome Java developers back then...
 
@@ -123,13 +123,13 @@ to install Java as everything needed is already contained in the application, th
 is self-sufficient. Unfortunately, the gatekeeper function of the last operating
 systems may show a very misleading error when trying to execute it. Something
 like "FidoCadJ.app is damaged and can’t be opened. You should move it to the Trash".
-I have nothing against an operating system that warns an unexperienced user against
+We have nothing against an operating system that warns an unexperienced user against
 executing code downloaded from the internet, but the error can not be so misleading
 and should at least point the user towards the origin of the problem!
 
 Here is the relevant GitHub issue: https://github.com/FidoCadJ/FidoCadJ/issues/198
 
-I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2 running
+We tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2 running
 macOS Ventura 13.3. At first the system asks to download and install Rosetta.
 Then, here is the error shown on by the French macOS Ventura 13.3
 OS:
@@ -510,10 +510,10 @@ before creating a pull request.
 5 - Help wanted!
 ================
 
-I am seeking for people interested in participating to the FidoCadJ project.
-If you spot a typo (I am not a native English speaker), or an error in the
-manual or in the program, any correction is very welcome. I will be very
-happy to know what do you think about FidoCadJ. I would be glad to receive
+We are seeking for people interested in participating to the FidoCadJ project.
+If you spot a typo, or an error in the
+manual or in the program, any correction is very welcome. We will be very
+happy to know what do you think about FidoCadJ. We would be glad to receive
 some help: if you know Java and you want to work on the source code you will
 be welcome.
 If you are not fluent with Java coding, you can participate to the project by
