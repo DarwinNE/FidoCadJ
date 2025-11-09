@@ -40,23 +40,20 @@ public class TextPopupMenu extends JPopupMenu
     {
         JMenuItem cutMenuItem = new JMenuItem(
                 Globals.messages.getString("Cut"));
-        cutMenuItem.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/cut.png")));
+        cutMenuItem.setIcon(Globals.loadIcon("/icons/menu_icons/cut.png"));
 
         JMenuItem copyMenuItem = new JMenuItem(
                 Globals.messages.getString("Copy"));
-        copyMenuItem.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/copy.png")));
+        copyMenuItem.setIcon(Globals.loadIcon("/icons/menu_icons/copy.png"));
 
         JMenuItem pasteMenuItem = new JMenuItem(
                 Globals.messages.getString("Paste"));
-        pasteMenuItem.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/paste.png")));
+        pasteMenuItem.setIcon(Globals.loadIcon("/icons/menu_icons/paste.png"));
 
         JMenuItem selectAllMenuItem = new JMenuItem(
                 Globals.messages.getString("SelectAll"));
-        selectAllMenuItem.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/select_all.png")));
+        selectAllMenuItem.setIcon(
+                Globals.loadIcon("/icons/menu_icons/select_all.png"));
 
         add(copyMenuItem);
         add(cutMenuItem);

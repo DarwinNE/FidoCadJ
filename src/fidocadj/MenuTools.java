@@ -113,59 +113,53 @@ public class MenuTools implements MenuListener
         JMenuItem fileNew = new JMenuItem(Globals.messages.getString("New"));
         fileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
             Globals.shortcutKey));
-        fileNew.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/new.png")));
+        fileNew.setIcon(Globals.loadIcon("/icons/menu_icons/new.png"));
 
         JMenuItem fileOpen = new JMenuItem(Globals.messages.getString("Open"));
         fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
             Globals.shortcutKey));
-        fileOpen.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/open.png")));
+        fileOpen.setIcon(Globals.loadIcon("/icons/menu_icons/open.png"));
 
         JMenuItem fileSave = new
             JMenuItem(Globals.messages.getString("Save"));
         fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Globals.shortcutKey));
-        fileSave.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/save.png")));
+        fileSave.setIcon(Globals.loadIcon("/icons/menu_icons/save.png"));
 
         JMenuItem fileSaveName = new
             JMenuItem(Globals.messages.getString("SaveName"));
         fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
-        fileSaveName.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/save_name.png")));
+        fileSaveName.setIcon(
+                Globals.loadIcon("/icons/menu_icons/save_name.png"));
 
         JMenuItem fileSaveNameSplit = new
             JMenuItem(Globals.messages.getString("Save_split"));
-        fileSaveNameSplit.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/save_split.png")));
+        fileSaveNameSplit.setIcon(
+                Globals.loadIcon("/icons/menu_icons/save_split.png"));
 
         JMenuItem fileExport = new
             JMenuItem(Globals.messages.getString("Export"));
         fileExport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
             Globals.shortcutKey));
-        fileExport.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/export.png")));
+        fileExport.setIcon(
+                Globals.loadIcon("/icons/menu_icons/export.png"));
 
         JMenuItem filePrint = new
             JMenuItem(Globals.messages.getString("Print"));
         filePrint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
             Globals.shortcutKey));
-        filePrint.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/print.png")));
+        filePrint.setIcon(Globals.loadIcon("/icons/menu_icons/print.png"));
 
         JMenuItem fileClose = new
             JMenuItem(Globals.messages.getString("Close"));
         fileClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
             Globals.shortcutKey));
-        fileClose.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/close.png")));
+        fileClose.setIcon(Globals.loadIcon("/icons/menu_icons/close.png"));
 
         JMenuItem options = new
             JMenuItem(Globals.messages.getString("Circ_opt"));
-        options.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/options.png")));
+        options.setIcon(Globals.loadIcon("/icons/menu_icons/options.png"));
 
         // Add the items in the file menu.
 
@@ -221,131 +215,120 @@ public class MenuTools implements MenuListener
             JMenuItem(Globals.messages.getString("Undo"));
         editUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
             Globals.shortcutKey));
-        editUndo.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/undo.png")));
+        editUndo.setIcon(Globals.loadIcon("/icons/menu_icons/undo.png"));
         JMenuItem editRedo = new
             JMenuItem(Globals.messages.getString("Redo"));
         editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
             Globals.shortcutKey | InputEvent.SHIFT_DOWN_MASK));
-        editRedo.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/redo.png")));
+        editRedo.setIcon(Globals.loadIcon("/icons/menu_icons/redo.png"));
         JMenuItem editCut = new
             JMenuItem(Globals.messages.getString("Cut"));
         editCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
             Globals.shortcutKey));
-        editCut.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/cut.png")));
+        editCut.setIcon(Globals.loadIcon("/icons/menu_icons/cut.png"));
 
         JMenuItem editCopy = new
             JMenuItem(Globals.messages.getString("Copy"));
         editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
             Globals.shortcutKey));
-        editCopy.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/copy.png")));
+        editCopy.setIcon(Globals.loadIcon("/icons/menu_icons/copy.png"));
 
         JMenuItem editCopySplit = new
             JMenuItem(Globals.messages.getString("Copy_split"));
         editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
             Globals.shortcutKey));
-        editCopySplit.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/copy_split.png")));
+        editCopySplit.setIcon(
+                Globals.loadIcon("/icons/menu_icons/copy_split.png"));
 
         JMenuItem editCopyImage = new
             JMenuItem(Globals.messages.getString("Copy_as_image"));
         editCopyImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
             Globals.shortcutKey));
-        editCopyImage.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/copy_image.png")));
+        editCopyImage.setIcon(
+                Globals.loadIcon("/icons/menu_icons/copy_image.png"));
 
         JMenuItem editPaste = new
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
             Globals.shortcutKey));
-        editPaste.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/paste.png")));
+        editPaste.setIcon(Globals.loadIcon("/icons/menu_icons/paste.png"));
 
         JMenuItem clipboardCircuit = new
             JMenuItem(Globals.messages.getString("DefineClipboard"));
-        clipboardCircuit.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/paste_new.png")));
+        clipboardCircuit.setIcon(
+                Globals.loadIcon("/icons/menu_icons/paste_new.png"));
 
         JMenuItem editSelectAll = new
             JMenuItem(Globals.messages.getString("SelectAll"));
         editSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
             Globals.shortcutKey));
-        editSelectAll.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/select_all.png")));
+        editSelectAll.setIcon(
+                Globals.loadIcon("/icons/menu_icons/select_all.png"));
 
         JMenuItem editDuplicate = new
             JMenuItem(Globals.messages.getString("Duplicate"));
         editDuplicate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
             Globals.shortcutKey));
-        editDuplicate.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/duplicate.png")));
+        editDuplicate.setIcon(
+                Globals.loadIcon("/icons/menu_icons/duplicate.png"));
         
         JMenuItem editMove = new
             JMenuItem(Globals.messages.getString("Move"));
         editMove.setAccelerator(KeyStroke.getKeyStroke("M"));
-        editMove.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/move.png")));
+        editMove.setIcon(
+                Globals.loadIcon("/icons/menu_icons/move.png"));
 
         JMenuItem editRotate = new
             JMenuItem(Globals.messages.getString("Rotate"));
         editRotate.setAccelerator(KeyStroke.getKeyStroke("R"));
-        editRotate.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/rotate.png")));
+        editRotate.setIcon(Globals.loadIcon("/icons/menu_icons/rotate.png"));
 
         JMenuItem editMirror = new
             JMenuItem(Globals.messages.getString("Mirror_E"));
         editMirror.setAccelerator(KeyStroke.getKeyStroke("S"));
-        editMirror.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/mirror.png")));
+        editMirror.setIcon(Globals.loadIcon("/icons/menu_icons/mirror.png"));
 
         JMenuItem alignLeftSelected = new
             JMenuItem(Globals.messages.getString("alignLeftSelected"));
-        alignLeftSelected.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/align_left.png")));
+        alignLeftSelected.setIcon(
+                Globals.loadIcon("/icons/menu_icons/align_left.png"));
 
         JMenuItem alignRightSelected = new
             JMenuItem(Globals.messages.getString("alignRightSelected"));
-        alignRightSelected.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/align_right.png")));
+        alignRightSelected.setIcon(
+                Globals.loadIcon("/icons/menu_icons/align_right.png"));
 
         JMenuItem alignTopSelected = new
             JMenuItem(Globals.messages.getString("alignTopSelected"));
-        alignTopSelected.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/align_top.png")));
+        alignTopSelected.setIcon(
+                Globals.loadIcon("/icons/menu_icons/align_top.png"));
 
         JMenuItem alignBottomSelected = new
             JMenuItem(Globals.messages.getString("alignBottomSelected"));
-        alignBottomSelected.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/align_bottom.png")));
+        alignBottomSelected.setIcon(
+                Globals.loadIcon("/icons/menu_icons/align_bottom.png"));
 
         JMenuItem alignHorizontalCenterSelected = new
             JMenuItem(Globals.messages.getString(
                                 "alignHorizontalCenterSelected"));
-        alignHorizontalCenterSelected.setIcon(new ImageIcon(
-                getClass().getResource(
-                        "/icons/menu_icons/align_horizontal_center.png")));
+        alignHorizontalCenterSelected.setIcon(Globals.loadIcon(
+                        "/icons/menu_icons/align_horizontal_center.png"));
 
         JMenuItem alignVerticalCenterSelected = new
             JMenuItem(Globals.messages.getString(
                             "alignVerticalCenterSelected"));
-        alignVerticalCenterSelected.setIcon(new ImageIcon(
-                getClass().getResource(
-                        "/icons/menu_icons/align_vertical_center.png")));
+        alignVerticalCenterSelected.setIcon(Globals.loadIcon(
+                        "/icons/menu_icons/align_vertical_center.png"));
 
         JMenuItem distributeHorizontallySelected = new JMenuItem(
                 Globals.messages.getString("distributeHorizontallySelected"));
-        distributeHorizontallySelected.setIcon(new ImageIcon(
-                getClass().getResource(
-                        "/icons/menu_icons/horizonta_distribute.png")));
+        distributeHorizontallySelected.setIcon(Globals.loadIcon(
+                        "/icons/menu_icons/horizonta_distribute.png"));
 
         JMenuItem distributeVerticallySelected = new JMenuItem(
                 Globals.messages.getString("distributeVerticallySelected"));
-        distributeVerticallySelected.setIcon(new ImageIcon(
-                getClass().getResource(
-                        "/icons/menu_icons/vertical_distribute.png")));
+        distributeVerticallySelected.setIcon(Globals.loadIcon(
+                        "/icons/menu_icons/vertical_distribute.png"));
 
         editUndo.addActionListener(al);
         editRedo.addActionListener(al);
@@ -416,8 +399,7 @@ public class MenuTools implements MenuListener
         JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
         JMenuItem layerOptions = new
             JMenuItem(Globals.messages.getString("Layer_opt"));
-        layerOptions.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/layers.png")));
+        layerOptions.setIcon(Globals.loadIcon("/icons/menu_icons/layers.png"));
 
         layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
             Globals.shortcutKey));
@@ -427,16 +409,15 @@ public class MenuTools implements MenuListener
         JMenuItem attachImage = new
             JMenuItem(Globals.messages.getString("Attach_image_menu"));
         attachImage.addActionListener(al);
-        attachImage.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/back_image.png")));
+        attachImage.setIcon(
+                Globals.loadIcon("/icons/menu_icons/back_image.png"));
 
         viewMenu.add(attachImage);
         viewMenu.addSeparator();
 
         libs = new
             JCheckBoxMenuItem(Globals.messages.getString("Libs"));
-        libs.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/libs.png")));
+        libs.setIcon(Globals.loadIcon("/icons/menu_icons/libs.png"));
         viewMenu.add(libs);
         libs.addActionListener(al);
         return viewMenu;
@@ -451,8 +432,7 @@ public class MenuTools implements MenuListener
         JMenu circuitMenu=new JMenu(Globals.messages.getString("Circuit"));
         JMenuItem defineCircuit = new
             JMenuItem(Globals.messages.getString("Define"));
-        defineCircuit.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/code.png")));
+        defineCircuit.setIcon(Globals.loadIcon("/icons/menu_icons/code.png"));
 
         defineCircuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
             Globals.shortcutKey));
@@ -461,8 +441,8 @@ public class MenuTools implements MenuListener
 
         JMenuItem updateLibraries = new
             JMenuItem(Globals.messages.getString("LibraryUpdate"));
-        updateLibraries.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/lib_update.png")));
+        updateLibraries.setIcon(
+                Globals.loadIcon("/icons/menu_icons/lib_update.png"));
 
         updateLibraries.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
             Globals.shortcutKey));
@@ -491,8 +471,7 @@ public class MenuTools implements MenuListener
         JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new
             JMenuItem(Globals.messages.getString("About_menu"));
-        aboutMenu.setIcon(new ImageIcon(
-                getClass().getResource("/icons/menu_icons/info.png")));
+        aboutMenu.setIcon(Globals.loadIcon("/icons/menu_icons/info.png"));
 
         about.add(aboutMenu);
 

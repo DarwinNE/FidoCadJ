@@ -545,6 +545,7 @@ class CreateSwingInterface implements Runnable
          END OF THE PLATFORM SELECTION CODE
          ******************************************************************
          */
+
         Globals.desktopInt = new ADesktopIntegration();
         Globals.desktopInt.registerActions();
 
@@ -583,13 +584,20 @@ class CreateSwingInterface implements Runnable
      @param customThemePath the path to the custom theme properties file.
      */
     private void applyTheme(boolean isLightTheme, boolean isDarkTheme,
-            boolean isCustomTheme, String customThemePath)
+        boolean isCustomTheme, String customThemePath)
     {
         try {
             if (isCustomTheme && customThemePath != null &&
                                             !customThemePath.isEmpty())
             {
-                // Load the custom theme from the properties file
+                // Set up the base theme FIRST before applying custom properties
+                if (isDarkTheme) {
+                    FlatDarkLaf.setup();
+                } else {
+                    FlatLightLaf.setup();
+                }
+
+                // THEN load and apply the custom theme from the properties file
                 Properties props = new Properties();
                 try (FileInputStream inputStream = new FileInputStream(
                         customThemePath)) {
@@ -603,15 +611,8 @@ class CreateSwingInterface implements Runnable
                     themeProperties.put(key, props.getProperty(key));
                 }
 
-                // Apply the custom theme properties
+                // Apply the custom theme properties AFTER base theme
                 FlatLaf.setGlobalExtraDefaults(themeProperties);
-
-                // Set up the base theme before applying custom properties
-                if (isDarkTheme) {
-                    FlatDarkLaf.setup();
-                } else {
-                    FlatLightLaf.setup();
-                }
 
                 // Ensure that the UI reflects the changes
                 FlatLaf.updateUI();
@@ -619,10 +620,8 @@ class CreateSwingInterface implements Runnable
                 // Apply default themes based on user preference
                 if (isLightTheme) {
                     FlatLightLaf.setup();
-                } else {
-                    if (isDarkTheme) {
-                        FlatDarkLaf.setup();
-                    }
+                } else if (isDarkTheme) {
+                    FlatDarkLaf.setup();
                 }
 
                 // Ensure that the UI reflects the changes
@@ -631,6 +630,7 @@ class CreateSwingInterface implements Runnable
         } catch (Exception e) {
             // Handle any exceptions that may occur during theme application
             System.err.println("Failed to apply the theme: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
