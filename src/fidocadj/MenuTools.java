@@ -282,6 +282,12 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
         editDuplicate.setIcon(new ImageIcon(
                 getClass().getResource("/icons/menu_icons/duplicate.png")));
+        
+        JMenuItem editMove = new
+            JMenuItem(Globals.messages.getString("Move"));
+        editMove.setAccelerator(KeyStroke.getKeyStroke("M"));
+        editMove.setIcon(new ImageIcon(
+                getClass().getResource("/icons/menu_icons/move.png")));
 
         JMenuItem editRotate = new
             JMenuItem(Globals.messages.getString("Rotate"));
@@ -350,6 +356,7 @@ public class MenuTools implements MenuListener
         editPaste.addActionListener(al);
         editSelectAll.addActionListener(al);
         editDuplicate.addActionListener(al);
+        editMove.addActionListener(al);
         editMirror.addActionListener(al);
         editRotate.addActionListener(al);
         clipboardCircuit.addActionListener(al);
@@ -380,6 +387,7 @@ public class MenuTools implements MenuListener
 
         editMenu.add(editSelectAll);
         editMenu.addSeparator();
+        editMenu.add(editMove);
         editMenu.add(editRotate);
         editMenu.add(editMirror);
 
@@ -623,6 +631,13 @@ public class MenuTools implements MenuListener
                 edt.rotateAllSelected();
             }
             fidoFrame.repaint();
+        } else if (arg.equals(Globals.messages.getString("Move"))) {
+            // Start moving selected elements with Move command
+            if (sa.getFirstSelectedPrimitive() != null) {
+                cc.getContinuosMoveActions().startMovingSelected(
+                        cc.getMapCoordinates());
+                fidoFrame.repaint();
+            }
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate
             cpa.copySelected(!cc.extStrict, false);
