@@ -80,11 +80,11 @@ At least version 1.9 of Java is required for Windows, Linux and macOS.
 Here are the two official FidoCadJ websites. The first one is the generic
 website presenting the project:
 
-    http://darwinne.github.io/FidoCadJ/index.html
+    http://fidocadj.github.io/FidoCadJ/index.html
 
 The second one is the GitHub project, for developers:
 
-    https://github.com/DarwinNE/FidoCadJ
+    https://github.com/FidoCadJ/FidoCadJ
 
 1.3 How can I run FidoCadJ?
 ---------------------------
@@ -127,7 +127,7 @@ I have nothing against an operating system that warns an unexperienced user agai
 executing code downloaded from the internet, but the error can not be so misleading
 and should at least point the user towards the origin of the problem!
 
-Here is the relevant GitHub issue: https://github.com/DarwinNE/FidoCadJ/issues/198
+Here is the relevant GitHub issue: https://github.com/FidoCadJ/FidoCadJ/issues/198
 
 I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2 running
 macOS Ventura 13.3. At first the system asks to download and install Rosetta.
@@ -175,12 +175,12 @@ A PARTICULAR PURPOSE.
 If you feel lost, you can have a look at the manuals. Languages different from
 English might be outdated or no more listed:
 
-https://github.com/DarwinNE/FidoCadJ/releases
+https://github.com/FidoCadJ/FidoCadJ/releases
 
 (search for the PDF files!)
 
 If you need help, you can post a question as a [GitHub issue](
-https://github.com/DarwinNE/FidoCadJ/issues).
+https://github.com/FidoCadJ/FidoCadJ/issues).
 
 
 2 - Source files and the FidoCadJ Git directories
@@ -188,7 +188,7 @@ https://github.com/DarwinNE/FidoCadJ/issues).
 You may download the complete source repository by
 using Git from the GitHub repository.
 ```
-git clone https://github.com/DarwinNE/FidoCadJ.git
+git clone https://github.com/FidoCadJ/FidoCadJ.git
 ```
 
 2.1 Main directory
@@ -577,7 +577,7 @@ providing complete files, since if a resource is missing, FidoCadJ can abort.
 
 This is very nice of you. We will be happy for that.
 
-You can open an [issue](https://github.com/DarwinNE/FidoCadJ/issues) on GitHub
+You can open an [issue](https://github.com/FidoCadJ/FidoCadJ/issues) on GitHub
 and declare what you would like to do. We will discuss a little in order to see
 if we can find an intersection between what you can do with the FidoCadJ
 development strategy. The idea is to keep the work a little bit organised and to
@@ -653,7 +653,7 @@ at each release, some details could just go unnoticed.
 If you are familiar with the GitHub interface, do not hesitate to
 fill a bug report at the following address:
 
-https://github.com/DarwinNE/FidoCadJ/issues
+https://github.com/FidoCadJ/FidoCadJ/issues
 
 
 7 - Acknowledgments

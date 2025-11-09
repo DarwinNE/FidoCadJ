@@ -131,7 +131,7 @@ public final class DialogAbout extends MinimumSizeDialog
             @Override public void actionPerformed(ActionEvent e)
             {
                 BareBonesBrowserLaunch.openURL(
-                    "http://darwinne.github.io/FidoCadJ/");
+                    "http://fidocadj.github.io/FidoCadJ/");
 
             // The following code works only in Java above v. 1.6 and
             // the minimum requirements for FidoCadJ are Java 1.9
@@ -146,8 +146,8 @@ public final class DialogAbout extends MinimumSizeDialog
         }
 
         JButton link=new JButton(
-            "<HTML> <a href=\"http://darwinne.github.io/FidoCadJ/\">"+
-            "http://darwinne.github.io/FidoCadJ/</a></HTML>");
+            "<HTML> <a href=\"http://fidocadj.github.io/FidoCadJ/\">"+
+            "http://fidocadj.github.io/FidoCadJ/</a></HTML>");
         constraints.gridx=0;
         constraints.gridy=6;
         constraints.gridwidth=1;
