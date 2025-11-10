@@ -105,18 +105,43 @@ Download `FidoCadJ_Windows.msi` from the [releases page](https://github.com/Fido
 1. Download `FidoCadJ_MacOSX.dmg` from the [releases page](https://github.com/FidoCadJ/FidoCadJ/releases)
 2. Open the DMG file and drag FidoCadJ to your Applications folder
 
+> 📝 **Note:** The application bundle is self-sufficient and includes everything needed to run. You don't need to install Java separately.
+
 **⚠️ macOS Gatekeeper Issue:**
 
-If you encounter a "FidoCadJ.app is damaged" error (a misleading security message), follow these steps:
+Recent macOS versions may show a **very misleading error** when trying to run FidoCadJ:
 
-1. Open Terminal and run:
+> _"FidoCadJ.app is damaged and can't be opened. You should move it to the Trash."_
+
+**This is NOT true!** The application is not damaged. This is a security feature that prevents running apps from unidentified developers. The error message is misleading and doesn't explain the real issue.
+
+**What's happening:**
+- macOS activates the "quarantine" extended attribute on downloaded files
+- The system refuses to run software with this attribute
+- On some Macs (like M1/M2), you may be asked to install Rosetta first
+
+**Example of the error (macOS Ventura 13.3):**
+
+![macOS Gatekeeper Error](OSes/mac/error_macOS.png)
+
+**Solution - Follow these steps:**
+
+1. **Remove the quarantine attribute:**
+   Open Terminal and type:
    ```bash
    xattr -c /Applications/FidoCadJ.app
    ```
-2. Right-click on FidoCadJ.app and select "Open"
-3. Confirm that you want to run the application
+   *(If you haven't moved it to Applications yet, use the actual path to the file)*
+   
+   > ⚠️ You need admin access and may need to authorize Terminal.app to modify files
 
-See [Issue #198](https://github.com/FidoCadJ/FidoCadJ/issues/198) for more details.
+2. **Right-click on FidoCadJ.app** and select **"Open"** (don't double-click)
+
+3. **Confirm** when the system asks if you really want to run the software downloaded from an untrusted source
+
+**Need help?** See [Issue #198](https://github.com/FidoCadJ/FidoCadJ/issues/198) for discussion and alternative solutions.
+
+> 💡 If you know a way to solve this without using Terminal, please share it in the GitHub issue!
 
 #### Linux
 
