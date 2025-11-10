@@ -1,6 +1,8 @@
 package fidocadj;
 
 import javax.swing.*;
+import java.awt.Desktop;
+import java.lang.reflect.InvocationTargetException;
 
 import java.io.*;
 import java.util.*;
@@ -21,7 +23,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import fidocadj.dialogs.controls.ErrorDialog;
-import java.lang.reflect.InvocationTargetException;
+
 
 
 
@@ -566,6 +568,65 @@ class CreateSwingInterface implements Runnable
         }
 
         popFrame.setVisible(true);
+        
+        UpdateChecker checker = new UpdateChecker(Globals.version, 
+                new UpdateChecker.UpdateListener() 
+        {
+            @Override
+            public void onUpdateAvailable(String latestVersion) {
+                final String RELEASES_URL = 
+                    "https://github.com/FidoCadJ/FidoCadJ/releases/";
+
+                SwingUtilities.invokeLater(() -> {
+                    int result = JOptionPane.showConfirmDialog(
+                        null,
+                        Globals.messages.getString("New_versin") + "\n\n" +
+                        Globals.messages.getString("Current_version") + " " +
+                                Globals.version + "\n" +
+                        Globals.messages.getString("Latest_version") +  " " +
+                                latestVersion + "\n\n" +
+                        Globals.messages.getString("Open_webpage"),
+                        Globals.messages.getString("Update_Available"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    if (result == JOptionPane.YES_OPTION) {
+                        try {
+                            if (Desktop.isDesktopSupported()) {
+                                Desktop desktop = Desktop.getDesktop();
+                                if (desktop.isSupported(
+                                        Desktop.Action.BROWSE)) {
+                                    desktop.browse(
+                                            new java.net.URI(RELEASES_URL));
+                                }
+                            }
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(
+                                null,
+                                Globals.messages.getString("Please_visit") + 
+                                        "\n" + RELEASES_URL,
+                                Globals.messages.getString("Open_Browser"),
+                                JOptionPane.INFORMATION_MESSAGE
+                            );
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onNoUpdateAvailable() {
+                System.out.println(
+                        "You are using the latest version of FidoCadJ");
+            }
+
+            @Override
+            public void onCheckFailed(String reason) {
+                System.out.println("Update check failed: " + reason);
+            }
+        });
+
+        checker.startCheck();
     }
 
     /**
