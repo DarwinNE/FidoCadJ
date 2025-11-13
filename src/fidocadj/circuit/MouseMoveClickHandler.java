@@ -190,6 +190,10 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             circuitPanel.repaint();
             return;
         }
+        
+        if (continuosMoveActions.actionSelected == ElementsEdtActions.HAND) {
+            return;
+        }
 
         handleActions.dragHandleDrag(
                 circuitPanel, px, py, circuitPanel.getMapCoordinates(),
