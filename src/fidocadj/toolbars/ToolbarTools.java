@@ -142,9 +142,10 @@ public final class ToolbarTools extends JToolBar
                             "/icons/light_mode/icons32/";
 
         String currentTheme = SettingsManager.get("THEME", "light");
+        boolean themeIsEnabled = SettingsManager.get("ENABLE_CUSTOM_THEMES",
+                "false").equals("true");
 
-
-        if (currentTheme.equals("dark")) {
+        if (currentTheme.equals("dark") && themeIsEnabled) {
             base = smallIcons ? "/icons/dark_mode/icons16/" :
                                 "/icons/dark_mode/icons32/";
         }
