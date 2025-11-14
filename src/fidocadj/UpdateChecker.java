@@ -218,54 +218,77 @@ public class UpdateChecker
     * is newer than the second.
     * Supports semantic versioning format 
     * (major.minor.patch) with optional Greek suffixes.
-    * Version hierarchy: stable > rc > epsilon > delta > gamma > beta > alpha
+    * Only suggests stable versions (without suffixes) as updates, 
+    * unless the current version is also a pre-release.
     * 
-    * @param version1 the first version string (e.g., "0.24.9", "0.24.8 beta")
-    * @param version2 the second version string (e.g., "0.24.8", "0.24.8 alpha")
-    * @return true if version1 is newer than version2, false otherwise
+    * @param v1 the first version string (e.g., "0.24.9", "0.24.8 beta")
+    * @param v2 the second version string (e.g., "0.24.8", "0.24.8 alpha")
+    * @return true if v1 is newer than v2 and should be suggested as an update
     */
-   private boolean isNewerVersion(String version1, String version2) 
-   {
-       try {
-           // Remove any 'v' prefix
-           version1 = version1.replaceAll("^v", "").trim();
-           version2 = version2.replaceAll("^v", "").trim();
+    private boolean isNewerVersion(String v1, String v2) {
+        try {
+            // Remove any 'v' prefix
+            v1 = v1.replaceAll("^v", "").trim();
+            v2 = v2.replaceAll("^v", "").trim();
 
-           // Extract numeric parts and suffix
-           Pattern versionPattern = Pattern.compile(
-                   "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:[\\s_-]?" + 
-                   "(alpha|beta|gamma|delta|epsilon|rc|release)?)?");
+            // Extract numeric parts and suffix
+            Pattern versionPattern = Pattern.compile(
+                    "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:[\\s_-]?" +
+                    "(alpha|beta|gamma|delta|epsilon|rc|release)?)?");
 
-           Matcher m1 = versionPattern.matcher(version1);
-           Matcher m2 = versionPattern.matcher(version2);
+            Matcher m1 = versionPattern.matcher(v1);
+            Matcher m2 = versionPattern.matcher(v2);
 
-           if (!m1.find() || !m2.find()) {
-               return false;
-           }
+            if (!m1.find() || !m2.find()) {
+                return false;
+            }
 
-           int major1 = Integer.parseInt(m1.group(1));
-           int minor1 = Integer.parseInt(m1.group(2));
-           int patch1 = Integer.parseInt(m1.group(3));
-           String suffix1 = m1.group(4);
+            int major1 = Integer.parseInt(m1.group(1));
+            int minor1 = Integer.parseInt(m1.group(2));
+            int patch1 = Integer.parseInt(m1.group(3));
+            String suffix1 = m1.group(4);
 
-           int major2 = Integer.parseInt(m2.group(1));
-           int minor2 = Integer.parseInt(m2.group(2));
-           int patch2 = Integer.parseInt(m2.group(3));
-           String suffix2 = m2.group(4);
+            int major2 = Integer.parseInt(m2.group(1));
+            int minor2 = Integer.parseInt(m2.group(2));
+            int patch2 = Integer.parseInt(m2.group(3));
+            String suffix2 = m2.group(4);
 
-           // Compare numeric versions first
-           if (major1 != major2) return major1 > major2;
-           if (minor1 != minor2) return minor1 > minor2;
-           if (patch1 != patch2) return patch1 > patch2;
+            boolean isVersion1Stable = (suffix1 == null || 
+                    suffix1.isEmpty() || suffix1.equalsIgnoreCase("release"));
+            
+            boolean isVersion2Stable = (suffix2 == null || 
+                    suffix2.isEmpty() || suffix2.equalsIgnoreCase("release"));
 
-           // If numeric versions are equal, compare suffixes
-           // No suffix (stable) > rc > epsilon > delta > gamma > beta > alpha
-           return getSuffixPriority(suffix1) > getSuffixPriority(suffix2);
+            // If v1 is a pre-release and v2 is stable, never suggest the update
+            if (!isVersion1Stable && isVersion2Stable) {
+                return false;
+            }
 
-       } catch (Exception e) {
-           return false;
-       }
-   }
+            // If version1 is a pre-release and version2 is also a pre-release,
+            // only suggest if they are on the same numeric version
+            if (!isVersion1Stable && !isVersion2Stable) {
+                // Only compare pre-releases of the same numeric version
+                if (major1 == major2 && minor1 == minor2 && patch1 == patch2) {
+                    return getSuffixPriority(suffix1) > 
+                            getSuffixPriority(suffix2);
+                }
+                return false; // Don't suggest different 
+                              // numeric versions of pre-releases
+            }
+
+            // Compare numeric versions
+            if (major1 != major2) return major1 > major2;
+            if (minor1 != minor2) return minor1 > minor2;
+            if (patch1 != patch2) return patch1 > patch2;
+
+            // If we reach here, numeric versions are equal
+            // version1 is stable, v2 might be pre-release
+            return isVersion1Stable && !isVersion2Stable;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
    
    /**
     * Returns the priority value for a version suffix.
