@@ -75,7 +75,7 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
 
         // Label for restart information
         JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
-        restw.setForeground(Color.BLUE);
+        restw.setForeground(Color.red.brighter());
 
         // Set the constraints to center the label horizontally
         constraints = new GridBagConstraints();

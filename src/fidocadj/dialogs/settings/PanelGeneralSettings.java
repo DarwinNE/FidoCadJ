@@ -86,7 +86,7 @@ public final class PanelGeneralSettings extends JPanel implements SettingsPanel
 
         // Label for restart information
         JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
-        restw.setForeground(Color.BLUE);
+        restw.setForeground(Color.red.brighter());
         constraints = DialogUtil.createConst(0, 2, 4, 1, 1.0, 0.0,
                 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(35, 40, 6, 0));
