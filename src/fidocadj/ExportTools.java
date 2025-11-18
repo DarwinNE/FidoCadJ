@@ -229,6 +229,7 @@ public class ExportTools implements ClipboardOwner
                     Globals.messages.getString("Warning_noname"),
                     Globals.messages.getString("Warning"),
                     JOptionPane.INFORMATION_MESSAGE );
+                launchExport(fff, cC, openFileDirectory);
                 return;
             }
 
