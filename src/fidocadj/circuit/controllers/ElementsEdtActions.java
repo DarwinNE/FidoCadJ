@@ -325,7 +325,13 @@ public class ElementsEdtActions
                 newtext.setSelected(true);
                 repaint=true;
                 if(primitivesParListener!=null) {
-                    primitivesParListener.setPropertiesForPrimitive();
+                    boolean ret = 
+                            primitivesParListener.setPropertiesForPrimitive();
+                    
+                    if (ret == false) {
+                        // remove the text if user don't confirm
+                        dmp.getPrimitiveVector().remove(newtext);
+                    }
                 }
                 break;
 

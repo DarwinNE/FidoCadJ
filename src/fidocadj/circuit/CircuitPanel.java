@@ -949,11 +949,11 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
      collectively.
      */
     @Override
-    public void setPropertiesForPrimitive()
+    public boolean setPropertiesForPrimitive()
     {
         GraphicPrimitive gp = selectionActions.getFirstSelectedPrimitive();
         if (gp == null) {
-            return;
+            return false;
         }
 
         java.util.List<PrimitiveAdvText> selectedAdvText = new ArrayList<>();
@@ -1147,7 +1147,9 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
             drawingModel.sortPrimitiveLayers();
             undoActions.saveUndoState();
             repaint();
+            return true;
         }
+        return false;
     }
 
     /** Selects the closest object to the given point (in logical coordinates)

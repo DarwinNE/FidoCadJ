@@ -37,8 +37,10 @@ public interface PrimitivesParInterface
     /** Shows a dialog which allows the user modify the parameters of a given
         primitive. If more than one primitive is selected, modify only the
         layer of all selected primitives.
+        
+        @return true if the user selected Ok in the properties dialog
     */
-    void setPropertiesForPrimitive();
+    boolean setPropertiesForPrimitive();
 
     /** Show a popup menu representing the actions that can be done on the
         selected context.
